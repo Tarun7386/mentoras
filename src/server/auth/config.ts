@@ -55,6 +55,7 @@ export const authConfig = {
         ...session.user,
         id: user.id,
       },
+
     }),
   },
 } satisfies NextAuthConfig;

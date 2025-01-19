@@ -4,8 +4,8 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import Header from "./_components/header";
 import { Providers } from "./_components/provider";
+import Nav from "./_components/nav";
 
 export const metadata: Metadata = {
   title: "mentoras",
@@ -18,9 +18,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body>
+      <body className="bg-gradient-to-b text-white from-gray-900 via-[#300171] to-slate-900" >
         <Providers>
-        <Header />
+        <Nav />
         <TRPCReactProvider>{children}</TRPCReactProvider>
         </Providers>
       </body>

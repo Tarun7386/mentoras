@@ -1,44 +1,188 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
 
 datasource db {
     provider = "postgresql"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model User {
+    id              String      @id @default(cuid())
+    email           String      @unique
+    password        String?
+    name            String
+    role            Role        @default(ASPIRANT)
+    followedMentors Mentor[]
+    insights        Insight[]
+    challenges      Challenge[]
+    checkins        Checkin[]
+    bookmarks       Bookmark[]
+    likes           Like[]
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+    emailVerified   DateTime?
+    image           String?
+    accounts        Account[]
+    sessions        Session[]
+    Aspirant        Aspirant[]
+    ChallengeParticipation ChallengeParticipation[]
 
-    @@index([name])
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    @@index([email])
 }
 
-// Necessary for Next auth
+model Mentor {
+    id          String   @id @default(cuid())
+    user        User     @relation(fields: [userId], references: [id])
+    userId      String
+    mainWork    String
+    description String
+    introVideo  String?
+    hashtags    Hashtag[] @relation("MentorHashtags")
+    insights    Insight[]
+    challenges  Challenge[]
+    stories     Story[]
+
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    @@index([userId])
+}
+
+model Aspirant {
+    id                  String                   @id @default(cuid())
+    user                User                     @relation(fields: [userId], references: [id])
+    userId              String
+    preparation         String[]
+    completedChallenges ChallengeParticipation[]
+
+    createdAt           DateTime @default(now())
+    updatedAt           DateTime @updatedAt
+}
+
+model Hashtag {
+    id      String   @id @default(cuid())
+    name    String   @unique
+    mentors Mentor[] @relation("MentorHashtags")
+}
+
+model Insight {
+    id        String     @id @default(cuid())
+    content   String
+    createdAt DateTime   @default(now())
+    mentor    Mentor     @relation(fields: [mentorId], references: [id])
+    mentorId  String
+    bookmarks Bookmark[]
+    likes     Like[]
+    user      User?      @relation(fields: [userId], references: [id])
+    userId    String?
+
+    @@index([mentorId])
+    @@index([userId])
+}
+
+model Bookmark {
+    id        String  @id @default(cuid())
+    user      User    @relation(fields: [userId], references: [id])
+    userId    String
+    insight   Insight @relation(fields: [insightId], references: [id])
+    insightId String
+
+    createdAt DateTime @default(now())
+}
+
+model Like {
+    id        String   @id @default(cuid())
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String
+    insight   Insight  @relation(fields: [insightId], references: [id])
+    insightId String
+    createdAt DateTime @default(now())
+
+    @@index([userId])
+    @@index([insightId])
+}
+
+model Challenge {
+    id           String                   @id @default(cuid())
+    title        String
+    description  String
+    mentor       Mentor                   @relation(fields: [mentorId], references: [id])
+    mentorId     String
+    durationDays Int
+    participants ChallengeParticipation[]
+    user         User?                    @relation(fields: [userId], references: [id])
+    userId       String?
+
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    @@index([mentorId])
+    @@index([userId])
+}
+
+model ChallengeParticipation {
+    id              String     @id @default(cuid())
+    user            User       @relation(fields: [userId], references: [id])
+    userId          String
+    challenge       Challenge  @relation(fields: [challengeId], references: [id])
+    challengeId     String
+    startDate       DateTime
+    quitDate        DateTime?
+    checkins        Checkin[]
+    maxStreak       Int        @default(0)
+    isSuccess       Boolean    @default(false)
+    aspirant        Aspirant?  @relation(fields: [aspirantId], references: [id])
+    aspirantId      String?
+
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    @@unique([userId, challengeId])
+    @@index([aspirantId])
+}
+
+model Checkin {
+    id              String                 @id @default(cuid())
+    participation   ChallengeParticipation @relation(fields: [participationId], references: [id])
+    participationId String
+    checkinDate     DateTime
+    user            User?                  @relation(fields: [userId], references: [id])
+    userId          String?
+
+    createdAt       DateTime @default(now())
+}
+
+model Story {
+    id        String   @id @default(cuid())
+    title     String
+    content   String
+    mentor    Mentor   @relation(fields: [mentorId], references: [id])
+    mentorId  String
+    createdAt DateTime @default(now())
+
+    @@index([mentorId])
+}
+
+enum Role {
+    MENTOR
+    ASPIRANT
+}
+
 model Account {
     id                       String  @id @default(cuid())
     userId                   String
     type                     String
     provider                 String
     providerAccountId        String
-    refresh_token            String? // @db.Text
-    access_token             String? // @db.Text
+    refresh_token            String?
+    access_token             String?
     expires_at               Int?
     token_type               String?
     scope                    String?
-    id_token                 String? // @db.Text
+    id_token                 String?
     session_state            String?
     user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
     refresh_token_expires_in Int?
@@ -52,17 +196,6 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
 }
 
 model VerificationToken {
