@@ -64,18 +64,10 @@ const Nav = () => {
                 <ul className="flex flex-col lg:flex-row lg:items-center">
                     <li className="lg:mx-6">
                         <a
-                            href="/"
+                            href="/studygroups"
                             className="inline-block px-4 py-2 lg:p-0 hover:text-purple-300 transition-all"
                         >
-                            Home
-                        </a>
-                    </li>
-                    <li className="lg:mx-6">
-                        <a
-                            href="/following"
-                            className="inline-block px-4 py-2 lg:p-0 hover:text-purple-300 transition-all"
-                        >
-                            Following
+                            Study Groups
                         </a>
                     </li>
                     <li className="lg:mx-6">
@@ -86,6 +78,15 @@ const Nav = () => {
                             My Challenges
                         </a>
                     </li>
+                    <li className="lg:mx-6">
+                        <a
+                            href="/following"
+                            className="inline-block px-4 py-2 lg:p-0 hover:text-purple-300 transition-all"
+                        >
+                            Following
+                        </a>
+                    </li>
+                    
                     <li className="lg:mx-6">
                         <a
                             href="/mybookmarks"

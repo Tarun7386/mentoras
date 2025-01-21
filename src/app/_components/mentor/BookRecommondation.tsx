@@ -1,25 +1,38 @@
 import { useState, useEffect } from "react";
+import BookRecommendationCard from "./BookRecommendationCard";
 
 interface BookRecommendation {
     id: string;
     title: string;
     author: string;
-    genre: string;
     description: string;
-    recommendedBy: string;
     createdAt: string;
     user: { name: string }; // Assuming the user has a name field
 }
 
 function BookRecommendationsPage() {
+    const books = [
+        {
+            title: "Atomic Habits",
+            author: "James Clear",
+            description:
+                "Atomic Habits offers a proven framework for improving every day. James Clear, one of the world’s leading experts on habit formation, reveals practical strategies...",
+        },
+        {
+            title: "Deep Work",
+            author: "Cal Newport",
+            description:
+                "Deep Work is an indispensable guide to anyone seeking focused success in a distracted world. It highlights the benefits of concentrated effort and offers tools...",
+        },
+    ];
+
     const [isAdding, setIsAdding] = useState(false); // To toggle between form and list
     const [recommendations, setRecommendations] = useState<BookRecommendation[]>([]);
     const [newRecommendation, setNewRecommendation] = useState({
         title: "",
         author: "",
-        genre: "",
         description: "",
-        recommendedBy: "",
+        
     });
 
     // Fetch recommendations on page load
@@ -88,14 +101,7 @@ function BookRecommendationsPage() {
                         onChange={handleChange}
                         className="w-full p-2 mb-2 text-black border-2 border-purple-300 rounded"
                     />
-                    <input
-                        type="text"
-                        name="genre"
-                        placeholder="Genre"
-                        value={newRecommendation.genre}
-                        onChange={handleChange}
-                        className="w-full p-2 mb-2 text-black border-2 border-purple-300 rounded"
-                    />
+                  
                     <textarea
                         name="description"
                         placeholder="Description"
@@ -111,21 +117,16 @@ function BookRecommendationsPage() {
                     </button>
                 </form>
             ) : (
-                <div className="mt-4">
-                    <h2 className="text-2xl text-black mb-4">Previous Book Recommendations</h2>
-                    <ul>
-                        {recommendations.map((book) => (
-                            <li key={book.id} className="mb-4 border-b pb-4">
-                                <h3 className="text-xl font-bold text-black">{book.title}</h3>
-                                <p><strong>Author:</strong> {book.author}</p>
-                                <p><strong>Genre:</strong> {book.genre}</p>
-                                <p><strong>Recommended By:</strong> {book.recommendedBy}</p>
-                                <p><strong>Description:</strong> {book.description}</p>
-                                <p><strong>Posted On:</strong> {new Date(book.createdAt).toLocaleDateString()}</p>
-                            </li>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
+                        {books.map((book, index) => (
+                            <BookRecommendationCard
+                                key={index}
+                                title={book.title}
+                                author={book.author}
+                                description={book.description}
+                            />
                         ))}
-                    </ul>
-                </div>
+                    </div>
             )}
         </div>
     );

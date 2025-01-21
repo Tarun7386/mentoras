@@ -1,5 +1,6 @@
 import { dataTagErrorSymbol } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
+import ChallengeCard from "../ChallengeCard";
 
 interface Challenge {
     id: string;
@@ -10,6 +11,14 @@ interface Challenge {
 }
 
 function DailyChallengesPage() {
+    const handleJoinChallenge = () => {
+        alert("You have joined the challenge!");
+    };
+
+    const handleViewLeaderboard = () => {
+        alert("Redirecting to leaderboard...");
+    };
+
     const [isAdding, setIsAdding] = useState(false); // To toggle between form and list
     const [challenges, setChallenges] = useState<Challenge[]>([]);
     const [newChallenge, setNewChallenge] = useState({
@@ -100,19 +109,18 @@ function DailyChallengesPage() {
                     </button>
                 </form>
             ) : (
-                <div className="mt-4">
-                    <h2 className="text-2xl text-black mb-4">Previous Challenges</h2>
-                    <ul>
-                        {challenges.map((challenge) => (
-                            <li key={challenge.id} className="mb-4 border-b pb-4">
-                                <h3 className="text-xl font-bold text-black">{challenge.title}</h3>
-                                <p><strong>Created By:</strong> {challenge.createdBy}</p>
-                                <p><strong>Description:</strong> {challenge.description}</p>
-                                <p><strong>Created On:</strong> {new Date(challenge.createdAt).toLocaleDateString()}</p>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                    <div className="min-h-screen bg-gray-100 p-6">
+                        <h1 className="text-2xl font-bold mb-4">Challenges</h1>
+                        <ChallengeCard
+                            challengeName="30-Day Fitness Challenge"
+                            rules="Complete daily fitness tasks, track your progress, and stay consistent."
+                            createdBy="John Doe"
+                            createdOn="January 21, 2025"
+                            onJoin={handleJoinChallenge}
+                            onViewLeaderboard={handleViewLeaderboard}
+                        />
+                    </div>
+
             )}
         </div>
     );
