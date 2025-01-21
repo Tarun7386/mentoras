@@ -1,17 +1,17 @@
 import { auth } from "~/server/auth";
-import MultiStepForm from "../_components/multiform";
-import { redirect } from 'next/navigation'
+import { redirect } from "next/navigation";
+import ClientRolePage from "../_components/clientRolePage";
 
 async function Role() {
     const session = await auth();
 
-    if(!session?.user) {
-        redirect("/api/auth/signin")
+    // Redirect to sign-in if the user is not logged in
+    if (!session?.user) {
+        redirect("/api/auth/signin");
     }
 
-    return ( 
-        <MultiStepForm/>
-     );
+    // Render the client component with session data
+    return <ClientRolePage userId={session.user.id} />;
 }
 
 export default Role;

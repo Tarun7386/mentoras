@@ -2,8 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const Nav = () => {
+    const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { data: session, status } = useSession();
     const userImage = session?.user?.image || "/default-profile.png";
@@ -133,18 +135,25 @@ const Nav = () => {
                         onClick={() => setIsDropdownOpen((prev) => !prev)}
                     />
                 ) : (
-                    <button onClick={() => signIn()} className="block px-4 py-2 lg:inline lg:p-0 hover:text-purple-300">
+                        <button onClick={() => signIn("google", { callbackUrl: "/role" })} className="block px-4 py-2 lg:inline lg:p-0 hover:text-purple-300">
                         Sign in
                     </button>
                 )}
                 {isDropdownOpen && (
                     <div className="absolute right-0 mt-2 w-32 bg-white shadow-md rounded-lg z-50">
                         <button
+                            onClick={() => router.push("/me")}
+                            className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                            Profile
+                        </button>
+                        <button
                             onClick={() => signOut()}
                             className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
                         >
                             Sign Out
                         </button>
+
                     </div>
                 )}
             </div>

@@ -19,6 +19,9 @@ model User {
     checkins        Checkin[]
     bookmarks       Bookmark[]
     likes           Like[]
+    studyGroups StudyGroup[]  
+    dailyTasks  DailyTask[]  
+
 
     emailVerified   DateTime?
     image           String?
@@ -44,6 +47,7 @@ model Mentor {
     insights    Insight[]
     challenges  Challenge[]
     stories     Story[]
+    BookRecommendation BookRecommendation[]
 
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
@@ -81,6 +85,20 @@ model Insight {
 
     @@index([mentorId])
     @@index([userId])
+}
+
+model BookRecommendation {
+  id          String   @id @default(cuid())
+  title       String
+  author      String
+  genre       String
+  description String
+  
+  mentor      Mentor   @relation(fields: [mentorId], references: [id])
+  mentorId    String
+  createdAt   DateTime @default(now())
+
+  @@index([mentorId])
 }
 
 model Bookmark {
@@ -153,6 +171,26 @@ model Checkin {
     userId          String?
 
     createdAt       DateTime @default(now())
+}
+model StudyGroup {
+  id          String      @id @default(cuid())
+  title       String
+  description String
+  createdBy   User        @relation(fields: [createdById], references: [id])
+  createdById String
+  createdAt   DateTime    @default(now())
+  dailyTasks  DailyTask[] // Tasks related to this study group
+}
+
+model DailyTask {
+  id          String     @id @default(cuid())
+  taskTitle   String
+  description String
+  datePosted  DateTime   @default(now())
+  groupId     String
+  group       StudyGroup @relation(fields: [groupId], references: [id])
+  postedBy    User       @relation(fields: [postedById], references: [id])
+  postedById  String
 }
 
 model Story {
