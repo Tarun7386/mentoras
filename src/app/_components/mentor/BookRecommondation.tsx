@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import BookRecommendationCard from "./BookRecommendationCard";
+import { api } from "~/trpc/react";
 
 interface BookRecommendation {
     id: string;
@@ -11,39 +12,29 @@ interface BookRecommendation {
 }
 
 function BookRecommendationsPage() {
-    const books = [
+    
+    const Addbook = api.mentorsData.addBook.useMutation(
         {
-            title: "Atomic Habits",
-            author: "James Clear",
-            description:
-                "Atomic Habits offers a proven framework for improving every day. James Clear, one of the world’s leading experts on habit formation, reveals practical strategies...",
-        },
-        {
-            title: "Deep Work",
-            author: "Cal Newport",
-            description:
-                "Deep Work is an indispensable guide to anyone seeking focused success in a distracted world. It highlights the benefits of concentrated effort and offers tools...",
-        },
-    ];
+            onSuccess: async () => {
+                setIsAdding(false); 
+
+            }
+        }
+    );
+
+    const books = api.mentorsData.getBook.useQuery();
 
     const [isAdding, setIsAdding] = useState(false); // To toggle between form and list
     const [recommendations, setRecommendations] = useState<BookRecommendation[]>([]);
     const [newRecommendation, setNewRecommendation] = useState({
         title: "",
         author: "",
+        genre: "",
         description: "",
         
     });
 
-    // Fetch recommendations on page load
-    useEffect(() => {
-        async function fetchRecommendations() {
-            const response = await fetch("/api/bookRecommendations");
-            const data = await response.json();
-            setRecommendations(data);
-        }
-        fetchRecommendations();
-    }, []);
+ 
 
     // Handle input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -57,20 +48,15 @@ function BookRecommendationsPage() {
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const response = await fetch("/api/bookRecommendations", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                ...newRecommendation,
-                userId: "yourUserIdHere", // Replace with the actual user ID
-            }),
+        Addbook.mutateAsync(newRecommendation);
+        setNewRecommendation({
+            title: "",
+            author: "",
+            genre: "",
+            description: "",
+
         });
 
-        const newBook = await response.json();
-        setRecommendations((prev) => [newBook, ...prev]);
-        setIsAdding(false); // Close form after submission
     };
 
     return (
@@ -101,6 +87,14 @@ function BookRecommendationsPage() {
                         onChange={handleChange}
                         className="w-full p-2 mb-2 text-black border-2 border-purple-300 rounded"
                     />
+                    <input
+                        type="text"
+                        name="genre"
+                        placeholder="genre"
+                        value={newRecommendation.genre}
+                        onChange={handleChange}
+                        className="w-full p-2 mb-2 text-black border-2 border-purple-300 rounded"
+                    />
                   
                     <textarea
                         name="description"
@@ -112,20 +106,23 @@ function BookRecommendationsPage() {
                     <button
                         type="submit"
                         className="mt-4 bg-purple-500 text-black p-2 rounded"
+                        disabled={Addbook.isPending}
                     >
-                        Submit
+                        {Addbook.isPending ? "Submitting..." : "submit"}
+
                     </button>
                 </form>
             ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-                        {books.map((book, index) => (
+                        {books.data?.map((book, index) => (
                             <BookRecommendationCard
-                                key={index}
-                                title={book.title}
-                                author={book.author}
-                                description={book.description}
-                            />
-                        ))}
+                            key={index} 
+                            title={book.title}
+                            author={book.author} 
+                            genre={book.genre} 
+                            description={book.description}                                
+                           /> 
+                    ))}
                     </div>
             )}
         </div>

@@ -30,12 +30,12 @@ const PostCard: React.FC<PostCardProps> = ({ profilePic, authorName, createdAt, 
                 />
                 <div>
                     <h3 className="font-semibold text-lg">{authorName}</h3>
-                    <p className="text-gray-500 text-sm">{timeAgo(createdAt)}</p>
+                    <p className="text-white text-sm">{timeAgo(createdAt)}</p>
                 </div>
             </div>
 
             {/* Content */}
-            <p className="text-gray-700 mb-4">{content}</p>
+            <p className="text-white whitespace-break-spaces mb-4">{content}</p>
 
             {/* Hashtags */}
             <div className="flex flex-wrap gap-2 mb-4">

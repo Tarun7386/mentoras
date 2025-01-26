@@ -1,47 +1,34 @@
-import { useState, useEffect } from "react";
+import { FC } from "react";
 import PostCard from "./PostCard";
+import { api } from "~/trpc/react";
 
-interface FeedItem {
-    id: string;
-    title: string;
-    content: string;
-    postedBy: string;
-    postedAt: string;
-}
+const Feed: FC = () => {
+    // Fetch posts using tRPC query
+    const { data, isLoading, isError } = api.post.getPosts.useQuery();
 
-const Feed: React.FC = () => {
-    const [feed, setFeed] = useState<FeedItem[]>([]);
+    // Handle loading and error states
+    if (isLoading) {
+        return <div className="text-center text-white">Loading posts...</div>;
+    }
 
-    // Fetch feed data
-    useEffect(() => {
-        async function fetchFeed() {
-            const response = await fetch("/api/getFeed");
-            const data = await response.json();
-            setFeed(data);
-        }
-
-        fetchFeed();
-    }, []);
+    if (isError) {
+        return <div className="text-center text-red-500">Failed to load posts.</div>;
+    }
 
     return (
-        <>
-            <div className=" bg-gray-800 ">
+        <div className="space-y-4  bg-gray-900 p-4">
+            {data?.map((post) => (
                 <PostCard
-                    profilePic="https://via.placeholder.com/40"
-                    authorName="John Doe"
-                    createdAt="2025-01-20T14:30:00Z"
-                    content="This is a sample post about web development and design. Check out these tips!"
-                    hashtags={["WebDevelopment", "Design", "Coding"]} authorId={""}                />
-            </div>
-            <div className=" bg-gray-900 " >
-                <PostCard
-                    profilePic="https://via.placeholder.com/40"
-                    authorName="Jane Smith"
-                    createdAt="2025-01-19T10:00:00Z"
-                    content="Exploring the latest trends in JavaScript frameworks. Stay tuned for more updates!"
-                    hashtags={["JavaScript", "Frameworks", "Trends"]} authorId={""}                />
-            </div>
-        </>
+                    key={post.id}
+                    profilePic={`https://via.placeholder.com/40?text=${post.mentor.userId}`}
+                    authorName={post.mentor.userId} // Replace with mentor's name if available
+                    createdAt={new Date(post.createdAt).toLocaleString()}
+                    content={post.content}
+                    hashtags={["ias","motivational"]} // Populate hashtags if available in the data
+                    authorId={post.mentor.userId}
+                />
+            ))}
+        </div>
     );
 };
 

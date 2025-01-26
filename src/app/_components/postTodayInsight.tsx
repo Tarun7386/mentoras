@@ -1,7 +1,16 @@
 import { useState } from "react";
+import { api } from "~/trpc/react";
 
 function PostTodayInsight() {
+
     const [inputValue, setInputValue] = useState("");
+
+    const createPost = api.post.createPost.useMutation({
+        onSuccess: async () => {
+            setInputValue("");
+        },
+      });
+
 
     // Adjust textarea height based on input
     const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -14,8 +23,14 @@ function PostTodayInsight() {
     };
 
     function handlePost(event: React.MouseEvent<HTMLButtonElement>): void {
-        // Implement the post functionality here
-        console.log("Post: ", inputValue);
+        event.preventDefault();
+        if (!inputValue) {
+            return;
+        }
+
+        createPost.mutate({
+            content: inputValue,
+        });
     }
 
     return (
@@ -29,8 +44,8 @@ function PostTodayInsight() {
                     style={{ maxHeight: '500px', overflowY: 'hidden' }}
                 />
             </div>
-            <button onClick={handlePost} className="mt-4 bg-purple-500 text-white p-2 rounded">
-                Post
+            <button onClick={handlePost} className="mt-4 bg-purple-500 text-white p-2 rounded " disabled={createPost.isPending}>
+                {createPost.isPending ? "Submitting..." : "Post"}
             </button>
         </div>
     );

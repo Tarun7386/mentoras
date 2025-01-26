@@ -3,12 +3,14 @@ import React from "react";
 interface BookRecommendationProps {
     title: string;
     author: string;
+    genre: string;
     description: string;
 }
 
 const BookRecommendationCard: React.FC<BookRecommendationProps> = ({
     title,
     author,
+    genre,
     description,
 }) => {
     return (
@@ -20,7 +22,11 @@ const BookRecommendationCard: React.FC<BookRecommendationProps> = ({
             <p className="text-gray-600 text-sm mb-4">
                 <span className="font-medium">Author:</span> {author}
             </p>
-
+        
+            {/* Genre */}
+            <p className="text-gray-600 text-sm mb-4">
+                <span className="font-medium">Genre:</span> {genre}
+            </p>
             {/* Description */}
             <p className="text-gray-700 text-sm line-clamp-3 mb-4">
                 {description}

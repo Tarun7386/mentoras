@@ -3,67 +3,83 @@ generator client {
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
 }
 
 model User {
-    id              String      @id @default(cuid())
-    email           String      @unique
-    password        String?
-    name            String
-    role            Role        @default(ASPIRANT)
-    followedMentors Mentor[]
-    insights        Insight[]
-    challenges      Challenge[]
-    checkins        Checkin[]
-    bookmarks       Bookmark[]
-    likes           Like[]
-    studyGroups StudyGroup[]  
-    dailyTasks  DailyTask[]  
+    id                 String             @id @default(cuid())
+    email              String             @unique
+    password           String?
+    name               String
+    role               Role               @default(ASPIRANT)
+    followedMentors    Mentor[]
+    insights           Insight[]
+    challenges         Challenge[]
+    checkins           Checkin[]
+    bookmarks          Bookmark[]
+    likes              Like[]
+    studyGroups        StudyGroup[]
+    dailyTasks         DailyTask[]
+    studyGroupsMembers StudyGroupMember[]
 
-
-    emailVerified   DateTime?
-    image           String?
-    accounts        Account[]
-    sessions        Session[]
-    Aspirant        Aspirant[]
+    emailVerified          DateTime?
+    image                  String?
+    accounts               Account[]
+    sessions               Session[]
+    Aspirant               Aspirant[]
     ChallengeParticipation ChallengeParticipation[]
 
-    createdAt       DateTime @default(now())
-    updatedAt       DateTime @updatedAt
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+    MentorFollower MentorFollower[]
 
     @@index([email])
 }
 
 model Mentor {
-    id          String   @id @default(cuid())
-    user        User     @relation(fields: [userId], references: [id])
-    userId      String
-    mainWork    String
-    description String
-    introVideo  String?
-    hashtags    Hashtag[] @relation("MentorHashtags")
-    insights    Insight[]
-    challenges  Challenge[]
-    stories     Story[]
+    id                 String               @id @default(cuid())
+    user               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId             String
+    mainWork           String
+    description        String
+    introVideo         String?
+    hashtags           Hashtag[]            @relation("MentorHashtags")
+    insights           Insight[]
+    challenges         Challenge[]
+    stories            Story[]
     BookRecommendation BookRecommendation[]
 
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+    MentorFollower MentorFollower[]
 
     @@index([userId])
 }
 
 model Aspirant {
     id                  String                   @id @default(cuid())
-    user                User                     @relation(fields: [userId], references: [id])
+    user                User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId              String
     preparation         String[]
     completedChallenges ChallengeParticipation[]
+    completedDailytasks DailyTaskCompletion[]
 
-    createdAt           DateTime @default(now())
-    updatedAt           DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model MentorFollower {
+    id        String   @id @default(cuid())
+    userId    String
+    mentorId  String
+    createdAt DateTime @default(now())
+
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    mentor Mentor @relation(fields: [mentorId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, mentorId]) // Prevent multiple follow records for the same user-mentor pair
 }
 
 model Hashtag {
@@ -76,7 +92,7 @@ model Insight {
     id        String     @id @default(cuid())
     content   String
     createdAt DateTime   @default(now())
-    mentor    Mentor     @relation(fields: [mentorId], references: [id])
+    mentor    Mentor     @relation(fields: [mentorId], references: [id], onDelete: Cascade)
     mentorId  String
     bookmarks Bookmark[]
     likes     Like[]
@@ -88,24 +104,24 @@ model Insight {
 }
 
 model BookRecommendation {
-  id          String   @id @default(cuid())
-  title       String
-  author      String
-  genre       String
-  description String
-  
-  mentor      Mentor   @relation(fields: [mentorId], references: [id])
-  mentorId    String
-  createdAt   DateTime @default(now())
+    id          String @id @default(cuid())
+    title       String
+    author      String
+    genre       String
+    description String
 
-  @@index([mentorId])
+    mentor    Mentor   @relation(fields: [mentorId], references: [id], onDelete: Cascade)
+    mentorId  String
+    createdAt DateTime @default(now())
+
+    @@index([mentorId])
 }
 
 model Bookmark {
     id        String  @id @default(cuid())
-    user      User    @relation(fields: [userId], references: [id])
+    user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    String
-    insight   Insight @relation(fields: [insightId], references: [id])
+    insight   Insight @relation(fields: [insightId], references: [id], onDelete: Cascade)
     insightId String
 
     createdAt DateTime @default(now())
@@ -113,9 +129,9 @@ model Bookmark {
 
 model Like {
     id        String   @id @default(cuid())
-    user      User     @relation(fields: [userId], references: [id])
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    String
-    insight   Insight  @relation(fields: [insightId], references: [id])
+    insight   Insight  @relation(fields: [insightId], references: [id], onDelete: Cascade)
     insightId String
     createdAt DateTime @default(now())
 
@@ -127,36 +143,36 @@ model Challenge {
     id           String                   @id @default(cuid())
     title        String
     description  String
-    mentor       Mentor                   @relation(fields: [mentorId], references: [id])
+    mentor       Mentor                   @relation(fields: [mentorId], references: [id], onDelete: Cascade)
     mentorId     String
     durationDays Int
     participants ChallengeParticipation[]
     user         User?                    @relation(fields: [userId], references: [id])
     userId       String?
 
-    createdAt    DateTime @default(now())
-    updatedAt    DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@index([mentorId])
     @@index([userId])
 }
 
 model ChallengeParticipation {
-    id              String     @id @default(cuid())
-    user            User       @relation(fields: [userId], references: [id])
-    userId          String
-    challenge       Challenge  @relation(fields: [challengeId], references: [id])
-    challengeId     String
-    startDate       DateTime
-    quitDate        DateTime?
-    checkins        Checkin[]
-    maxStreak       Int        @default(0)
-    isSuccess       Boolean    @default(false)
-    aspirant        Aspirant?  @relation(fields: [aspirantId], references: [id])
-    aspirantId      String?
+    id          String    @id @default(cuid())
+    user        User      @relation(fields: [userId], references: [id])
+    userId      String
+    challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+    challengeId String
+    startDate   DateTime
+    quitDate    DateTime?
+    checkins    Checkin[]
+    maxStreak   Int       @default(0)
+    isSuccess   Boolean   @default(false)
+    aspirant    Aspirant? @relation(fields: [aspirantId], references: [id])
+    aspirantId  String?
 
-    createdAt       DateTime @default(now())
-    updatedAt       DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@unique([userId, challengeId])
     @@index([aspirantId])
@@ -170,27 +186,60 @@ model Checkin {
     user            User?                  @relation(fields: [userId], references: [id])
     userId          String?
 
-    createdAt       DateTime @default(now())
+    createdAt DateTime @default(now())
 }
+
 model StudyGroup {
-  id          String      @id @default(cuid())
-  title       String
-  description String
-  createdBy   User        @relation(fields: [createdById], references: [id])
-  createdById String
-  createdAt   DateTime    @default(now())
-  dailyTasks  DailyTask[] // Tasks related to this study group
+    id          String             @id @default(cuid())
+    title       String
+    description String
+    createdBy   User               @relation(fields: [createdById], references: [id], onDelete: Cascade)
+    createdById String
+    createdAt   DateTime           @default(now())
+    dailyTasks  DailyTask[] // Tasks related to this study group
+    members     StudyGroupMember[]
+}
+
+model StudyGroupMember {
+    id           String   @id @default(cuid())
+    userId       String
+    studyGroupId String
+    role         String // e.g., "admin", "member", etc.
+    joinedAt     DateTime @default(now())
+
+    user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    studyGroup StudyGroup @relation(fields: [studyGroupId], references: [id])
+}
+
+enum TaskStatus {
+    PENDING
+    COMPLETED
 }
 
 model DailyTask {
-  id          String     @id @default(cuid())
-  taskTitle   String
-  description String
-  datePosted  DateTime   @default(now())
-  groupId     String
-  group       StudyGroup @relation(fields: [groupId], references: [id])
-  postedBy    User       @relation(fields: [postedById], references: [id])
-  postedById  String
+    id          String                @id @default(cuid())
+    taskTitle   String
+    content     String
+    datePosted  DateTime              @default(now())
+    status      TaskStatus            @default(PENDING)
+    groupId     String
+    group       StudyGroup            @relation(fields: [groupId], references: [id], onDelete: Cascade)
+    postedBy    User                  @relation(fields: [postedById], references: [id], onDelete: Cascade)
+    postedById  String
+    completions DailyTaskCompletion[]
+
+    createdAt DateTime @default(now())
+}
+
+model DailyTaskCompletion {
+    id          String    @id @default(cuid())
+    aspirant    Aspirant  @relation(fields: [aspirantId], references: [id])
+    aspirantId  String
+    task        DailyTask @relation(fields: [taskId], references: [id])
+    taskId      String
+    completedAt DateTime  @default(now()) // Timestamp for task completion
+
+    @@unique([aspirantId, taskId]) // Ensure a task can be completed only once by the same aspirant
 }
 
 model Story {
