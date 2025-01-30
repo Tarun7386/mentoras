@@ -42,7 +42,7 @@ export const postRouter = createTRPCRouter({
           post: newPost,
         };
       } catch (error) {
-        console.error("Error creating post:",error);
+        console.error("Error creating post:", error);
         throw new Error("Failed to create post. Please try again later.");
       }
     }),
@@ -55,17 +55,111 @@ export const postRouter = createTRPCRouter({
         include: {
           mentor: {
             select: {
-              userId: true,
+              user: {
+                select: {
+                  image: true,
+                  name: true,
+                },
+              },
+            },
+          },
+          _count: {
+            select: {
+              likes: true, // Get the count of likes
+            },
+          },
+          likes: {
+            where: { userId: ctx.session?.user.id },
+            select: {
+              id: true,
+            },
+          },
+          bookmarks: {
+            where: { userId: ctx.session?.user.id },
+            select: {
+              id: true,
             },
           },
         },
       });
-      return posts;
+
+      // Transform the results
+      const formattedPosts = posts.map((post) => ({
+        ...post,
+        likeCount: post._count.likes, // Add the like count
+        hasLiked: post.likes.length > 0,
+        hasBookmarked: post.bookmarks.length > 0,
+      }));
+
+      return formattedPosts;
+
+;
     } catch (error) {
       console.error("Error fetching posts:", error);
       throw new Error("Failed to fetch posts. Please try again later.");
     }
   }),
+
+  getPostById : publicProcedure
+    .input(
+      z.object({
+        id: z
+          .string()
+      })
+    )
+  .query(async ({ctx,input})=>{
+    try{
+      const post = await ctx.db.insight.findUnique({
+        where:{
+          id : input.id,
+        }, 
+        include: {
+          mentor: {
+            select: {
+              user: {
+                select: {
+                  image: true,
+                  name: true
+                }
+              }
+            }
+          },
+          _count: {
+            select: {
+              likes: true, // Get the count of likes
+            },
+          },
+          likes: {
+            where: { userId: ctx.session?.user.id },
+            select: {
+              id: true,
+            },
+          },
+          bookmarks: {
+            where: { userId: ctx.session?.user.id },
+            select: {
+              id: true,
+            },
+          },
+        },
+
+      })
+      const formattedPosts = {
+        ...post,
+        likeCount: post?._count.likes, // Add the like count
+        hasLiked: (post?.likes?.length ?? 0) > 0,
+        hasBookmarked: (post?.bookmarks?.length ?? 0) > 0,
+      };
+
+      return formattedPosts;
+
+    }
+    catch (error) {
+      console.error("Error fetching posts:", error);
+      throw new Error("Failed to fetch posts. Please try again later.");
+    }
+
+  })
 });
 
 

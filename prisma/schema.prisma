@@ -218,7 +218,6 @@ enum TaskStatus {
 
 model DailyTask {
     id          String                @id @default(cuid())
-    taskTitle   String
     content     String
     datePosted  DateTime              @default(now())
     status      TaskStatus            @default(PENDING)
@@ -291,4 +290,11 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Feedback {
+    id      String @id @default(cuid())
+    content String
+    userId String?
+    response String?
 }

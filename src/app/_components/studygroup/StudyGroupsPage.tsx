@@ -1,70 +1,28 @@
 import { useState, useEffect } from "react";
-import StudyGroupCard from "./StudyGroupCard";
-import CreateStudyGroup from "./CreateStudyGroup";
-import DailyTask from "./DailyTask";
-
-interface StudyGroup {
-    id: string;
-    title: string;
-    description: string;
-    createdBy: string;
-    createdAt: string;
-}
+import StudyGroupsList from "./StudyGroupsList";
+import StudyGroupDetails from "./StudyGroupDetails";
+import CreateStudyGroupForm from "./CreateStudyGroupForm";
+import { ToastContainer } from "react-toastify";
 
 const StudyGroupsPage: React.FC = () => {
     const [isCreating, setIsCreating] = useState(false);
-    const [studyGroups, setStudyGroups] = useState<StudyGroup[]>([]);
     const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
 
-    useEffect(() => {
-        async function fetchStudyGroups() {
-            const response = await fetch("/api/getStudyGroups");
-            const data = await response.json();
-            setStudyGroups(data);
-        }
-
-        fetchStudyGroups();
-    }, []);
-
-    const handleGroupClick = (groupId: string) => {
-        setSelectedGroupId(groupId);
-    };
-
-    const handleCreateGroupClick = () => {
-        setIsCreating((prev) => !prev);
-    };
-
     return (
-        <div className="p-6">
-            {/* Toggle Create Study Group button */}
-            <button
-                onClick={handleCreateGroupClick}
-                className="bg-blue-500 text-white p-2 rounded mb-4"
-            >
-                {isCreating ? "Cancel" : "Create Study Group"}
-            </button>
-
-            {/* Show Create Study Group form if isCreating is true */}
-            {isCreating ? (
-                <CreateStudyGroup />
-            ) : selectedGroupId ? (
-                // Show the daily tasks component when a group is selected
-                // <DailyTask groupId={selectedGroupId} />
-                  <DailyTask />
-
-            ) : (
-                // Show the list of study groups if not creating
-                <div>
-                    <h2 className="text-2xl font-bold mb-4">Existing Study Groups</h2>
-                    {studyGroups.map((group) => (
-                        <StudyGroupCard
-                            key={group.id}
-                            group={group}
-                            onClick={() => handleGroupClick(group.id)}
-                        />
-                    ))}
-                </div>
+        <div className="p-4 sm:p-6 lg:p-8">
+            <ToastContainer />
+            { (
+                <>
+                    <div className="mb-8 flex justify-center">
+                        <button onClick={() => setIsCreating(true)} className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-medium shadow-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-purple-500/25 flex items-center gap-2">
+                            Create Study Group
+                        </button>
+                    </div>
+                    <StudyGroupsList ownerId={undefined}  />
+                </>
             )}
+            
+            {isCreating && <CreateStudyGroupForm onClose={() => setIsCreating(false)}/>}
         </div>
     );
 };

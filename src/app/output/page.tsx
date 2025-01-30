@@ -1,214 +1,152 @@
-import EditorOutput from "../_components/output";
+import Blocks from "editorjs-blocks-react-renderer";
 
-function OutputPage() {
-    const data =         
-           {
-    "time": 1601898039654,
+const exampleData = {
+    "time": 1737993533260,
     "blocks": [
-        { "id": "XfcZDzYvu-", "type": "quote", "data": { "text": "work gives you pleasure", "caption": "sathwik", "alignment": "left" } },
         {
-            "type": "image",
-            "data": {
-                "url": "https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg",
-                "caption": "Roadster // tesla.com",
-                "withBorder": false,
-                "withBackground": false,
-                "stretched": true
-            }
-        },
-        {
-            "type": "paragraph",
-            "data": {
-                "text": "Hello There, it is a test post related to <a href=\"https://google.com\">Google</a> which is the <b>biggest</b> search engine!"
-            }
-        },
-        {
+            "id": "header-1",
             "type": "header",
             "data": {
-                "text": "Google's attributes",
-                "level": 2
+                "text": "Complete React.js Learning Path 2024",
+                "level": 1
             }
         },
         {
-            "type": "list",
+            "id": "paragraph-1",
+            "type": "paragraph",
             "data": {
-                "style": "ordered",
-                "items": [
-                    "Search Engine",
-                    "Google fonts",
-                    "Google images",
-                    "Google maps"
+                "text": "Master React.js from basics to advanced concepts. This comprehensive learning path will guide you through everything you need to know to become a professional React developer."
+            }
+        },
+        {
+            "id": "hTXu8nVsuI",
+            "type": "link",
+            "data": {
+                "link": "https://github.com/codewithmentoras",
+                "meta": {}
+            }
+        },
+        {
+            "id": "table-1",
+            "type": "table",
+            "data": {
+                "withHeadings": true,
+                "content": [
+                    ["Module", "Topics", "Duration"],
+                    ["Fundamentals", "JSX, Components, Props, State", "2 weeks"],
+                    ["Advanced Concepts", "Hooks, Context, Performance", "3 weeks"],
+                    ["Real-world Projects", "E-commerce, Social Media App", "4 weeks"]
                 ]
             }
         },
         {
+            "id": "image-1",
+            "type": "image",
+            "data": {
+                "url": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80",
+                "caption": "React Development Environment ",
+                "withBorder": true,
+                "withBackground": true,
+                "stretched": false
+            }
+        },
+        {
+            "id": "list-1",
+            "type": "list",
+            "data": {
+                "style": "checklist",
+                "items": [
+                    { "content": "Set up development environment with Node.js and VS Code", "meta": { "checked": true } },
+                    { "content": "Complete React Fundamentals course", "meta": { "checked": true } },
+                    { "content": "Build 5 mini-projects for portfolio", "meta": { "checked": false } },
+                    { "content": "Master state management with Redux", "meta": { "checked": false } }
+                ]
+            }
+        },
+        {
+            "id": "quote-1",
             "type": "quote",
             "data": {
-                "text": "If your access to health care involves your leaving work and driving somewhere and parking and waiting for a long time, that's not going to promote healthiness.",
-                "caption": "Larry Page",
+                "text": "Understanding React's component lifecycle and hooks is crucial for building efficient applications.",
+                "caption": "Senior React Developer",
                 "alignment": "left"
             }
         },
         {
-            "type": "table",
-            "data": {
-                "content": [
-                    ["", "Me", "Me"],
-                    ["You", "Ugly", "Big"],
-                    ["You", "Ugly", "Big"]
-                ]
-            }
-        },
-        {
-            "type": "code",
-            "data": {
-                "code": "const path = require(\"path\");\nconst cookieParser = require(\"cookie-parser\");\nconst rateLimiter = require(\"express-rate-limit\");\nconst helmet = require(\"helmet\");\nconst mongoSanitize = require(\"express-mongo-sanitize\");\nconst xss = require(\"xss-clean\");\nconst hpp = require(\"hpp\");\nconst express = require(\"express\");"
-            }
-        },
-        {
+            "id": "embed-1",
             "type": "embed",
             "data": {
                 "service": "youtube",
-                "source": "https://www.youtube.com/watch?v=1z6sLQJHbP0",
-                "embed": "https://www.youtube.com/embed/1z6sLQJHbP0",
+                "source": "https://youtu.be/w7ejDZ8SWv8",
+                "embed": "https://www.youtube.com/embed/w7ejDZ8SWv8",
                 "width": 580,
                 "height": 320,
-                "caption": "This is a Youtube video!<br>"
+                "caption": "React Crash Course 2024"
             }
-        },
-        {
-            "type": "embed",
-            "data": {
-                "service": "twitter",
-                "source": "https://twitter.com/elonmusk/status/1310001082278371328",
-                "embed": "https://twitframe.com/show?url=https://twitter.com/elonmusk/status/1310001082278371328",
-                "width": 600,
-                "height": 300,
-                "caption": "This is a twitter embed!<br>"
-            }
-        },
-        {
-            "type": "warning",
-            "data": {
-                "title": "Watch Out!!!<br>",
-                "message": "This is a test WARNING!<br>"
-            }
-        },
-        {
-            "type": "delimiter"
-        },
-
-        {
-            "type": "checklist",
-            "data": {
-                "items": [{
-                        "text": "I'm a Developer",
-                        "checked": true
-                    },
-                    {
-                        "text": "I'm an introvert",
-                        "checked": true
-                    },
-                    {
-                        "text": "I love science!",
-                        "checked": false
-                    }
-                ]
-            }
-        },
-        {
-            "type": "embed",
-            "data": {
-                "service": "codepen",
-                "source": "https://codepen.io/traversbray/pen/NWNZwPq",
-                "embed": "https://codepen.io/traversbray/embed/NWNZwPq?height=300&amp;theme-id=0&amp;default-tab=css,result&amp;embed-version=2",
-                "width": 600,
-                "height": 300,
-                "caption": ""
-            }
-        },
-        {
-            "type": "code",
-            "data": {
-                "code": "<div id='app'><div class='btn-holder'><button @click.prevent='openSideElement()'>Open side element</button></div><transition name='fade'><div v-if='open' class='overlay'  @click.prevent='close()'></div></transition><div class='side-element' :class='open ? 'show-element' : '''><span class='close-btn' @click.prevent='close()'>x</span><div class='content'><h2>Hi!</h2><p>I'm the element coming from the right of the browser.</p><p>Click the close icon or anywhere on the overlay to close me.</p></div></div></div>"
-            }
-        },
-        {
-            "type": "embed",
-            "data": {
-                "service": "twitter",
-                "source": "https://twitter.com/SpaceX/status/1310962850601545728",
-                "embed": "https://twitframe.com/show?url=https://twitter.com/SpaceX/status/1310962850601545728",
-                "width": 600,
-                "height": 300,
-                "caption": ""
-            }
-        },
-        {
-            "type": "embed",
-            "data": {
-                "service": "instagram",
-                "source": "https://www.instagram.com/p/CFuMV9MhwlL",
-                "embed": "https://www.instagram.com/p/CFuMV9MhwlL/embed",
-                "width": 400,
-                "height": 505,
-                "caption": ""
-            }
-        },
-        {
-            "type": "image",
-            "data": {
-                "file": {
-                    "url": "http://127.0.0.1:5000/img/Wallpaper-Mix-2017.04---24-5f5f73c9754360259669284a-1601846783120.jpg",
-                    "fileName": "Wallpaper-Mix-2017.04---24-5f5f73c9754360259669284a-1601846783120.jpg"
-                },
-                "caption": "dfvsdfvdsvdfvs",
-                "withBorder": false,
-                "stretched": true,
-                "withBackground": false
-            }
-        },
-        {
-            "type": "raw",
-            "data": {
-                "html": "<blockquote class=\"imgur-embed-pub\" lang=\"en\" data-id=\"a/Vd1xADQ\"  ><a href=\"//imgur.com/a/Vd1xADQ\">Dark arts and crafts!</a></blockquote><script async src=\"//s.imgur.com/min/embed.js\" charset=\"utf-8\"></script>"
-            }
-        },
-        {
-            "id": "RDB6MHutIC",
-            "data": {
-              "url": "https://cdn.pixabay.com/photo/2022/08/09/16/19/sea-7375377_960_720.jpg",
-              "caption": "Caption for simple image",
-              "stretched": false,
-              "withBorder": false,
-              "withBackground": false
-            },
-            "type": "simpleImage"
-          }, 
-          {
-            "id": "qvlrLvgUAO",
-            "data": {
-              "link": "https://www.freepik.com/",
-              "meta": {
-                "image": {
-                    "URL": "https://freepik.cdnpk.net/img/logo-fb-en.png"
-                },
-                "title": "Free Vectors, Stock Photos & PSD Downloads | Freepik",
-                "description": "Millions of Free Graphic Resources. ✓ Vectors ✓ Stock Photos ✓ PSD ✓ Icons ✓ All that you need for your Creative Projects"
-              }
-            },
-            "type": "linkTool"
-          }
+        }
     ],
-    "version": "2.18.0"
-}
-            
- 
-    return (
-        <>
-            <EditorOutput content={data} />
-        </>
-    );
-}
+    "version": "2.30.7"
+};
 
-export default OutputPage;
+const config = {
+    header: {
+        className: "font-bold text-3xl md:text-4xl mb-8 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400"
+    },
+
+    paragraph: {
+        className: "text-gray-300 text-lg leading-relaxed mb-8"
+    },
+    link: {
+        className: "block p-3 sm:p-4 mb-4 sm:mb-6 bg-gradient-to-r from-blue-500/10  to-purple-500/10 border-5 border-blue-500/30 rounded-lg text-blue-400  hover:text-blue-300 hover:border-blue-500/50 transition-all duration-300  hover:translate-x-1 flex items-center gap-2 group"
+
+    },
+    table: {
+        className: "w-full mb-8 overflow-x-auto block rounded-lg border border-purple-500/20",
+        wrapperClassName: "min-w-full whitespace-nowrap",
+        cellClassName: "p-3 sm:p-4 bg-black/30 border border-purple-500/20 text-gray-300 text-sm sm:text-base transition-colors hover:bg-purple-500/10 first:font-medium"
+    },
+    image: {
+        className: "rounded-xl overflow-hidden mb-8 shadow-xl max-w-full h-auto border-5 border-white",
+        actionsClassNames: {
+            stretched: "w-full h-full object-cover",
+            withBackground: "p-4 bg-gray-800/50 shadow",
+            withBorder: "border-2 border-purple-500/20"
+        },
+        captionClassNames: {
+            "text-align": "center",
+        },
+    },
+    list: {
+        className: "space-y-3 mb-8 pl-4",
+        styleClassNames: {
+            ordered: "list-decimal",
+            unordered: "list-disc",
+            checklist: "space-y-2 list-none pl-0"
+        },
+        itemClassName: "pl-2 marker:text-purple-400",
+        checklistItemClassName: "flex items-center gap-3 text-gray-300 bg-black/30 p-3 rounded-lg border border-purple-500/20 transition-all hover:border-purple-500/40",
+        checkboxClassName: "w-5 h-5 rounded border-2 border-purple-500/30 checked:bg-purple-500 checked:border-transparent transition-all focus:ring-2 focus:ring-purple-500/20"
+    },
+    quote: {
+        className: "border-l-4 border-purple-500 pl-6 my-8 py-4 bg-black/20 rounded-r-xl relative",
+        captionClassName: "mt-4 text-sm text-purple-400/80 italic flex items-center gap-2 before:content-['—'] before:text-purple-500"
+    },
+    embed: {
+        className: "aspect-video w-full max-w-full h-auto rounded-xl overflow-hidden border-2 border-purple-500/20 mb-8 shadow-xl"
+    }
+};
+
+const MyComponent = () => {
+    return (
+        <div className="max-w-4xl mx-auto p-2 space-y-4">
+            <div className="bg-gradient-to-b from-gray-900 via-[#300171]/30 to-slate-900 
+          backdrop-blur-sm border border-purple-500/20 rounded-xl p-4">
+                <Blocks
+                    data={exampleData}
+                    config={config}
+                />
+            </div>
+        </div>
+    );
+};
+export default MyComponent;

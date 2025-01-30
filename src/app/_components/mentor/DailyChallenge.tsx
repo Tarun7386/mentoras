@@ -1,16 +1,39 @@
-import { dataTagErrorSymbol } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ChallengeCard from "../ChallengeCard";
+import { api } from "~/trpc/react";
+import { toast, ToastContainer } from "react-toastify";
 
 interface Challenge {
     id: string;
     title: string;
-    description: string;
+    durationDays: number;
+    description: string;    
     createdAt: string;
     createdBy: string; // Assuming the user has a name field
 }
 
 function DailyChallengesPage() {
+
+    const createChallenge = api.challengeRouter.createChallenge.useMutation({
+        onSuccess: () => {
+            toast.success("Challenge created successfully! 🎉");
+            setNewChallenge(
+                {
+                    title: "",
+                    durationDays: "",
+                    description: "",
+                }
+            );
+            setIsAdding(false); // Close form after submission
+
+        },
+        onError: (error) => {
+            toast.error(`Failed to create challenge: ${error.message}`);
+        },
+
+       
+    });
+
     const handleJoinChallenge = () => {
         alert("You have joined the challenge!");
     };
@@ -23,20 +46,14 @@ function DailyChallengesPage() {
     const [challenges, setChallenges] = useState<Challenge[]>([]);
     const [newChallenge, setNewChallenge] = useState({
         title: "",
-        days: "",
+        durationDays: "",
         description: "",
-        createdBy: "", // Add createdBy for the user
+        
+        
     });
 
     // Fetch challenges on page load
-    useEffect(() => {
-        async function fetchChallenges() {
-            const response = await fetch("/api/dailyChallenges");
-            const data = await response.json();
-            setChallenges(data);
-        }
-        fetchChallenges();
-    }, []);
+    
 
     // Handle input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -47,24 +64,38 @@ function DailyChallengesPage() {
         }));
     };
 
+    const validateFields = () => {
+        if (!newChallenge.title.trim()) {
+            toast.error("Challenge title is required.");
+            return false;
+        }
+        if (!newChallenge.durationDays || isNaN(Number(newChallenge.durationDays)) || Number(newChallenge.durationDays) <= 0) {
+            toast.error("Challenge duration must be a positive number.");
+            return false;
+        }
+        if (!newChallenge.description.trim()) {
+            toast.error("Challenge description is required.");
+            return false;
+        }
+        return true;
+    };
+
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const response = await fetch("/api/dailyChallenges", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                ...newChallenge,
-                createdBy: "yourUserNameHere", // Replace with the actual user name
-            }),
-        });
 
-        const newDailyChallenge = await response.json();
-        setChallenges((prev) => [newDailyChallenge, ...prev]);
-        setIsAdding(false); // Close form after submission
+        // Ensure durationDays is converted to a number before sending to the backend
+        const challengeData = {
+            ...newChallenge,
+            durationDays: Number(newChallenge.durationDays),  // Convert to number
+        };
+
+        if (!validateFields()) return;
+
+        // Call the API with the correctly typed data
+        createChallenge.mutateAsync(challengeData);
     };
+
     const sampleChallenges = [
         {
             id: '1',
@@ -86,13 +117,20 @@ function DailyChallengesPage() {
             description: 'Read 50 pages every day for 14 days.Complete daily fitness tasks, track your progress, and stay consistent.Complete daily fitness tasks, track your progress, and stay consistent.',
             createdBy: 'Mike Johnson',
             createdAt: 'January 23, 2024'
+        },
+        {
+            id: '4',
+            title: 'Reading Marathon',
+            description: 'Read 50 pages every day for 14 days.Complete daily fitness tasks, track your progress, and stay consistent.Complete daily fitness tasks, track your progress, and stay consistent.',
+            createdBy: 'Mike Johnson',
+            createdAt: 'January 23, 2024'
         }
     ];
 
-    const [challenges_] = useState(sampleChallenges);
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-900 via-[#300171] to-slate-900 p-4 sm:p-6 lg:p-8">
+            <ToastContainer/>
             <div className="max-w-7xl mx-auto mb-8 flex justify-center">
     <button
         onClick={() => setIsAdding(true)}
@@ -124,26 +162,18 @@ function DailyChallengesPage() {
 
             {/* Challenges Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-                {challenges_.map((challenge) => (
+                {sampleChallenges.map((challenge) => (
                     <ChallengeCard
                         key={challenge.id}
+                        id={challenge.id}
                         challengeName={challenge.title}
                         rules={challenge.description}
                         createdBy={challenge.createdBy}
-                        createdOn={new Date(challenge.createdAt).toLocaleDateString()}
-                        onJoin={handleJoinChallenge}
-                        onViewLeaderboard={handleViewLeaderboard}
+                        createdOn={new Date(challenge.createdAt).toLocaleDateString()} duration={1}                        
                     />
                     
                 ))}
-                {/* <ChallengeCard
-                            challengeName="30-Day Fitness Challenge"
-                            rules="Complete daily fitness tasks, track your progress, and stay consistent."
-                            createdBy="John Doe"
-                            createdOn="January 21, 2025"
-                            onJoin={handleJoinChallenge}
-                            onViewLeaderboard={handleViewLeaderboard}
-                        /> */}
+                
             </div>
 
             {/* Mobile Form Modal */}
@@ -172,10 +202,10 @@ function DailyChallengesPage() {
                                     placeholder-gray-500"
                             />
                             <input
-                                type="text"
-                                name="days"
-                                placeholder="Challenge Days"
-                                value={newChallenge.days}
+                                type="number"
+                                name="durationDays"
+                                placeholder="Challenge Duration in Days"
+                                value={newChallenge.durationDays}
                                 onChange={handleChange}
                                 className="w-full p-3 bg-black/50 text-white border 
                                     border-purple-500/30 rounded-lg 
@@ -184,8 +214,8 @@ function DailyChallengesPage() {
                             />
                             <textarea
                                 name="description"
-                                placeholder="Challenge Description"
-                                value={newChallenge.description}
+                                placeholder="Challenge Description/Rules"
+                                
                                 onChange={handleChange}
                                 className="w-full p-3 bg-black/50 text-white border 
                                     border-purple-500/30 rounded-lg 

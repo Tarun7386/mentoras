@@ -1,6 +1,7 @@
 import { auth } from "~/server/auth";
-import { redirect } from "next/navigation";
-import ClientRolePage from "../_components/clientRolePage";
+import { redirect } from 'next/navigation'
+import { api } from "~/trpc/server";
+import MultiStepForm from "../_components/multiform";
 
 async function Role() {
     const session = await auth();
@@ -10,8 +11,26 @@ async function Role() {
         redirect("/api/auth/signin");
     }
 
+
+    const { role } = await api.profileData.getRole({});
+
+    console.log(role)
+    // Redirect based on user role when data is fetched
+    if (role) {
+        const redirectURL =
+            role === "ASPIRANT"
+                ? "/home/aspirant"
+                : role === "MENTOR"
+                    ? "/home/mentor"
+                    : "/role"; // Default fallback role page
+
+        // Perform the redirection
+        redirect(redirectURL);
+    }
+
+   
     // Render the client component with session data
-    return <ClientRolePage userId={session.user.id} />;
+    return <MultiStepForm />;
 }
 
 export default Role;

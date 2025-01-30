@@ -40,17 +40,26 @@ export const studyGroupRouter = createTRPCRouter({
             }
         }),
 
-    getStudyGroups: protectedProcedure
-        .query(async ({ ctx }) => {
+    getStudyGroupsByMe: protectedProcedure
+    .input(z.object({
+        ownerId:z.string().optional(),
+    }))
+        .query(async ({ ctx,input:{ownerId} }) => {
             try {
                 // Get all study groups
                 const studyGroups = await ctx.db.studyGroup.findMany({
                     where: {
-                        createdBy: {id: ctx.session.user.id},
+                        createdById: ownerId ?? ctx.session.user.id, 
+                    },
+                    include: {
+                        createdBy: {
+                            select: { name: true }, 
+                        },
                     },
                 });
 
                 return studyGroups;
+
             } catch (error) {
                 console.error("Error fetching study groups:", error);
                 throw new Error("Failed to fetch study groups. Please try again later.");
@@ -129,6 +138,23 @@ export const studyGroupRouter = createTRPCRouter({
                 throw new Error("Failed to join study group. Please try again later.");
             }
         }),
+    getMemberStudyGrp: protectedProcedure
+    .query(async ({ctx})=>{
+        const studyGrp = await ctx.db.studyGroup.findMany({
+            where:{
+                members:{
+                    some :{ userId : ctx.session.user.id}
+                }
+            },
+            include: {
+                createdBy: {
+                    select: { name: true },
+                },
+            },
+
+        })
+        return studyGrp
+    })
 });
 
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { api } from "~/trpc/react";
+import Editor from "./Editor";
 
 function PostTodayInsight() {
 
@@ -41,6 +42,7 @@ function PostTodayInsight() {
         max-w-6xl ">
         
         <div className="flex w-full gap-6">
+           
             <textarea
                 value={inputValue}
                 onChange={handleInputChange}

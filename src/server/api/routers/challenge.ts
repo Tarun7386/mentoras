@@ -14,17 +14,26 @@ export const challengeRouter = createTRPCRouter({
                 title: z.string(),
                 description: z.string(),
                 durationDays: z.number(),
-                mentorId: z.string(),  // The mentor creating the challenge
+                
             })
         )
         .mutation(async ({ ctx, input }) => {
             try {
+                const mentorId = await ctx.db.mentor.findFirst({
+                    where: {
+                        userId: ctx.session.user.id,
+                    },
+                    select:{ id: true },
+                });
+                if (mentorId === null) {
+                    throw new Error("User is not a mentor.");
+                }
                 const challenge = await ctx.db.challenge.create({
                     data: {
                         title: input.title,
                         description: input.description,
                         durationDays: input.durationDays,
-                        mentorId: input.mentorId,
+                        mentorId: mentorId.id,
                     },
                 });
 

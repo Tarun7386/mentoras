@@ -56,31 +56,52 @@ export const engagementsRouter = createTRPCRouter({
 
 
     bookmarkPost: protectedProcedure
-    .input(
-      z.object({
-        postId: z.string(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      try {
+        .input(
+            z.object({
+                postId: z.string(),
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            try {
+                // Check if the bookmark already exists
+                const existingBookmark = await ctx.db.bookmark.findFirst({
+                    where: {
+                        insightId: input.postId,
+                        userId: ctx.session.user.id,
+                    },
+                });
 
-        const bookmarked = await ctx.db.bookmark.create({
-            data: {
-                insightId: input.postId,
-                userId: ctx.session.user.id,
-            },
-          
-        });
+                // If the bookmark exists, delete it (unbookmark)
+                if (existingBookmark) {
+                    await ctx.db.bookmark.delete({
+                        where: {
+                            id: existingBookmark.id,
+                        },
+                    });
 
-        return {
-          message: "Bookmarked successfully!",
-            post: bookmarked,
-        };
-      } catch (error) {
-        console.error("Error creating post:",error);
-        throw new Error("Failed to create post. Please try again later.");
-      }
-    }),
+                    return {
+                        message: "Bookmark removed successfully!",
+                    };
+                }
+
+                // If the bookmark doesn't exist, create a new bookmark
+                const newBookmark = await ctx.db.bookmark.create({
+                    data: {
+                        insightId: input.postId,
+                        userId: ctx.session.user.id,
+                    },
+                });
+
+                return {
+                    message: "Bookmarked successfully!",
+                    post: newBookmark,
+                };
+            } catch (error) {
+                console.error("Error toggling bookmark:", error);
+                throw new Error("Failed to toggle bookmark. Please try again later.");
+            }
+        }),
+
 
     toggleFollow: protectedProcedure
         .input(

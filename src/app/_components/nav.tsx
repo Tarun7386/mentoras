@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from 'next/image';
+import { ToastContainer } from "react-toastify";
 const Nav = () => {
     const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -54,6 +56,26 @@ const Nav = () => {
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
                         d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                </svg>
+            )
+        },
+        {
+            href: "/casual-chat",
+            label: "Casual Chat",
+            icon: (
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            )
+        },
+        {
+            href: "/feedback",
+            label: "Try It",
+            icon: (
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             )
         },
@@ -154,7 +176,7 @@ const Nav = () => {
                             <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 className="flex items-center gap-2 p-1.5 rounded-xl border border-purple-500/20 
                                     hover:border-purple-500/40 transition-all">
-                                <img src={userImage} alt="Profile" className="w-8 h-8 rounded-full" />
+                                <Image width={75} height={75}  src={userImage} alt="Profile" className="w-8 h-8 rounded-full" />
                             </button>
                             {isDropdownOpen && (
                                 <div className="absolute right-0 mt-2 w-48 py-2 bg-black/50 backdrop-blur-sm 

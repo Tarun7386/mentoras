@@ -77,17 +77,21 @@ export const formRouter = createTRPCRouter({
         }),
 
     getRole: protectedProcedure
-        .query(async ({ ctx }) => {
-            const { id } = ctx.session.user;
+        .input(z.object({
+            ownerId: z.string().optional()
+        }))
+        .query(async ({ ctx, input: { ownerId } }) => {
 
+            const { id } = ctx.session.user;
+            const userId = ownerId ?? id
             // Use a single query to find if the user exists in either table
             const [aspirant, mentor] = await Promise.all([
-                ctx.db.aspirant.findFirst({ where: { userId: id } }),
-                ctx.db.mentor.findFirst({ where: { userId: id } }),
+                ctx.db.aspirant.findFirst({ where: { userId: userId } }),
+                ctx.db.mentor.findFirst({ where: { userId: userId } }),
             ]);
 
             // Determine role and return data
-            console.log(aspirant,mentor)
+            console.log(aspirant, mentor)
             if (aspirant) {
                 return {
                     role: "ASPIRANT",
@@ -97,7 +101,7 @@ export const formRouter = createTRPCRouter({
             if (mentor) {
                 return {
                     role: "MENTOR",
-                    
+
                 };
             }
 
@@ -105,4 +109,20 @@ export const formRouter = createTRPCRouter({
                 role: "",
             };
         }),
+        getAspirantProfile: protectedProcedure
+        .input(z.object({
+            id: z.string()
+        }))
+        .query(async ({ctx,input:{id}})=>{
+            const profile = await ctx.db.user.findFirst({
+                where:{
+                    id:id
+                },
+                select:{
+                    name:true,
+                    image:true
+                }
+            })
+            return profile
+        })
 });
