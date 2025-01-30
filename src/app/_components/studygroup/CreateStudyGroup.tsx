@@ -3,7 +3,6 @@ import { useState } from "react";
 const CreateStudyGroup: React.FC = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -45,7 +44,7 @@ const CreateStudyGroup: React.FC = () => {
                     Create Study Group
                 </button>
             </form>
-        </div>
+        </div> 
     );
 };
 

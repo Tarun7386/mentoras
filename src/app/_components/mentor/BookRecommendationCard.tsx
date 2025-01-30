@@ -1,45 +1,39 @@
 import React from "react";
 
 interface BookRecommendationProps {
-    title: string;
-    author: string;
-    genre: string;
-    description: string;
+  title: string;
+  author: string;
+  description: string;
 }
 
 const BookRecommendationCard: React.FC<BookRecommendationProps> = ({
-    title,
-    author,
-    genre,
-    description,
+  title,
+  author,
+  description,
 }) => {
-    return (
-        <div className="max-w-sm w-full border border-gray-200 rounded-lg shadow-md p-4 bg-white hover:shadow-lg transition-shadow">
-            {/* Title */}
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">{title}</h2>
+  return (
+    <div className="group rounded-xl border border-purple-500/20 bg-black/30 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/10">
+        {/* Title */}
+        <h3 className="mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-xl font-semibold text-transparent">
+        {title}
+      </h3>
 
-            {/* Author */}
-            <p className="text-gray-600 text-sm mb-4">
-                <span className="font-medium">Author:</span> {author}
-            </p>
-        
-            {/* Genre */}
-            <p className="text-gray-600 text-sm mb-4">
-                <span className="font-medium">Genre:</span> {genre}
-            </p>
-            {/* Description */}
-            <p className="text-gray-700 text-sm line-clamp-3 mb-4">
-                {description}
-            </p>
+        {/* Author */}
+        <p className="mb-4 text-sm text-purple-200">by {author}</p>
 
-            {/* Read More */}
-            <div className="flex justify-end">
-                <button className="text-blue-500 text-sm hover:underline">
-                    Read More
-                </button>
-            </div>
-        </div>
-    );
+        {/* Description */}
+        <p className="line-clamp-3 text-sm text-gray-400 transition-all duration-300 group-hover:line-clamp-none">
+        {description}
+      </p>
+
+        {/* Read More */}
+        <div className="mt-4 flex justify-end">
+        <button className="text-sm text-purple-400 transition-colors duration-300 hover:text-purple-300">
+          Read more →
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default BookRecommendationCard;
