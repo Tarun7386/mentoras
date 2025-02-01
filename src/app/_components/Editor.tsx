@@ -105,7 +105,7 @@ function Editor() {
             <div className="flex w-full gap-6 mb-4 min-h-1">
                 <div
                     id="editorjs"
-                    className="w-full bg-black/50 text-white rounded-lg p-6 border border-purple-500/30 placeholder-gray-400 
+                    className="w-full bg-white text-black rounded-lg p-6 border border-purple-500/30 placeholder-gray-400 
                     focus:outline-none focus:border-purple-500 transition-colors duration-300 "
                 ></div>
             </div>

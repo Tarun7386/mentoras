@@ -101,9 +101,9 @@ const config = {
 
     },
     table: {
-        className: "w-full mb-8 overflow-x-auto block rounded-lg border border-purple-500/20",
+        className: "w-full  mb-8 overflow-x-auto block rounded-lg border border-purple-500/20",
         wrapperClassName: "min-w-full whitespace-nowrap",
-        cellClassName: "p-3 sm:p-4 bg-black/30 border border-purple-500/20 text-gray-300 text-sm sm:text-base transition-colors hover:bg-purple-500/10 first:font-medium"
+        cellClassName: "p-5 sm:p-4 bg-black/30 border border-purple-500/20 text-gray-300 text-sm sm:text-base transition-colors hover:bg-purple-500/10 first:font-medium"
     },
     image: {
         className: "rounded-xl overflow-hidden mb-8 shadow-xl max-w-full h-auto border-5 border-white",
@@ -126,13 +126,13 @@ const config = {
         itemClassName: "pl-2 marker:text-purple-400",
         checklistItemClassName: "flex items-center gap-3 text-gray-300 bg-black/30 p-3 rounded-lg border border-purple-500/20 transition-all hover:border-purple-500/40",
         checkboxClassName: "w-5 h-5 rounded border-2 border-purple-500/30 checked:bg-purple-500 checked:border-transparent transition-all focus:ring-2 focus:ring-purple-500/20"
-    },
+    },  
     quote: {
         className: "border-l-4 border-purple-500 pl-6 my-8 py-4 bg-black/20 rounded-r-xl relative",
         captionClassName: "mt-4 text-sm text-purple-400/80 italic flex items-center gap-2 before:content-['—'] before:text-purple-500"
     },
     embed: {
-        className: "aspect-video w-full max-w-full h-auto rounded-xl overflow-hidden border-2 border-purple-500/20 mb-8 shadow-xl"
+        className: "aspect-video w-full max-w-full h-auto rounded-xl overflow-hidden p-5 border-2 border-white  mb-8 shadow-xl"
     }
 };
 
