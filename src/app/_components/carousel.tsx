@@ -23,7 +23,7 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
     }, [scrollCarousel]);
 
     return (
-        <div className="relative w-full mx-auto">
+        <div className=" w-full mx-auto">
             <div className="overflow-hidden relative  w-full">
                 <div
                     className="flex transition-transform duration-1000 ease-in-out transform"
