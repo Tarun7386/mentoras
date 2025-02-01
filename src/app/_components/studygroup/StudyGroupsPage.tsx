@@ -9,7 +9,7 @@ const StudyGroupsPage: React.FC = () => {
     const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
 
     return (
-        <div className="p-4 sm:p-6 lg:p-8">
+        <div className="p-4 sm:p-6 lg:p-8 ">
             <ToastContainer />
             { (
                 <>

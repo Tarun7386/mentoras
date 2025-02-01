@@ -124,8 +124,8 @@ const Nav = () => {
             </div>
 
             {/* Middle Section - Navigation */}
-            <div className="ml-15 flex items-center gap-2 ">
-            <div className="hidden lg:flex items-center gap-8 ml-20">
+            <div className="ml-18 flex items-center gap-4 ">
+            <div className="hidden lg:flex items-center gap-4 ml-20">
                 {navigationItems.map((item) => (
                     <Link key={item.href} href={item.href}
                         className="flex items-center gap-2 text-gray-300 hover:text-white transition-all">

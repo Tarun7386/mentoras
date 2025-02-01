@@ -68,7 +68,10 @@ const PostCard: React.FC<PostCardProps> = ({
   };
 
   return (
-    <div className="mb-4 rounded-lg bg-gradient-to-r p-4 shadow-md transition-all duration-300 ease-in-out before:from-purple-500/20 before:via-pink-500/20 hover:shadow-lg">
+    <div className="bg-gradient-to-b from-gray-900 via-[#300171] to-slate-900 
+            rounded-xl p-4 mb-6 shadow-lg hover:shadow-2xl 
+            transform hover:-translate-y-1 transition-all duration-300 ease-in-out
+            border border-purple-500/10 hover:border-purple-500/20">
       {/* Author Info */}
       <div className="mb-4 flex items-center cursor-pointer" onClick={() => router.push(`/post/${id}`)}>
         <Image
@@ -135,7 +138,7 @@ const PostCard: React.FC<PostCardProps> = ({
         {hashtags.map((tag, index) => (
           <span
             key={index}
-            className="rounded-full bg-purple-900/30 px-2 py-1 text-xs text-purple-300"
+            className="rounded-full bg-purple-900/30 px-2  text-xs text-purple-300"
           >
             #{tag}
           </span>
@@ -143,7 +146,7 @@ const PostCard: React.FC<PostCardProps> = ({
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-between border-t border-gray-700/30 pt-3">
+      <div className="grid grid-cols-3 gap-2 mb-3 sm:gap-4 ">
         <LikeButton isLiked={likedByme} postId={id} likeCount={likeCount} />
         <ShareButton url={`mentoras.in/post/${id}`} />
         <BookmarkButton isBookmarked={bookMarkedByme} postId={id} />

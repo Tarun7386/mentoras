@@ -44,7 +44,7 @@ const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description,
     return (
         <div
             className={`group bg-gradient-to-b from-gray-900 via-[#300171]/30 to-slate-900 
-            backdrop-blur-sm border border-purple-500/20 rounded-xl p-6
+            backdrop-blur-sm border border-purple-500/20 rounded-xl p-4 pb-2
             hover:border-purple-500/40 transition-all duration-300 cursor-pointer
             hover:shadow-xl hover:shadow-purple-500/10 hover:scale-[1.02]
             ${isLoading ? "opacity-50 pointer-events-none" : ""}`}
@@ -60,7 +60,7 @@ const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description,
 
             {/* Description */}
             <p
-                className="text-gray-300 mb-4 line-clamp-2"
+                className="text-gray-300 mb-4 line-clamp-2" // Limit to 2 lines text off 
                 onClick={handleGroup}
             >
                 {isLoading ? "Redirecting..." : description}

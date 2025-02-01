@@ -34,13 +34,13 @@ const MentorCard: React.FC<MentorCardProps> = ({
     return (
         <div
             className="bg-gradient-to-b from-gray-900 via-[#300171] to-slate-900 
-            rounded-xl p-6 mb-8 shadow-lg hover:shadow-2xl 
+            rounded-xl p-4 mb-6 shadow-lg hover:shadow-2xl 
             transform hover:-translate-y-1 transition-all duration-300 ease-in-out
             border border-purple-500/10 hover:border-purple-500/20"
         >
             <ToastContainer/>
             {/* Author Info */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between ">
                 <div className="flex items-center cursor-pointer" onClick={() => router.push(`/mentorProfile/${id}`)}>
                     <img
                         src={profilePic}
@@ -51,9 +51,9 @@ const MentorCard: React.FC<MentorCardProps> = ({
                     />
                     <div className="ml-4">
                     <h3 className="font-bold text-lg text-white hover:text-purple-200 
-                        transition-colors duration-300">{name}</h3>
-                        <p className="text-gray-400">{designation}</p>
-                        <p className="text-purple-400 text-sm mt-1">{followers.toLocaleString()} followers</p>
+                        transition-colors duration-300 ">{name}</h3>
+                        <p className="text-gray-400 text-xs sm:text-sm font-medium">Student from IIT Bombay</p>
+                        <p className="text-purple-400 text-sm ">{followers.toLocaleString()} followers</p>
                     </div>
                 </div>
 
@@ -66,9 +66,9 @@ const MentorCard: React.FC<MentorCardProps> = ({
 
 
             {/* Description */}
-            <div className="mb-6">
+            <div className="mb-1">
                 <p
-                    className={`text-gray-300 text-sm leading-relaxed ${!isExpanded && "line-clamp-2"
+                    className={`mt-1 text-gray-300 text-sm leading-relaxed ${!isExpanded && "line-clamp-2"
                         }`}
                 >
                     {description}
@@ -76,7 +76,7 @@ const MentorCard: React.FC<MentorCardProps> = ({
                 {description.length > 100 && (
                     <button
                         onClick={() => setIsExpanded(!isExpanded)}
-                        className="mt-1 text-purple-400 hover:text-purple-300 text-xs font-medium transition-colors"
+                        className=" text-purple-400 hover:text-purple-300 text-xs font-medium transition-colors"
                     >
                         {isExpanded ? "Show less" : "See more"}
                     </button>
@@ -84,7 +84,7 @@ const MentorCard: React.FC<MentorCardProps> = ({
             </div>
 
             {/* Hashtags */}
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div className="flex flex-wrap gap-2 mb-2">
                 {hashtags.slice(0, 3).map((tag, index) => (
                     <span
                         key={index}
@@ -99,7 +99,7 @@ const MentorCard: React.FC<MentorCardProps> = ({
             </div>
 
             {/* Action Buttons */}
-            <div className="grid grid-cols-3 gap-2 mb-3 sm:gap-4">
+            <div className="grid grid-cols-3 gap-2  sm:gap-4">
                 <button
                     className="flex justify-center items-center text-green-400 bg-green-900/40 rounded-md py-2 text-xs hover:bg-green-900/30 transition"
                     aria-label="Call"
