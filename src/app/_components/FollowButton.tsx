@@ -34,6 +34,7 @@ const FollowButton: React.FC<FollowButtonProps> = ({ isFollowed: initialIsFollow
                     ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white"
                     : "bg-gradient-to-r from-pink-500 to-purple-500 text-white"
                 }`}
+            disabled={followToggle.isPending}
         >
             {isFollowed ? "Following" : "Follow"}
         </button>

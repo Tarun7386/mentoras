@@ -11,17 +11,21 @@ interface StudyGroupCardProps {
     createdBy: string;
     createdAt: string;
     ownerId: string;
+    isMember : boolean
 }
 
-const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description, createdBy, createdAt, ownerId }) => {
+const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description, createdBy, createdAt, ownerId,isMember }) => {
     const router = useRouter();
     const { data: session } = useSession();
     const loginId = session?.user.id;
     const [isLoading, setIsLoading] = useState(false);
+    const [isMemb, setIsMember] = useState(isMember);
 
     const joinGroup = api.studyGroupRouter.joinStudyGroup.useMutation({
         onSuccess:()=>{
+            setIsMember(true)
             toast.success("Joined study group")
+
         }
         
     })
@@ -88,7 +92,7 @@ const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description,
             </div>
 
             {/* 🔹 Join Group Button */}
-            {!(loginId === ownerId) && (
+            {!isMemb && loginId !== ownerId && (
                 <button
                     onClick={(e) => {
                        joinGroup.mutate({studyGroupId:id})
@@ -100,6 +104,7 @@ const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description,
                     {joinGroup.isPending ? "wait..." :" Join Group"}
                 </button>
             )}
+            
             <ToastContainer/>
         </div>
     );

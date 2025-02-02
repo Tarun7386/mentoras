@@ -8,9 +8,11 @@ interface TaskCardProps {
     postedBy: string;
     datePosted: string;
     isOwner: boolean;
+    isCompleted: boolean;
+    completedCount: number;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ id, content, postedBy, datePosted,isOwner }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ id, content, postedBy, datePosted,isOwner,isCompleted,completedCount }) => {
     const [parsedContent, setParsedContent] = useState<any>(null); // State to store parsed content
     const [isOverflowing, setIsOverflowing] = useState(false); // State to track overflow condition
     const [isExpanded, setIsExpanded] = useState(false); // State to toggle content visibility
@@ -66,22 +68,22 @@ const TaskCard: React.FC<TaskCardProps> = ({ id, content, postedBy, datePosted,i
                         Show Less
                     </button>
                 )}
-                <span>completions : {10} </span>
+                <span>completions : {completedCount} </span>
 
                 {/* Task Completed Button */}
                 {!isOwner && <div className="absolute top-0 right-16">
-                    <TaskCompleteButton isCompleted={false} initialCompletionCount={10}  />
+                    <TaskCompleteButton isCompleted={isCompleted} initialCompletionCount={completedCount} taskId={id}  />
                 </div>}
             </div>
 
             {/* Footer with postedBy and date */}
             <div className="flex items-center justify-between pt-3 sm:pt-4 border-t border-purple-500/20">
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                     <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-white font-semibold text-xs sm:text-sm">
                         {postedBy.charAt(0).toUpperCase()}
                     </div>
                     <span className="text-xs sm:text-sm text-gray-400">{postedBy}</span>
-                </div>
+                </div> */}
                 <span className="text-xs text-gray-500">{new Date(datePosted).toLocaleDateString()}</span>
             </div>
         </div>

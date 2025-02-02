@@ -5,10 +5,13 @@ import { toast, ToastContainer } from 'react-toastify';
 import { api } from '~/trpc/react';
 
 function AddNewBookForm() {
+    const utils = api.useUtils();
+
     const addBook = api.mentorsData.addBook.useMutation({
-        onSuccess: () => {
+        onSuccess: async () => {
             // Show success toast
             toast.success('Book recommendation added successfully!');
+            await utils.mentorsData.getBookByMentorId.invalidate();
 
             // Clear the form after submission
             setNewRecommendation({
@@ -112,8 +115,9 @@ function AddNewBookForm() {
                                 text-white font-medium py-3 px-6 rounded-lg
                                 transition-all duration-300 hover:scale-[1.02] 
                                 hover:shadow-lg hover:shadow-purple-500/20"
+                            disabled={addBook.isPending}
                         >
-                            Submit
+                            {addBook.isPending ? "wait..." : "Submit"}
                         </button>
                     </form>
                 </div>

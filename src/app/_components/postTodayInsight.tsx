@@ -64,8 +64,9 @@ function PostTodayInsight() {
                     transition-all duration-300 hover:scale-[1.02]
                     hover:shadow-lg hover:shadow-purple-500/20
                     active:scale-95 text-sm sm:text-base"
+                    disabled={createPost.isPending}
             >
-                Share Insight
+                    {createPost.isPending ? "Sharing.." : "Share Insight"}
             </button>
         </div>
     </div>

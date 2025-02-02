@@ -3,7 +3,8 @@ import { api } from "~/trpc/react";
 import StudyGroupCard from "../_components/studygroup/StudyGroupCard";
 
 function StudyGroups() {
-    const { data: StudyGroups } = api.studyGroupRouter.getAspirantStudyGroups.useQuery()
+    const { data: StudyGroups,isLoading } = api.studyGroupRouter.getMemberStudyGrp.useQuery()
+    if (isLoading) {return "loading..."}
     return ( 
         StudyGroups?.map((studyGroup) => (
             <StudyGroupCard
@@ -13,8 +14,7 @@ function StudyGroups() {
                 description={studyGroup.description}
                 createdBy={studyGroup.createdById}
                 createdAt={studyGroup.createdAt.toLocaleDateString()}
-                ownerId={studyGroup.createdById}
-            />
+                ownerId={studyGroup.createdById} isMember={true}            />
         )
     )
      );

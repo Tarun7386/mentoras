@@ -2,7 +2,7 @@ import { api } from "~/trpc/react";
 import MentorCard from "./MentorCard";
 
 const Mentors: React.FC = () => {
- const {data:mentors} = api.mentorsData.getMentors.useQuery()
+ const [mentors] = api.mentorsData.getMentors.useSuspenseQuery()
     return (
         <div className="space-y-4">
             {mentors?.map((mentor, index) => (

@@ -11,9 +11,14 @@ const CreateStudyGroupForm: React.FC<CreateStudyGroupFormProps> = ({ onClose }) 
     const [groupName, setGroupName] = useState("");
     const [description, setDescription] = useState("");
 
+    const utils = api.useUtils();
+
     const createGroup = api.studyGroupRouter.createStudyGroup.useMutation({
-        onSuccess: () => {
+        onSuccess: async () => {
             toast.success("Successfully created!");
+
+            await utils.studyGroupRouter.getStudyGroupsByMe.invalidate();
+
             setTimeout(() => {
                 onClose();
             }, 3000);

@@ -31,9 +31,9 @@ const StudyGroupsList = ({ ownerId }: { ownerId: string | undefined }) => {
                     title={group.title}
                     description={group.description}
                     createdBy={group.createdBy.name}
-                    createdAt={group.createdAt.toLocaleDateString()} 
-                    ownerId={group.createdById}                    
-                />
+                    createdAt={group.createdAt.toLocaleDateString()}
+                    ownerId={group.createdById} 
+                    isMember={group.isMember}                />
             ))}
         </div>
     );

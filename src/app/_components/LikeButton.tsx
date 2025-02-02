@@ -41,6 +41,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({ isLiked: initialIsLiked, postId
         <button
             onClick={handleLikeToggle}
             className="flex flex-col items-center justify-center gap-1.5 text-gray-400 transition-all duration-300 hover:-translate-y-1 hover:text-purple-400 sm:flex-row sm:gap-2"
+            disabled={toggleLike.isPending}
         >
             <svg
                 className={`h-5 w-5 stroke-current ${isLiked ? 'text-pink-500' : 'text-pink-300'}`}

@@ -8,7 +8,7 @@ interface PostByIdClientProps {
 
 const PostByIdClient: React.FC<PostByIdClientProps> = ({ id }) => {
 
-    const { data: fetchedPost } =  api.post.getPostById.useQuery({ id });
+    const { data: fetchedPost ,isLoading} =  api.post.getPostById.useQuery({ id });
 
 
 

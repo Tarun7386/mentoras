@@ -8,7 +8,11 @@ interface TaskListProps {
 
 const TaskList: React.FC<TaskListProps> = ({ groupId ,isOwner}) => {
 
-    const {data : tasks} = api.dailyTaskRouter.getTasks.useQuery({ groupId });
+    const {data : tasks,isLoading} = api.dailyTaskRouter.getTasks.useQuery({ groupId });
+
+    if(isLoading){
+        return "loading..."
+    }
 
     return (
         <div className="space-y-4 sm:space-y-6 pb-20">
@@ -17,7 +21,8 @@ const TaskList: React.FC<TaskListProps> = ({ groupId ,isOwner}) => {
                 id={task.id}
                 content={task.content}
                 postedBy={task.postedById}
-                datePosted={task.datePosted.toLocaleDateString()} isOwner={isOwner}  />
+                datePosted={task.datePosted.toLocaleDateString()} isOwner={isOwner} isCompleted={task.isCompleted} 
+                completedCount={task.completedCount}  />
             ))}
         </div>
     );

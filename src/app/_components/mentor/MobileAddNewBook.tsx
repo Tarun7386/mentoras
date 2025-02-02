@@ -4,11 +4,14 @@ import { api } from "~/trpc/react";
 
 function MobileAddBook() {
 
+        const utils = api.useUtils();
+
         const addBook = api.mentorsData.addBook.useMutation({
-            onSuccess: () => {
+            onSuccess: async () => {
                 // Show success toast
                 toast.success('Book recommendation added successfully!');
-    
+                await utils.mentorsData.getBookByMentorId.invalidate();
+
                 // Clear the form after submission
                 setNewRecommendation({
                     title: '',
@@ -133,8 +136,9 @@ function MobileAddBook() {
                                             text-white font-medium py-3 px-6 rounded-lg
                                             transition-all duration-300 hover:scale-[1.02]
                                             hover:shadow-lg hover:shadow-purple-500/20"
+                                    disabled={addBook.isPending}
                                 >
-                                    Add Book
+                                    {addBook.isPending ? "wait..." : "Add Book"}
                                 </button>
                                 <button
                                     type="button"

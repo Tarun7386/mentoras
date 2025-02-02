@@ -41,53 +41,33 @@ export const studyGroupRouter = createTRPCRouter({
         }),
 
     getStudyGroupsByMe: protectedProcedure
-    .input(z.object({
-        ownerId:z.string().optional(),
-    }))
-        .query(async ({ ctx,input:{ownerId} }) => {
+        .input(z.object({
+            ownerId: z.string().optional(),
+        }))
+        .query(async ({ ctx, input: { ownerId } }) => {
             try {
-                // Get all study groups
+                // Get all study groups created by the given owner (or the logged-in user if no ownerId is provided)
                 const studyGroups = await ctx.db.studyGroup.findMany({
                     where: {
-                        createdById: ownerId ?? ctx.session.user.id, 
+                        createdById: ownerId ?? ctx.session.user.id,
                     },
                     include: {
                         createdBy: {
-                            select: { name: true }, 
+                            select: { name: true },
+                        },
+                        members: {
+                            select: { userId: true }, // Fetch user IDs to check membership
                         },
                     },
                 });
 
-                return studyGroups;
+                // Add `isMember` field as a boolean, but remove `members`
+                const enrichedStudyGroups = studyGroups.map(({ members, ...group }) => ({
+                    ...group,
+                    isMember: Boolean(members.some(member => member.userId === ctx.session.user.id)),
+                }));
 
-            } catch (error) {
-                console.error("Error fetching study groups:", error);
-                throw new Error("Failed to fetch study groups. Please try again later.");
-            }
-        }),
-
-    getAspirantStudyGroups: protectedProcedure
-        .query(async ({ ctx }) => {
-            try {
-                // Get all study groups
-                const studyGroupsIds = await ctx.db.studyGroupMember.findMany({
-                    where: {
-                        userId: ctx.session.user.id,
-                    },
-                    select: {
-                        studyGroupId:true,
-                    }
-                });
-
-                const studyGroups = await ctx.db.studyGroup.findMany({
-                    where: {
-                        id: {
-                            in: studyGroupsIds.map((studyGroup) => studyGroup.studyGroupId),
-                        },
-                    },
-                });
-
-                return studyGroups;
+                return enrichedStudyGroups;
             } catch (error) {
                 console.error("Error fetching study groups:", error);
                 throw new Error("Failed to fetch study groups. Please try again later.");
