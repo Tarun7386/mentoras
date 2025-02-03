@@ -105,6 +105,7 @@ export default function LandingPage() {
             <div className="w-full lg:w-1/2 relative h-[250px] sm:h-[400px] 
                     flex-shrink-0">
                     <Image
+                        unoptimized={true}
                         src={feature.image}
                         alt={feature.title}
                         fill
