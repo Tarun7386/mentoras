@@ -149,6 +149,6 @@ export const dailyTaskRouter = createTRPCRouter({
                 console.error("Error completing task:", error);
                 throw new Error( "Failed to complete task.");
             }
-        })
+        }),
 
 })

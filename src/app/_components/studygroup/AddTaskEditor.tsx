@@ -1,13 +1,14 @@
 'use client'
 
-import { useEffect, useRef, useState } from "react";
-import EditorJS from "@editorjs/editorjs";
+import { useEffect, useRef } from "react";
+import type EditorJS from "@editorjs/editorjs";
 import { api } from "~/trpc/react";
 import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // Import the required styles for toast notifications
 
 function AddTaskEditor({ onClose, groupId }: { onClose: () => void , groupId: string}) {
     const editorRef = useRef<EditorJS | null>(null);
+    const utils = api.useUtils();
 
     const createTask = api.dailyTaskRouter.createTask.useMutation({
         onSuccess: async () => {
@@ -30,9 +31,9 @@ function AddTaskEditor({ onClose, groupId }: { onClose: () => void , groupId: st
             setTimeout(() => {
                 onClose();
             }, 3000);
-
+            await utils.dailyTaskRouter.getTasks.invalidate();
         },
-        onError: (error) => {
+        onError: () => {
             toast.error("Failed to publish post. Please try again.", {
                 position: "top-right",
                 autoClose: 3000,
@@ -51,11 +52,9 @@ function AddTaskEditor({ onClose, groupId }: { onClose: () => void , groupId: st
         const Table = (await import("@editorjs/table")).default;
         const List = (await import('@editorjs/list')).default;
         const Delimter = (await import('@editorjs/delimiter')).default;
-        //@ts-ignore
-        const SimpleImage = (await import('@editorjs/simple-image')).default;
+        const SimpleImage = (await import('@editorjs/simple-image')).default ;
         const Quote = (await import('@editorjs/quote')).default;
-        //@ts-ignore
-        const Embed = (await import('@editorjs/embed')).default;
+        const Embed = (await import('@editorjs/embed')).default ;
 
         if (!editorRef.current) {
             const editor = new EditorJS({
@@ -68,9 +67,8 @@ function AddTaskEditor({ onClose, groupId }: { onClose: () => void , groupId: st
                     image: SimpleImage,
                     quote: Quote,
                     embed: Embed,
-
                 },
-                placeholder: "Write Something or press '/' for commands",
+                placeholder: "Paste an image, video, or link here, or press / for more commands.",
             });
 
             editorRef.current = editor;
@@ -78,7 +76,11 @@ function AddTaskEditor({ onClose, groupId }: { onClose: () => void , groupId: st
     };
 
     useEffect(() => {
-        initializeEditor();
+        const init = async () => {
+            await initializeEditor();
+        };
+
+        void init();
 
         return () => {
             if (editorRef.current) {
@@ -111,7 +113,7 @@ function AddTaskEditor({ onClose, groupId }: { onClose: () => void , groupId: st
             <div className="flex w-full gap-6 mb-4 min-h-1">
                 <div
                     id="editorjs"
-                    className="w-full bg-black/50 text-white rounded-lg p-6 border border-purple-500/30 placeholder-gray-400 
+                    className="w-full bg-white text-black rounded-lg p-6 border border-purple-500/30 placeholder-gray-400 
                     focus:outline-none focus:border-purple-500 transition-colors duration-300 "
                 ></div>
             </div>

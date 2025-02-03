@@ -35,11 +35,11 @@ const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description,
         if (isLoading) return; // Prevent multiple clicks
         setIsLoading(true);
 
-        const query = new URLSearchParams({ title, description }).toString();
+        const query = new URLSearchParams({ title, description}).toString();
         router.push(`/studygroup/${id}?${query}`);
     }
 
-    function handleOwnerClick(e: React.MouseEvent) {
+    function handleOwnerClick() {
         if (isLoading) return; // Prevent multiple clicks
         setIsLoading(true);
         router.push(`/studygrpOwner/${ownerId}`);
@@ -48,7 +48,7 @@ const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description,
     return (
         <div
             className={`group bg-gradient-to-b from-gray-900 via-[#300171]/30 to-slate-900 
-            backdrop-blur-sm border border-purple-500/20 rounded-xl p-6
+            backdrop-blur-sm border border-purple-500/20 rounded-xl p-4 pb-2
             hover:border-purple-500/40 transition-all duration-300 cursor-pointer
             hover:shadow-xl hover:shadow-purple-500/10 hover:scale-[1.02]
             ${isLoading ? "opacity-50 pointer-events-none" : ""}`}
@@ -64,7 +64,7 @@ const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description,
 
             {/* Description */}
             <p
-                className="text-gray-300 mb-4 line-clamp-2"
+                className="text-gray-300 mb-4 line-clamp-2" // Limit to 2 lines text off 
                 onClick={handleGroup}
             >
                 {isLoading ? "Redirecting..." : description}
@@ -78,8 +78,8 @@ const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description,
                 <div className="flex items-center gap-2">
                     {/* Avatar */}
                     <div className="w-8 h-8 rounded-full bg-gradient-to-r 
-                    from-purple-600 to-pink-600 flex items-center justify-center 
-                    text-white font-semibold text-sm">
+        from-purple-600 to-pink-600 flex items-center justify-center 
+        text-white font-semibold text-sm">
                         {createdBy.charAt(0).toUpperCase()}
                     </div>
 
@@ -87,14 +87,23 @@ const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description,
                     <span className="text-sm text-gray-400">{createdBy}</span>
                 </div>
 
-                {/* Created Date */}
-                <span className="text-xs text-gray-500">{createdAt}</span>
+                {/* Right Section: Created Date & Participants */}
+                <div className="flex items-center gap-4">
+                    {/* members Count */}
+                    <span className="text-xs text-gray-400">
+                        10.. members
+                    </span>
+
+                    {/* Created Date */}
+                    <span className="text-xs text-gray-500">{createdAt}</span>
+                </div>
             </div>
+
 
             {/* 🔹 Join Group Button */}
             {!isMemb && loginId !== ownerId && (
                 <button
-                    onClick={(e) => {
+                    onClick={() => {
                        joinGroup.mutate({studyGroupId:id})
                     }}
                     className="mt-4 w-full rounded-lg bg-gradient-to-r from-purple-500 to-pink-500

@@ -1,62 +1,28 @@
 "use client"
-import { useState, useEffect } from "react";
 import BookRecommendationCard from "./BookRecommendationCard";
 import { api } from "~/trpc/react";
 import AddNewBookForm from "./AddNewBookForm";
 import MobileAddBook from "./MobileAddNewBook";
 
-interface BookRecommendation {
-    id: string;
-    title: string;
-    author: string;
-    description: string;
-    createdAt: string;
-    user: { name: string }; // Assuming the user has a name field
-}
 
-function BookRecommendationsPage({userId}:{userId : string | undefined}) {
+
+function BookRecommendationsPage({}:{userId : string | undefined}) {
 
     const {data:books,isLoading,error} = api.mentorsData.getBookByMentorId.useQuery({}) || []
 
-
-    const [newRecommendation, setNewRecommendation] = useState({
-        title: "",
-        author: "",
-        genre: "",
-        description: "",
-        
-    });
-
  
-
-    // Handle input changes
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setNewRecommendation((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
-
-    // Handle form submission
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        // Addbook.mutateAsync(newRecommendation);
-        setNewRecommendation({
-            title: "",
-            author: "",
-            genre: "",
-            description: "",
-
-        });
-
-    };
-    if(isLoading){
-        return "loading..."
+    if (isLoading) {
+        return <p className="text-gray-500 text-center mt-4">Loading book recommendations...</p>;
     }
-    if(error){
-        return "error"
+
+    if (error) {
+        return <p className="text-red-500 text-center mt-4">Error fetching book recommendations.</p>;
     }
+
+    if (!books || books.length === 0) {
+        return <p className="text-gray-500 text-center mt-4">No book recommendations available yet.</p>;
+    }
+
 
     return (
             

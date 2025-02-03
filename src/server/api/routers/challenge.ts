@@ -3,7 +3,6 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
-  publicProcedure,
 } from "~/server/api/trpc";
 
 
@@ -171,7 +170,7 @@ export const challengeRouter = createTRPCRouter({
                     },
                 });
 
-                let currentStreak = checkins.length ? checkins.length : 0;
+                const currentStreak = checkins.length ? checkins.length : 0;
                 let newStreak = currentStreak + input.change;
 
                 if (newStreak < 0) {

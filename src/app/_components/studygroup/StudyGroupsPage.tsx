@@ -1,15 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import StudyGroupsList from "./StudyGroupsList";
-import StudyGroupDetails from "./StudyGroupDetails";
 import CreateStudyGroupForm from "./CreateStudyGroupForm";
 import { ToastContainer } from "react-toastify";
 
 const StudyGroupsPage: React.FC = () => {
     const [isCreating, setIsCreating] = useState(false);
-    const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
 
     return (
-        <div className="p-4 sm:p-6 lg:p-8">
+        <div className="p-4 sm:p-6 lg:p-8 ">
             <ToastContainer />
             { (
                 <>

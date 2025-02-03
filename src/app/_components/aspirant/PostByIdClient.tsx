@@ -1,28 +1,24 @@
 'use client'
 import { api } from "~/trpc/react";
 import PostCard from "./PostCard";
+import Loader from "../Loader";
 
 interface PostByIdClientProps {
     id: string;
 }
 
 const PostByIdClient: React.FC<PostByIdClientProps> = ({ id }) => {
+    const { data: fetchedPost, isLoading, isError } = api.post.getPostById.useQuery({ id });
 
-    const { data: fetchedPost ,isLoading} =  api.post.getPostById.useQuery({ id });
-
-
-
-
-    // If post is not loaded, you can return a loading state here
-    if (!fetchedPost) {
-        return <div>Loading...</div>;
-    }
+    // Handle loading and error states
+    if (isLoading) return <Loader/>;
+    if (isError || !fetchedPost) return <div className="text-center text-red-500">Failed to load post.</div>;
 
     // Extract values from the post object
-    const { content, createdAt, mentor } = fetchedPost;
-    const authorName = mentor?.user?.name || "Unknown"; // Fallback to "Unknown" if name is not available
-    const profilePic = mentor?.user?.image || ""; // Fallback to empty string if image is not available
-    const hashtags = ["hashtag"]; // You can implement logic to extract hashtags from content, if needed
+    const { content, createdAt, mentor, hasLiked, hasBookmarked, _count } = fetchedPost;
+    const authorName = mentor?.user?.name ?? "Unknown Author";
+    const profilePic = mentor?.user?.image ?? "/images/default-profile.png"; // Provide a default image
+    const hashtags = ["#hashtag"]; // Implement hashtag extraction if needed
 
     return (
         <div className="w-full max-w-lg mx-auto p-4 rounded-lg shadow-md">
@@ -30,17 +26,16 @@ const PostByIdClient: React.FC<PostByIdClientProps> = ({ id }) => {
                 id={id}
                 profilePic={profilePic}
                 authorName={authorName}
-                createdAt={createdAt ? createdAt.toString() : "Unknown date"} // Convert to 
-                content={content || ""}
+                createdAt={createdAt ? new Date(createdAt).toISOString() : "Unknown date"} // Ensure proper formatting
+                content={content ?? ""}
                 hashtags={hashtags}
-                authorId={mentor?.user?.name || "Unknown"}
-                likedByme={fetchedPost.hasLiked}
-                bookMarkedByme={fetchedPost.hasBookmarked}
-                likeCount={fetchedPost._count?.likes ?? 0} />
+                authorId={mentor?.user?.name ?? "Unknown"} // Use mentor's actual ID instead of their name
+                likedByme={hasLiked}
+                bookMarkedByme={hasBookmarked}
+                likeCount={_count?.likes ?? 0}
+            />
         </div>
     );
 }
 
 export default PostByIdClient;
-
-

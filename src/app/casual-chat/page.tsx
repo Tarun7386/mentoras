@@ -35,8 +35,7 @@ function MyChallenges() {
             <div className="max-w-md w-full space-y-6 bg-black/30 backdrop-blur-sm 
                 rounded-xl p-6 border border-purple-500/20 mt-18 sm:mt-0">
                 <p className="text-gray-300 text-justify text-sm sm:text-base leading-relaxed">
-                    {'We are still working on this feature. It will allow you to create challenges like "21-day goals" or "100 problem-solving tasks." If you have any suggestions, feel free to share them below!'}
-
+                    {'We are still working on this feature. In this section, we plan to enable casual chats with other learners. If you have any suggestions, please submit them here!'}
                 </p>
 
                 <div className="space-y-4">

@@ -28,7 +28,7 @@ function AddNewBookForm() {
         },
     });
 
-    const [isAdding, setIsAdding] = useState(false); // State for toggling the form
+    const [, setIsAdding] = useState(false); // State for toggling the form
     const [newRecommendation, setNewRecommendation] = useState({
         title: '',
         author: '',

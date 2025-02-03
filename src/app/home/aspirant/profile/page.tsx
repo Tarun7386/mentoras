@@ -1,34 +1,27 @@
 'use client'
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { redirect, useParams } from "next/navigation";
-import MentorProfileClient from "~/app/_components/aspirant/MentorProfileClient";
+import { redirect } from "next/navigation";
 import Loader from "~/app/_components/Loader";
 import { api } from "~/trpc/react";
 
-function GroupOwnerProfile() {
+function AspirantProfile() {
     const { data: session } = useSession()
-        if (!session?.user) {
-                redirect("/api/auth/signin");
-            }
-        
-    const params = useParams();
-    const id = params?.id as string; // Explicitly cast to string
-
-    const { data, isLoading, error } = api.profileData.getRole.useQuery({ ownerId: id });
-    const { data: profile, isLoading: loading, error: profileError } = api.profileData.getAspirantProfile.useQuery({ id });
-    const {data:mentorId} = api.mentorsData.getMentorId.useQuery({ userId:id });
-    if (isLoading || loading) {
+    if (!session?.user) {
+            redirect("/api/auth/signin");
+        }
+    
+    const { data: profile, isLoading: loading, error: profileError } = api.profileData.getAspirantProfile.useQuery({  });
+    
+    if ( loading) {
         return <Loader/>;
     }
 
-    if (error || profileError) {
+    if ( profileError) {
         return <div className="text-center text-red-500">Error loading profile.</div>;
     }
 
-    if (data?.role === "MENTOR") {
-        return <MentorProfileClient id={mentorId?.id ?? ""} />;
-    }
+    
 
     return (
         <div className="container mx-auto max-w-5xl p-4">
@@ -42,8 +35,8 @@ function GroupOwnerProfile() {
                                 src={profile?.image ?? "/image/profile"}
                                 className="relative z-10 h-full w-full transform rounded-full object-cover transition-all duration-500 hover:scale-105"
                                 alt="Profile"
-                                height={150}
-                                width={150}
+                                height={150} 
+                                width={150}  
                             />
                         </div>
                         <div className="mt-6 text-center">
@@ -60,4 +53,4 @@ function GroupOwnerProfile() {
     );
 }
 
-export default GroupOwnerProfile;
+export default AspirantProfile;

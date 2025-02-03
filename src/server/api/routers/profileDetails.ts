@@ -111,12 +111,12 @@ export const formRouter = createTRPCRouter({
         }),
         getAspirantProfile: protectedProcedure
         .input(z.object({
-            id: z.string()
+            id: z.string().optional()
         }))
         .query(async ({ctx,input:{id}})=>{
             const profile = await ctx.db.user.findFirst({
                 where:{
-                    id:id
+                    id:id ?? ctx.session.user.id,
                 },
                 select:{
                     name:true,

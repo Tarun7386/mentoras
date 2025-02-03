@@ -134,7 +134,41 @@ export const studyGroupRouter = createTRPCRouter({
 
         })
         return studyGrp
-    })
+    }),
+countOfmembers: publicProcedure
+    .input(z.object({
+        groupId: z.string()
+    }))
+    .query(async ({ ctx }) => {
+        const groupStatus = await ctx.db.studyGroup.findMany({
+            select: {
+                _count: {
+                    select: {
+                        members: true  // Get the count of members in the group
+                    }
+                },
+                members: {
+                    where: {
+                        userId: ctx.session?.user.id
+                    },
+                    select: { id: true }  // Select member IDs to check if the user is part of the group
+                }
+            }
+        });
+
+        // Check if the user is a member of any group
+        const isMember = groupStatus.length > 0 && (groupStatus[0]?.members?.length ?? 0) > 0;
+
+        // Get the count of members in the first group (or 0 if no groups found)
+        const membersCount = groupStatus.length > 0 ? groupStatus[0]?._count.members : 0;
+
+        // Return both the `isMember` status and the `membersCount`
+        return {
+            isMember,   // boolean indicating if the user is a member
+            membersCount  // count of members in the group
+        };
+    }
+    )
 });
 
 

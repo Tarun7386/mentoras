@@ -15,11 +15,11 @@ const AspirantPage: React.FC<AspirantPageProps> = ({ initialTab }) => {
     }, [initialTab]);
 
     return (
-        <div className="p-2">
+        <div className="p-2 ">
 
 
             {/* Conditional Rendering based on active tab */}
-            <div className="mt-6">
+            <div className="mt-6 bg">
             <div className={`transition-all duration-300 ${
                     activeTab === "feed" ? "opacity-100 transform translate-x-0" : "opacity-0 hidden"
                 }`}>

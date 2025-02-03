@@ -1,24 +1,25 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from 'next/image';
-import { ToastContainer } from "react-toastify";
 const Nav = () => {
     const router = useRouter();
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
     const searchRef = useRef<HTMLDivElement>(null);
-    const userImage = session?.user?.image || "/default-profile.png";
+    const userImage = session?.user?.image ?? "/default-profile.png";
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+     
+    const pathName = usePathname()
     
-    const navigationItems = [
+
+    const navigationItemsForAspirant = useMemo(() => [
         {
             href: "/study-groups",
             label: "Study Groups",
@@ -63,10 +64,9 @@ const Nav = () => {
             href: "/casual-chat",
             label: "Casual Chat",
             icon: (
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"  className="h-5 w-5 lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /></svg>
+                
             )
         },
         {
@@ -89,7 +89,26 @@ const Nav = () => {
                 </svg>
             )
         }
-    ];
+    ],[]);
+
+    const navigationItemsForMentors = useMemo(() => navigationItemsForAspirant.filter((item) =>
+    item.href !== "/study-groups" &&
+    item.href !== "/following" &&
+    item.href !== "/bookmarks"
+    ), [navigationItemsForAspirant]);
+    const [navigationItems, setNavigationItems] = useState(navigationItemsForAspirant)
+
+        
+    useEffect(() => {
+        if (pathName.startsWith("/home/mentor")) {
+            setNavigationItems(navigationItemsForMentors);
+        } else {
+            setNavigationItems(navigationItemsForAspirant);
+        }
+    }, [pathName, navigationItemsForAspirant, navigationItemsForMentors]);
+
+
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -124,8 +143,8 @@ const Nav = () => {
             </div>
 
             {/* Middle Section - Navigation */}
-            <div className="ml-15 flex items-center gap-2 ">
-            <div className="hidden lg:flex items-center gap-8 ml-20">
+            <div className="ml-18 flex items-center gap-4 ">
+            <div className="hidden lg:flex items-center gap-4 ml-20">
                 {navigationItems.map((item) => (
                     <Link key={item.href} href={item.href}
                         className="flex items-center gap-2 text-gray-300 hover:text-white transition-all">
@@ -181,7 +200,7 @@ const Nav = () => {
                             {isDropdownOpen && (
                                 <div className="absolute right-0 mt-2 w-48 py-2 bg-black/50 backdrop-blur-sm 
                                     rounded-xl border border-purple-500/20 shadow-xl">
-                                    <button onClick={() => router.push("/profile")}
+                                    <button onClick={() => router.push("/home/aspirant/profile")}
                                         className="w-full px-4 py-2 text-left text-sm text-gray-300 
                                             hover:bg-purple-500/20">
                                         Profile

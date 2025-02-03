@@ -33,7 +33,7 @@ const BookmarkButton: React.FC<BookmarkButtonProps> = ({ isBookmarked: initialIs
     return (
         <button
             onClick={handleBookmarkToggle}
-            className="flex flex-col items-center justify-center gap-1.5 text-gray-400 transition-all duration-300 hover:-translate-y-1 hover:text-purple-400 sm:flex-row sm:gap-2"
+            className="flex justify-center items-center text-purple-400 bg-purple-900/20 rounded-md py-2 text-xs hover:bg-purple-900/30 transition"
             disabled={bookmarkToggle.isPending}
         >
             <svg
@@ -46,7 +46,7 @@ const BookmarkButton: React.FC<BookmarkButtonProps> = ({ isBookmarked: initialIs
             >
                 <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
             </svg>
-            <span className="hidden sm:inline text-xs">
+            <span className="text-xs">
                 {isBookmarked ? 'Bookmarked' : 'Bookmark'}
             </span>
         </button>

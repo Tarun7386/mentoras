@@ -2,6 +2,7 @@
 import { useState } from "react";
 import FollowButton from "../FollowButton";
 import StudyGroupsList from "../studygroup/StudyGroupsList";
+import Image from "next/image";
 
 interface Hashtag {
   id: string;
@@ -24,7 +25,7 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
   profilePic,
   name,
   mainWork,
-  createdAt,
+  
   description,
   hashtags,
   followedByMe
@@ -48,10 +49,12 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
           <div className="lg:col-span-4">
             <div className="group relative mx-auto h-48 w-48">
               <div className="animate-tilt absolute -inset-2 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 opacity-75 blur-md transition duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
-              <img
+              <Image
                 src={profilePic ?? "/image/profile"}
                 className="relative z-10 h-full w-full transform rounded-full object-cover transition-all duration-500 hover:scale-105"
                 alt="Profile"
+                height={150}
+                width={150}
               />
             </div>
             <div className="mt-6 text-center">
@@ -112,13 +115,13 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
       <div className="mt-8">
         <div className="scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-black/20 overflow-x-auto">
           <div className="flex min-w-max space-x-4 p-4 md:justify-center">
-            {["studyGroups", "dailyTasks", "reviews"].map((tab) => (
+            {(["studyGroups", "dailyTasks", "reviews"] as const).map((tab) => (
               <button
                 key={tab}
-                onClick={() => handleTabClick(tab as any)}
+                onClick={() => handleTabClick(tab)} // No need to cast to any
                 className={`w-40 rounded-lg px-6 py-3 text-center transition-all duration-200 ${activeTab === tab
-                    ? "bg-gradient-to-r from-pink-600 to-purple-600 text-white"
-                    : "bg-black/30 text-gray-300 hover:bg-black/50"
+                  ? "bg-gradient-to-r from-pink-600 to-purple-600 text-white"
+                  : "bg-black/30 text-gray-300 hover:bg-black/50"
                   }`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -126,6 +129,8 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
             ))}
           </div>
         </div>
+    
+
 
         {/* Tab Content */}
         <div className="mt-6 px-4">

@@ -1,4 +1,3 @@
-import DailyTask from "./DailyTask";
 
 interface StudyGroupDetailsProps {
     groupId: string;
@@ -7,7 +6,7 @@ interface StudyGroupDetailsProps {
     isOwner : boolean;
 }
 
-const StudyGroupDetails: React.FC<StudyGroupDetailsProps> = ({ groupId, groupName, isOwner,onBack }) => {
+const StudyGroupDetails: React.FC<StudyGroupDetailsProps> = ({ onBack }) => {
     return (
         <div className="relative">
             <button

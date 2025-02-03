@@ -1,5 +1,6 @@
 import MentorHome from "~/app/_components/mentor/mentorHomepage";
-import { notFound } from 'next/navigation'; // Import notFound from Next.js to trigger 404
+import { notFound, redirect } from 'next/navigation'; // Import notFound from Next.js to trigger 404
+import { auth } from "~/server/auth";
 
 async function MentorHomePage({
     params,
@@ -7,15 +8,21 @@ async function MentorHomePage({
     params: Promise<{ button: string[] }>;
 }) {
     const { button } = await params;
+    const session = await auth();
 
+    // Redirect to sign-in if the user is not logged in
+    if (!session?.user) {
+        redirect("/api/auth/signin");
+    }        
     // Extract the slug, if not found, set it to 'postInsight' by default
-    const slug = button && button[0]
-        ? (button[0] as "postInsight" | "bookRecommended" | "challenge" | "studyGroup" | "profile" | "mentorView")
-        : "postInsight"; // Default to 'postInsight' if undefined or invalid
+    const slug = button?.[0]
+        ? (button[0] as "postInsight" | "bookRecommended" | "challenge" | "studyGroup" | "profile" | "aspirantView")
+        : "postInsight"; // Default to 'postInsight' if undefined
+
 
     // Valid slugs array
-    const validSlugs: ("postInsight" | "bookRecommended" | "challenge" | "studyGroup" | "profile" | "mentorView")[] = [
-        "postInsight", "bookRecommended", "challenge", "studyGroup", "profile", "mentorView"
+    const validSlugs: ("postInsight" | "bookRecommended" | "challenge" | "studyGroup" | "profile" | "aspirantView")[] = [
+        "postInsight", "bookRecommended", "challenge", "studyGroup", "profile", "aspirantView"
     ];
 
     // If slug is not in validSlugs, trigger 404

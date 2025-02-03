@@ -10,7 +10,7 @@ import DailyTask from "~/app/_components/studygroup/DailyTask";
     const description = searchParams.get('description')
     
     return ( 
-    <DailyTask groupId={id} groupName={title ?? "not found name"} description={description ?? "description not found"}/> 
+        <DailyTask groupId={id} groupName={title ?? "not found name"} description={description ?? "description not found"} /> 
 );
 }
 

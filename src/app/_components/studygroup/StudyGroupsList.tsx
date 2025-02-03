@@ -1,30 +1,24 @@
 import { api } from "~/trpc/react";
 import StudyGroupCard from "./StudyGroupCard";
 
-
 const StudyGroupsList = ({ ownerId }: { ownerId: string | undefined }) => {
+    const { data: groups, isLoading, error } = api.studyGroupRouter.getStudyGroupsByMe.useQuery({ ownerId });
 
-    const { data: groups, isLoading, error } = api.studyGroupRouter.getStudyGroupsByMe.useQuery({ ownerId })
-
-    if (error){
-        return(
-            <>
-            errro fetching
-            </>
-        )
+    if (error) {
+        return <p className="text-red-500 text-center mt-4">Error fetching study groups.</p>;
     }
 
     if (isLoading) {
-    return(
-        <>
-        loading...
-        </>
-    )
-}
+        return <p className="text-gray-500 text-center mt-4">Loading...</p>;
+    }
+
+    if (!groups || groups.length === 0) {
+        return <p className="text-gray-500 text-center mt-4">{"You haven't created any study groups yet."}</p>;
+    }
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {groups?.map((group) => (
+            {groups.map((group) => (
                 <StudyGroupCard
                     key={group.id}
                     id={group.id}
@@ -32,8 +26,9 @@ const StudyGroupsList = ({ ownerId }: { ownerId: string | undefined }) => {
                     description={group.description}
                     createdBy={group.createdBy.name}
                     createdAt={group.createdAt.toLocaleDateString()}
-                    ownerId={group.createdById} 
-                    isMember={group.isMember}                />
+                    ownerId={group.createdById}
+                    isMember={group.isMember}
+                />
             ))}
         </div>
     );

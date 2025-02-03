@@ -150,24 +150,34 @@ export const engagementsRouter = createTRPCRouter({
             }
         }),
 
-    getBookmarks: protectedProcedure
-        .query(async ({ ctx }) => {
-            try {
-                const bookmarks = await ctx.db.bookmark.findMany({
-                    where: {
-                        userId: ctx.session.user.id,
-                    },
-                    include: {
-                        insight: true,
-                    },
-                });
-
-                return bookmarks;
-            } catch (error) {
-                console.error("Error fetching bookmarks:", error);
-                throw new Error("Failed to fetch bookmarks. Please try again later.");
+    getBookmarks: protectedProcedure.query(async ({ ctx }) => {
+        try {
+            // Ensure session exists and user ID is available
+            if (!ctx.session?.user?.id) {
+                throw new Error("User is not authenticated.");
             }
-        }),
+
+            const bookmarks = await ctx.db.bookmark.findMany({
+                where: {
+                    userId: ctx.session.user.id,
+                },
+                include: {
+                    insight: true,
+                    user: {
+                        select: {
+                            name: true,
+                            image: true,
+                        },
+                    },
+                },
+            });
+
+            return bookmarks;
+        } catch (error) {
+            console.error("Error fetching bookmarks:", error);
+            throw new Error("Failed to fetch bookmarks. Please try again later.");
+        }
+    }),
 
     getFollowing: protectedProcedure
         .input(

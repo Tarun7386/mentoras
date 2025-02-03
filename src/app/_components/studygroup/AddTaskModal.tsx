@@ -1,4 +1,3 @@
-import { useSession } from 'next-auth/react';
 import AddTaskEditor from './AddTaskEditor';
 
 interface AddTaskModalProps {

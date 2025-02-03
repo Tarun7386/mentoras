@@ -1,38 +1,37 @@
 'use client'
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Editor from "~/app/_components/Editor";
 import BookRecommendationsPage from "~/app/_components/mentor/BookRecommondation";
-import DailyChallengesPage from "~/app/_components/mentor/DailyChallenge";
-import MentorProfilePage from "~/app/_components/mentor/MentorProfilePage";
 import StudyGroupsPage from "~/app/_components/studygroup/StudyGroupsPage";
 import MentorProfileClient from "../aspirant/MentorProfileClient";
 import { api } from "~/trpc/react";
 import { useSession } from "next-auth/react";
-import AspirantHomePage from "../aspirant/AspirantHomePage";
+import Mychallenges from "~/app/challenges/page";
 
 // Components for different actions
 const AddBookRecommendation = () => <BookRecommendationsPage userId={undefined} />;
-const DailyChallenge = () => <DailyChallengesPage />;
+// const DailyChallenge = () => <DailyChallengesPage />;
+const DailyChallenge = () => <Mychallenges/>;
 const StudyGroup = () => <StudyGroupsPage />;
 const Profile = ({mentorId}:{mentorId : string}) => <MentorProfileClient id={mentorId}/>;
 
 export default function MentorHome({
     tabSelected,
 }: {
-    tabSelected: "postInsight" | "bookRecommended" | "challenge" | "studyGroup" | "profile" | "mentorView";
+    tabSelected: "postInsight" | "bookRecommended" | "challenge" | "studyGroup" | "profile" | "aspirantView";
 }) {
     console.log(tabSelected); 
 
     const [activeComponent, setActiveComponent] = useState<
-        "postInsight" | "bookRecommended" | "challenge" | "studyGroup" | "profile" | "mentorView"
+        "postInsight" | "bookRecommended" | "challenge" | "studyGroup" | "profile" | "aspirantView"
         >(tabSelected);
     console.log("Tab Selected: ", tabSelected);
 
     const router = useRouter();
 
     const handleButtonClick = (
-        button: "postInsight" | "bookRecommended" | "challenge" | "studyGroup" | "profile" | "mentorView",
+        button: "postInsight" | "bookRecommended" | "challenge" | "studyGroup" | "profile" | "aspirantView",
     ) => {
         console.log("Button Clicked: ", button);
 
@@ -52,7 +51,7 @@ export default function MentorHome({
                 return <StudyGroup />;
             case "profile":
                 return <Profile mentorId={mentorId?.id ?? "jhv"} />;
-            case "mentorView":
+            case "aspirantView":
                 
                 router.replace('/home/aspirant')
                 return;
@@ -124,13 +123,13 @@ export default function MentorHome({
                             Profile
                         </button>
                         <button
-                            className={`flex-none transform rounded-xl px-6 py-2.5 text-sm font-medium transition-all duration-300 hover:scale-[1.02] ${activeComponent === "mentorView"
+                            className={`flex-none transform rounded-xl px-6 py-2.5 text-sm font-medium transition-all duration-300 hover:scale-[1.02] ${activeComponent === "aspirantView"
                                 ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white"
                                 : "border border-purple-500/30 bg-black/50 text-gray-300 hover:border-purple-500/50"
                                 }`}
-                            onClick={() => handleButtonClick("mentorView")}
+                            onClick={() => handleButtonClick("aspirantView")}
                         >
-                            Mentor View
+                            Aspirant View
                         </button>
                     </div>
                 </div>
@@ -268,8 +267,8 @@ export default function MentorHome({
                         </li>
                         <li>
                             <button
-                                onClick={() => handleButtonClick("mentorView")}
-                                className={`flex w-full items-center rounded-lg px-4 py-3 transition-all duration-200 ${activeComponent === "mentorView"
+                                onClick={() => handleButtonClick("aspirantView")}
+                                className={`flex w-full items-center rounded-lg px-4 py-3 transition-all duration-200 ${activeComponent === "aspirantView"
                                     ? "bg-gradient-to-r from-pink-600/50 to-purple-600/50 text-white"
                                     : "text-gray-300 hover:bg-black/20"
                                     }`}

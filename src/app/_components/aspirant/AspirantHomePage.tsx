@@ -23,7 +23,7 @@ const AspirantHomePage = ({
     };
 
     return (
-        <div className="flex min-h-screen flex-col border-2 border-purple-500/10 lg:flex-row">
+        <div className="flex min-h-screen flex-col border-2 border-purple-500/10 lg:flex-row ">
             {/* Left Sidebar for Large Devices */}
             <div className="hidden border-r-2 border-purple-500/10 p-4 lg:block lg:w-1/4">
                 <h2 className="mb-4 text-lg font-semibold">Filter By</h2>

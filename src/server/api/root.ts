@@ -6,6 +6,7 @@ import { challengeRouter } from "./routers/challenge";
 import { engagementsRouter } from "./routers/engagements";
 import { studyGroupRouter } from "./routers/studyGroup";
 import { dailyTaskRouter } from "./routers/dailyTask";
+import { feedbackRouter } from "./routers/feedback";
 
 /**
  * This is the primary router for your server.
@@ -19,7 +20,8 @@ export const appRouter = createTRPCRouter({
   challengeRouter: challengeRouter,
   engagementsRouter: engagementsRouter,
   studyGroupRouter: studyGroupRouter,
-  dailyTaskRouter: dailyTaskRouter
+  dailyTaskRouter: dailyTaskRouter,
+  feedbackRouter: feedbackRouter
 });
 
 // export type definition of API

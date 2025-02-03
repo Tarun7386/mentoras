@@ -3,14 +3,14 @@ import ChallengeCard from "../ChallengeCard";
 import { api } from "~/trpc/react";
 import { toast, ToastContainer } from "react-toastify";
 
-interface Challenge {
-    id: string;
-    title: string;
-    durationDays: number;
-    description: string;    
-    createdAt: string;
-    createdBy: string; // Assuming the user has a name field
-}
+// interface Challenge {
+//     id: string;
+//     title: string;
+//     durationDays: number;
+//     description: string;    
+//     createdAt: string;
+//     createdBy: string; // Assuming the user has a name field
+// }
 
 function DailyChallengesPage() {
 
@@ -34,16 +34,8 @@ function DailyChallengesPage() {
        
     });
 
-    const handleJoinChallenge = () => {
-        alert("You have joined the challenge!");
-    };
-
-    const handleViewLeaderboard = () => {
-        alert("Redirecting to leaderboard...");
-    };
 
     const [isAdding, setIsAdding] = useState(false); // To toggle between form and list
-    const [challenges, setChallenges] = useState<Challenge[]>([]);
     const [newChallenge, setNewChallenge] = useState({
         title: "",
         durationDays: "",
@@ -93,7 +85,7 @@ function DailyChallengesPage() {
         if (!validateFields()) return;
 
         // Call the API with the correctly typed data
-        createChallenge.mutateAsync(challengeData);
+        await createChallenge.mutateAsync(challengeData);
     };
 
     const sampleChallenges = [

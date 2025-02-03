@@ -1,7 +1,8 @@
-"use client"; 
+"use client";
 
 import { api } from "~/trpc/react";
 import MentorProfilePage from "../mentor/MentorProfilePage";
+import Loader from "../Loader";
 
 interface MentorProfileClientProps {
     id: string;
@@ -11,29 +12,33 @@ const MentorProfileClient: React.FC<MentorProfileClientProps> = ({ id }) => {
     const { data, isLoading, error } = api.mentorsData.getProfileDetailsById.useQuery({ id });
 
     if (isLoading) {
-        return <p>Loading...</p>;
+        return <Loader/>;
     }
 
     if (error) {
-        return <p className="text-red-500">Error loading mentor profile. Please try again later.</p>;
+        return (
+            <p className="text-red-500 text-center mt-4">
+                Error loading mentor profile. Please try again later.
+            </p>
+        );
     }
 
-    const profileData = data?.profileData;
-
-    if (!profileData) {
-        return <p className="text-gray-500">Mentor profile not found.</p>;
+    if (!data?.profileData) {
+        return <p className="text-gray-500 text-center mt-4">Mentor profile not found.</p>;
     }
+
+    const { user, mainWork, createdAt, description, hashtags, followedByMe } = data.profileData;
 
     return (
         <MentorProfilePage
-            id={profileData.user.id}
-            profilePic={profileData.user.image ?? "/images/default-profile.png"}
-            name={profileData.user.name}
-            mainWork={profileData.mainWork}
-            createdAt={new Date(profileData.createdAt).toLocaleDateString()} 
-            description={profileData.description}
-            hashtags={profileData.hashtags}
-            followedByMe={profileData.followedByMe}
+            id={user.id}
+            profilePic={user.image ?? "/images/default-profile.png"}
+            name={user.name}
+            mainWork={mainWork}
+            createdAt={new Date(createdAt).toLocaleDateString()}
+            description={description}
+            hashtags={hashtags}
+            followedByMe={followedByMe}
         />
     );
 };
