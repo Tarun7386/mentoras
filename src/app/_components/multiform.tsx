@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import { toast, ToastContainer } from "react-toastify";
+import { Loader } from "lucide-react";
 
 const MultiStepForm = () => {
     const router = useRouter();
@@ -14,8 +15,9 @@ const MultiStepForm = () => {
         description: "",
         preparation: "",
         hashtags: [],
-
     });
+
+    const [error, setError] = useState<string | null>(null);
 
     // Client-side tRPC hooks
     const aspirantMutation = api.profileData.aspirantForm.useMutation({
@@ -40,6 +42,16 @@ const MultiStepForm = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
+
+        // Check if 'description' field
+        if (name === "description") {
+            if (value.length < 150) {
+                toast.error("Description must be at least 150 characters.");
+            } else {
+                setError(null); // Clear error if it satisfies the condition
+            }
+        }
+
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -48,6 +60,12 @@ const MultiStepForm = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Check if 'description' has minimum 150 characters
+        if (formData.description.length < 150) {
+            toast.error("Description must be at least 150 characters.");
+            return;
+        }
 
         try {
             if (role === "ASPIRANT") {
@@ -61,10 +79,9 @@ const MultiStepForm = () => {
                 await mentorMutation.mutateAsync({
                     mainWork: formData.mainWork,
                     description: formData.description,
-                    hashtags: [], // Add hashtags if needed
+                    hashtags: formData.hashtags, // Add hashtags if needed
                 });
             }
-
         } catch (error) {
             console.error("Error submitting form:", error);
             alert("Something went wrong. Please try again.");
@@ -110,14 +127,14 @@ const MultiStepForm = () => {
                                 <input
                                     type="text"
                                     name="mainWork"
-                                    value={formData.mainWork} // Replace 'designation' with 'mainWork'
+                                    value={formData.mainWork}
                                     onChange={handleChange}
                                     placeholder="e.g., IAS, IIT, GATE, etc"
                                     className="w-full px-3 py-2 text-black border rounded mt-1"
                                 />
                             </label>
                             <label className="block mb-4">
-                                <span className="text-gray-200">more about you</span>
+                                <span className="text-gray-200">More about you</span>
                                 <input
                                     type="text"
                                     name="description"
@@ -126,19 +143,23 @@ const MultiStepForm = () => {
                                     placeholder="e.g., description"
                                     className="w-full px-3 py-2 text-black border rounded mt-1"
                                 />
+                                {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                                <p className="text-sm text-gray-500 mt-1">
+                                    {formData.description.length}/150 characters
+                                </p>
                             </label>
                             <label className="block mb-4">
-                                <span className="text-gray-200">Related hashtags </span>
+                                <span className="text-gray-200">Related hashtags</span>
                                 <input
                                     type="text"
                                     name="hashtags"
-                                    value={formData.hashtags}
+                                    value={formData.hashtags.join(", ")}
                                     onChange={handleChange}
-                                    placeholder="e.g., GATE,UPSC,JEE,MOTIVATIONAL,etc"
+                                    placeholder="e.g., GATE, UPSC, JEE, MOTIVATIONAL, etc"
                                     className="w-full px-3 py-2 text-black border rounded mt-1"
                                 />
                             </label>
-                            
+
                             <div className="flex justify-between">
                                 <button
                                     type="button"
@@ -150,8 +171,9 @@ const MultiStepForm = () => {
                                 <button
                                     type="submit"
                                     className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                    disabled={aspirantMutation.isPending || mentorMutation.isPending}
                                 >
-                                    Submit
+                                    {aspirantMutation.isPending || mentorMutation.isPending ? <Loader /> : "Submit"}
                                 </button>
                             </div>
                         </form>

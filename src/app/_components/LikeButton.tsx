@@ -1,3 +1,5 @@
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { api } from '~/trpc/react';
 
@@ -8,6 +10,8 @@ interface LikeButtonProps {
 }
 
 const LikeButton: React.FC<LikeButtonProps> = ({ isLiked: initialIsLiked, postId, likeCount: initialLikeCount }) => {
+    const { data: session } = useSession()
+            
     const [isLiked, setIsLiked] = useState(initialIsLiked);
     const [likeCount, setLikeCount] = useState(initialLikeCount);
 
@@ -18,7 +22,12 @@ const LikeButton: React.FC<LikeButtonProps> = ({ isLiked: initialIsLiked, postId
     });
 
     const handleLikeToggle = async () => {
+        if (!session) {
+            redirect("/api/auth/signin");
+        }
+        
         try {
+            
             const newLikedStatus = !isLiked;
 
             // Optimistically update the UI

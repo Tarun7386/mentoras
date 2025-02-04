@@ -1,4 +1,5 @@
 'use client'
+import { LoaderIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { api } from "~/trpc/react";
@@ -55,8 +56,10 @@ function MyChallenges() {
                                 bg-gradient-to-r from-purple-600 to-pink-600 
                                 text-white font-medium hover:shadow-lg 
                                 hover:shadow-purple-500/25 transition-all duration-300 
-                                transform hover:scale-[1.02]">
-                            Send Suggestion
+                                transform hover:scale-[1.02]"
+                            disabled={givefeedback.isPending}
+                                >
+                            {givefeedback.isPending ? <LoaderIcon/> : "Send Suggestion"}
                         </button>
                     </div>
                 </div>

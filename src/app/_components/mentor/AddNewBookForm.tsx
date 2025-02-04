@@ -1,5 +1,6 @@
 'use client';
 
+import { Loader } from 'lucide-react';
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { api } from '~/trpc/react';
@@ -117,7 +118,7 @@ function AddNewBookForm() {
                                 hover:shadow-lg hover:shadow-purple-500/20"
                             disabled={addBook.isPending}
                         >
-                            {addBook.isPending ? "wait..." : "Submit"}
+                            {addBook.isPending ? <Loader/> : "Submit"}
                         </button>
                     </form>
                 </div>

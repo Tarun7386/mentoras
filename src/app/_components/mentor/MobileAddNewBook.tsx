@@ -1,3 +1,4 @@
+import { Loader } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { api } from "~/trpc/react";
@@ -138,7 +139,7 @@ function MobileAddBook() {
                                             hover:shadow-lg hover:shadow-purple-500/20"
                                     disabled={addBook.isPending}
                                 >
-                                    {addBook.isPending ? "wait..." : "Add Book"}
+                                    {addBook.isPending ? <Loader/> : "Add Book"}
                                 </button>
                                 <button
                                     type="button"

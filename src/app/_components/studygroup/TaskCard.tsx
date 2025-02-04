@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Blocks from "editorjs-blocks-react-renderer";
 import TaskCompleteButton from "./TaskCompleteButton";
 import { ChevronsDown, ChevronUp } from "lucide-react";
+import Loader from "../Loader";
 
 interface HeaderData {
   text: string;
@@ -170,7 +171,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
             </div>
           </div>
         ) : (
-          <p className="px-2 text-sm text-gray-400 sm:text-base">Loading content...</p>
+          <Loader/>
         )}
         <div className="absolute right-5">
           <TaskCompleteButton isCompleted={isCompleted} initialCompletionCount={completedCount} taskId={id} />

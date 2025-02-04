@@ -9,7 +9,6 @@ import BookmarkButton from "../BookMarkButton";
 import ShareButton from "../ShareButton";
 import { ChevronsDown, ChevronUp } from "lucide-react";
 import Loader from "../Loader";
-import imageLoader from "image/loader";
 
 // Define the data types for different block data
 interface HeaderData {
@@ -194,9 +193,6 @@ const PostCard: React.FC<PostCardProps> = ({
       {/* Author Info */}
       <div className="mb-4 flex items-center cursor-pointer" onClick={handleRedirect}>
         <Image                         
-        loader={imageLoader}
-          unoptimized={true}                         
-
          src={profilePic} alt={authorName} width={40} height={40} className="h-10 w-10 rounded-full border border-purple-500/30" />
         <span className="ml-3">
           <h3 className="text-sm font-semibold text-white">{authorName}</h3>

@@ -6,11 +6,17 @@ import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
 const config = {
-    images: {
-        loader: 'custom', 
-        loaderFile: './image/loader.js',
-        domains: ['*'],
-    },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+        port: '',
+        search: '',
+      },
+    ],
+
+  },
 
 };
 

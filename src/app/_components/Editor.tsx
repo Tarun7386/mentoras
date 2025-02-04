@@ -5,6 +5,7 @@ import type EditorJS from "@editorjs/editorjs";
 import { api } from "~/trpc/react";
 import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // Import the required styles for toast notifications
+import { Loader } from "lucide-react";
 
 function Editor() {
     const editorRef = useRef<EditorJS | null>(null);
@@ -121,7 +122,7 @@ function Editor() {
                     transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-500/20 active:scale-95 
                     text-sm sm:text-base"
                 >
-                    {createPost.isPending ? "Saving..." : "Post"}
+                    {createPost.isPending ? <Loader/> : "Post"}
                 </button>
             </div>
 

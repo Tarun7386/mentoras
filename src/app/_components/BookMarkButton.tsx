@@ -1,3 +1,5 @@
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { api } from '~/trpc/react';
 
@@ -7,6 +9,10 @@ interface BookmarkButtonProps {
 }
 
 const BookmarkButton: React.FC<BookmarkButtonProps> = ({ isBookmarked: initialIsBookmarked, postId }) => {
+
+    const { data: session } = useSession()
+           
+                
     const [isBookmarked, setIsBookmarked] = useState(initialIsBookmarked);
 
     // Mutation for toggling bookmark status
@@ -22,7 +28,10 @@ const BookmarkButton: React.FC<BookmarkButtonProps> = ({ isBookmarked: initialIs
     });
 
     const handleBookmarkToggle = () => {
-        // Optimistically toggle the bookmark state
+        if (!session) {
+            redirect("/api/auth/signin");
+        }
+        
         const newBookmarkStatus = !isBookmarked;
         setIsBookmarked(newBookmarkStatus);
 

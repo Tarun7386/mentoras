@@ -3,17 +3,24 @@ import { api } from "~/trpc/react";
 import StudyGroupCard from "../_components/studygroup/StudyGroupCard";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import Loader from "../_components/Loader";
 
 function StudyGroups() {
-    const { data: session } = useSession()
-        if (!session?.user) {
-                redirect("/api/auth/signin");
-            }
+    const { data: session, status } = useSession();
+
+    if (status === "loading") {
+        return <Loader />; 
+    }
+
+    if (!session) {
+        redirect("/api/auth/signin");
+        return null; 
+    }
         
     const { data: StudyGroups, isLoading } = api.studyGroupRouter.getMemberStudyGrp.useQuery();
 
     if (isLoading) {
-        return <p>Loading...</p>;
+        return <Loader/>;
     }
 
     if (!StudyGroups || StudyGroups.length === 0) {

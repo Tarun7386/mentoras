@@ -33,8 +33,8 @@ const Feed: FC = () => {
                     content={post.content}
                     hashtags={["hashtag1", "hashtag2"]} // Consider using actual post hashtags
                     authorId={post.mentorId}
-                    likedByme={post.hasLiked}
-                    bookMarkedByme={post.hasBookmarked}
+                    likedByme={post.hasLiked ?? false}
+                    bookMarkedByme={post.hasBookmarked ?? false}
                     likeCount={post.likeCount}
                 />
             ))}

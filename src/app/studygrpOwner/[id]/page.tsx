@@ -1,5 +1,4 @@
 'use client'
-import imageLoader from "image/loader";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect, useParams } from "next/navigation";
@@ -40,8 +39,6 @@ function GroupOwnerProfile() {
                         <div className="group relative mx-auto h-48 w-48">
                             <div className="animate-tilt absolute -inset-2 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 opacity-75 blur-md transition duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
                             <Image
-                                loader={imageLoader}   
-                                unoptimized={true}                         
                                 src={profile?.image ?? "/image/profile"}
                                 className="relative z-10 h-full w-full transform rounded-full object-cover transition-all duration-500 hover:scale-105"
                                 alt="Profile"

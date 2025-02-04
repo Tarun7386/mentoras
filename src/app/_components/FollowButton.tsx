@@ -1,5 +1,7 @@
 "use client";
 
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 import { api } from "~/trpc/react";
 
@@ -9,6 +11,10 @@ interface FollowButtonProps {
 }
 
 const FollowButton: React.FC<FollowButtonProps> = ({ isFollowed: initialIsFollowed, mentorId }) => {
+
+    const { data: session } = useSession()
+           
+                
     const [isFollowed, setIsFollowed] = useState(initialIsFollowed);
 
     // Mutation for toggling follow status
@@ -19,7 +25,9 @@ const FollowButton: React.FC<FollowButtonProps> = ({ isFollowed: initialIsFollow
     });
 
     const handleFollowToggle = () => {
-        // Optimistically toggle the follow state
+         if (!session) {
+        redirect("/api/auth/signin");
+    }
         const newFollowStatus = !isFollowed;
         setIsFollowed(newFollowStatus);
 

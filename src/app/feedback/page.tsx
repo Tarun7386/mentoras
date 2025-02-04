@@ -1,6 +1,8 @@
 'use client'
 import { useState, useEffect } from "react";
 import { api } from "~/trpc/react";
+import Loader from "../_components/Loader";
+import { LoaderIcon } from "lucide-react";
 
 export default function FeedbackPage() {
     // Fetch feedbacks from the backend using TRPC query
@@ -37,7 +39,7 @@ export default function FeedbackPage() {
 
     // Loading state
     if (isLoading) {
-        return <p>Loading feedback...</p>;
+        return <Loader/>;
     }
 
     // Error handling
@@ -102,7 +104,7 @@ export default function FeedbackPage() {
                                 transition-all duration-300 transform hover:scale-[1.02]"
                             disabled={addFeedback.isPending}
                                 >
-                            {addFeedback.isPending ? "wait..." : "Send Feedback"}
+                            {addFeedback.isPending ? <LoaderIcon/> : "Send Feedback"}
                         </button>
                     </div>
                 </div>

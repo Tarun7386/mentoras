@@ -9,7 +9,7 @@ function MyBookmarks() {
     // }
 
     // if (isLoading) {
-    //     return <p className="text-gray-500 text-center mt-4">Loading bookmarks...</p>;
+    //     return <Loader/>
     // }
 
     // // Add a fallback if bookmarks is undefined or empty

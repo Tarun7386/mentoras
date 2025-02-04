@@ -1,16 +1,23 @@
 'use client'
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 function GetstartedButton() {
 
-
+const { data: session } = useSession()
+        
   return (
     <div className="container flex flex-col items-center justify-center px-4 ">
 
       <button
         onClick={() => {
-          void signIn("google", { callbackUrl: "/role" });
+          if (session) {
+            redirect("/role");
+          } else {
+           void signIn("google", { callbackUrl: "/role" });
+          }
         }}
+
         className="flex items-center justify-center gap-2 rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
       >
         Get started

@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { motion, useScroll } from 'framer-motion';
 import Image from 'next/image';
-import imageLoader from 'image/loader';
 
 interface Feature {
     title: string;
@@ -19,25 +18,25 @@ const features: Feature[] =
         {
             title: "Study Groups",
             description: "Join collaborative study groups to learn and grow together, staying motivated with a community of learners.",
-            image: "/sample.webp",
+            image: "/landing.jpg",
             cta: "Join Groups"
         },
         {
             title: "Insights from Mentors",
             description: "Get inspired and learn through valuable insights shared by mentors who have walked the path before you.",
-            image: "/sample.webp",
+            image: "/landing.jpg",
             cta: "Explore Insights"
         },
         {
             title: "1:1 Mentorship (Coming Soon)",
             description: "Connect with educators or individuals who have succeeded in your field for personalized guidance to help you achieve your goals.",
-            image: "/sample.webp",
+            image: "/landing.jpg",
             cta: "Learn More"
         },
         {
             title: "Book Recommendations",
             description: "Discover book recommendations from mentors to find out which books inspired their success and shaped their journey.",
-            image: "/sample.webp",
+            image: "/landing.jpg",
             cta: "View Recommendations"
         }
     ]
@@ -108,9 +107,6 @@ export default function LandingPage() {
             <div className="w-full lg:w-1/2 relative h-[250px] sm:h-[400px] 
                     flex-shrink-0">
                     <Image
-                        loader={imageLoader}
-                    unoptimized={true}                         
-
                         src={feature.image}
                         alt={feature.title}
                         fill

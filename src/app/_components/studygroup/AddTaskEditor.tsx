@@ -5,6 +5,7 @@ import type EditorJS from "@editorjs/editorjs";
 import { api } from "~/trpc/react";
 import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // Import the required styles for toast notifications
+import { Loader } from "lucide-react";
 
 function AddTaskEditor({ onClose, groupId }: { onClose: () => void , groupId: string}) {
     const editorRef = useRef<EditorJS | null>(null);
@@ -126,7 +127,7 @@ function AddTaskEditor({ onClose, groupId }: { onClose: () => void , groupId: st
                     className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-500/20"
                     disabled={createTask.isPending}
                 >
-                    {createTask.isPending ? "Adding..." : "Add Task"}
+                    {createTask.isPending ? <Loader/> : "Add Task"}
                 </button>
                 <button
                     type="button"

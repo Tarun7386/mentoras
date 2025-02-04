@@ -1,7 +1,9 @@
 import { RWebShare } from "react-web-share";
 
 function ShareButton({ url }: { url: string }) {
-    return (<button className="flex justify-center items-center text-blue-400 bg-blue-900/20 rounded-md py-2 text-xs hover:bg-blue-900/30 transition">
+    return (
+    
+    <div className="flex justify-center items-center text-blue-400 bg-blue-900/20 rounded-md py-2 text-xs hover:bg-blue-900/30 transition">
         <svg
             className="h-5 w-5 text-blue-500"
             viewBox="0 0 20 20"
@@ -19,7 +21,7 @@ function ShareButton({ url }: { url: string }) {
         >
             <button>Share </button>
         </RWebShare>
-    </button>
+    </div>
  );
 }
 

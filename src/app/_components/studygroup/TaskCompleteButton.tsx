@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { CheckCircle, Circle } from "lucide-react";  // Import the icons from lucide-react
 import { api } from "~/trpc/react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const TaskCompleteButton: React.FC<{ taskId:string,isCompleted: boolean, initialCompletionCount: number }> = ({ taskId,isCompleted, initialCompletionCount }) => {
+    const { data: session } = useSession()
+            
     const [completed, setCompleted] = useState(isCompleted);
     const [completionCount, setCompletionCount] = useState(initialCompletionCount); // Add state for the completion count
 
     const taskCompleted = api.dailyTaskRouter.completeTask.useMutation()
 
     const handleClick = () => {
+        if (!session) {
+            redirect("/api/auth/signin");
+        }
         setCompleted(!completed);
         if (!completed) {
             setCompletionCount(completionCount + 1);

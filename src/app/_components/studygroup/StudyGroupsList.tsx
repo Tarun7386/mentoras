@@ -1,5 +1,6 @@
 import { api } from "~/trpc/react";
 import StudyGroupCard from "./StudyGroupCard";
+import Loader from "../Loader";
 
 const StudyGroupsList = ({ ownerId }: { ownerId: string | undefined }) => {
     const { data: groups, isLoading, error } = api.studyGroupRouter.getStudyGroupsByMe.useQuery({ ownerId });
@@ -9,7 +10,7 @@ const StudyGroupsList = ({ ownerId }: { ownerId: string | undefined }) => {
     }
 
     if (isLoading) {
-        return <p className="text-gray-500 text-center mt-4">Loading...</p>;
+        return <Loader/>
     }
 
     if (!groups || groups.length === 0) {

@@ -150,7 +150,8 @@ export const engagementsRouter = createTRPCRouter({
             }
         }),
 
-    getBookmarks: protectedProcedure.query(async ({ ctx }) => {
+    getBookmarks: protectedProcedure
+    .query(async ({ ctx }) => {
         try {
             // Ensure session exists and user ID is available
             if (!ctx.session?.user?.id) {

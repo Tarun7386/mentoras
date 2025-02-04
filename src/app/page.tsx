@@ -1,5 +1,4 @@
 
-import { auth } from "~/server/auth";
 import { HydrateClient } from "~/trpc/server";
 import GetstartedButton from "./_components/getStartedButton";
 import LandingPage from "./_components/Landing_page";
@@ -7,13 +6,12 @@ import LandingPage from "./_components/Landing_page";
 
 export default async function Home() {
   // const hello = await api.post.hello({ text: "from mentoras" });
-  const session = await auth();
 
   // if (session?.user) {
   //   void api.post.getLatest.prefetch();
   // }
 
-  console.log(session?.user);
+  // console.log(session?.user);
 
   return (
     <HydrateClient>

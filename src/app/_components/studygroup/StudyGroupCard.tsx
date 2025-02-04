@@ -1,3 +1,4 @@
+import { Loader, LoaderIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -59,7 +60,7 @@ const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description,
                 bg-gradient-to-r from-purple-400 to-pink-400"
                 onClick={handleGroup}
             >
-                {isLoading ? "Loading..." : title}
+                {isLoading ? <Loader/> : title}
             </h3>
 
             {/* Description */}
@@ -91,7 +92,7 @@ const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description,
                 <div className="flex items-center gap-4">
                     {/* members Count */}
                     <span className="text-xs text-gray-400">
-                        10.. members
+                        10XX members
                     </span>
 
                     {/* Created Date */}
@@ -110,7 +111,7 @@ const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description,
                     text-white py-2 text-sm font-semibold shadow-md transition-all hover:scale-105"
                     disabled={joinGroup.isPending}
                 >
-                    {joinGroup.isPending ? "wait..." :" Join Group"}
+                    {joinGroup.isPending ? <LoaderIcon/> :" Join Group"}
                 </button>
             )}
             

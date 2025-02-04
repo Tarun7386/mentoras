@@ -3,7 +3,6 @@ import { useState } from "react";
 import FollowButton from "../FollowButton";
 import StudyGroupsList from "../studygroup/StudyGroupsList";
 import Image from "next/image";
-import imageLoader from "image/loader";
 
 interface Hashtag {
   id: string;
@@ -31,11 +30,11 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
   hashtags,
   followedByMe
 }) => {
-  const [activeTab, setActiveTab] = useState<"studyGroups" | "dailyTasks" | "reviews">(
+  const [activeTab, setActiveTab] = useState<"studyGroups" | "Your Posts" | "reviews">(
     "studyGroups"
   );
 
-  const handleTabClick = (tab: "studyGroups" | "dailyTasks" | "reviews") => {
+  const handleTabClick = (tab: "studyGroups" | "Your Posts" | "reviews") => {
     setActiveTab(tab);
   };
 
@@ -51,9 +50,6 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
             <div className="group relative mx-auto h-48 w-48">
               <div className="animate-tilt absolute -inset-2 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 opacity-75 blur-md transition duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
               <Image
-                loader={imageLoader}
-                unoptimized={true}                         
-
                 src={profilePic ?? "/image/profile"}
                 className="relative z-10 h-full w-full transform rounded-full object-cover transition-all duration-500 hover:scale-105"
                 alt="Profile"
@@ -119,7 +115,7 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
       <div className="mt-8">
         <div className="scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-black/20 overflow-x-auto">
           <div className="flex min-w-max space-x-4 p-4 md:justify-center">
-            {(["studyGroups", "dailyTasks", "reviews"] as const).map((tab) => (
+            {(["studyGroups", "Your Posts", "reviews"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => handleTabClick(tab)} // No need to cast to any
@@ -140,8 +136,8 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
         <div className="mt-6 px-4">
           <div className="rounded-lg bg-black/20 p-6">
             {activeTab === "studyGroups" && <StudyGroupsList ownerId={id}/>}
-            {/* {activeTab === "dailyTasks" && <p>Daily Tasks Content</p>} */}
-            {/* {activeTab === "reviews" && <p>Reviews Content</p>} */}
+            {activeTab === "Your Posts" && <p>Youpr post will appear here.</p>} */
+            {activeTab === "reviews" && <p>Reviews appear here</p>}
           </div>
         </div>
       </div>

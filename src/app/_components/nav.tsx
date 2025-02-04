@@ -5,7 +5,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from 'next/image';
-import imageLoader from "image/loader";
 const Nav = () => {
     const router = useRouter();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -52,7 +51,7 @@ const Nav = () => {
             )
         },
         {
-            href: "/bookmarks",
+            href: "/home/aspirant/bookmarks",
             label: "Bookmarks",
             icon: (
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -197,19 +196,16 @@ const Nav = () => {
                                 className="flex items-center gap-2 p-1.5 rounded-xl border border-purple-500/20 
                                     hover:border-purple-500/40 transition-all">
                                 <Image                         
-                                loader={imageLoader}
-                                            unoptimized={true}                         
-
                                  width={75} height={75}  src={userImage} alt="Profile" className="w-8 h-8 rounded-full" />
                             </button>
                             {isDropdownOpen && (
                                 <div className="absolute right-0 mt-2 w-48 py-2 bg-black/50 backdrop-blur-sm 
                                     rounded-xl border border-purple-500/20 shadow-xl">
-                                    <button onClick={() => router.push("/home/aspirant/profile")}
+                                    {/* <button onClick={() => router.push("/home/aspirant/profile")}
                                         className="w-full px-4 py-2 text-left text-sm text-gray-300 
                                             hover:bg-purple-500/20">
                                         Profile
-                                    </button>
+                                    </button> */}
                                     <button onClick={() => signOut()}
                                         className="w-full px-4 py-2 text-left text-sm text-gray-300 
                                             hover:bg-purple-500/20">
@@ -240,7 +236,7 @@ const Nav = () => {
                             className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 
                                 hover:bg-purple-500/20 hover:text-white">
                             {item.icon}
-                            <span>{item.label}</span>
+                            <span onClick={() => { setIsSidebarOpen(false) }}>{item.label}</span>
                         </Link>
                     ))}
                 </nav>

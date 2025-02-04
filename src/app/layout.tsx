@@ -9,8 +9,8 @@ import Nav from "./_components/nav";
 
 export const metadata: Metadata = {
   title: "mentoras",
-  description: "learn from expriences",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  description: "Whether you're a learner, educator, or mentor, Mentoras is here to help you grow, learn, and succeed.",
+  icons: [{ rel: "icon", url: "/favicon.png" }],
 };
 
 export default function RootLayout({
