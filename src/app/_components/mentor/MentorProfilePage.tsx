@@ -3,6 +3,7 @@ import { useState } from "react";
 import FollowButton from "../FollowButton";
 import StudyGroupsList from "../studygroup/StudyGroupsList";
 import Image from "next/image";
+import imageLoader from "image/loader";
 
 interface Hashtag {
   id: string;
@@ -50,6 +51,9 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
             <div className="group relative mx-auto h-48 w-48">
               <div className="animate-tilt absolute -inset-2 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 opacity-75 blur-md transition duration-1000 group-hover:opacity-100 group-hover:duration-200"></div>
               <Image
+                loader={imageLoader}
+                unoptimized={true}                         
+
                 src={profilePic ?? "/image/profile"}
                 className="relative z-10 h-full w-full transform rounded-full object-cover transition-all duration-500 hover:scale-105"
                 alt="Profile"

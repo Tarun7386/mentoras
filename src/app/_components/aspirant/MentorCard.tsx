@@ -6,6 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import FollowButton from "../FollowButton";
 import Image from "next/image";
 import Loader from "../Loader";
+import imageLoader from "image/loader";
 
 interface MentorCardProps {
     id: string;
@@ -55,6 +56,9 @@ const MentorCard: React.FC<MentorCardProps> = ({
                     onClick={handleRedirect} // Redirects to mentor profile when clicked
                 >
                     <Image
+                        loader={imageLoader}   
+                        unoptimized={true}                         
+                     
                         src={profilePic}
                         alt={`${name}'s profile`}
                         className="w-12 h-12 md:w-14 md:h-14 rounded-full

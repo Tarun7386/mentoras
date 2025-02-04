@@ -5,6 +5,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from 'next/image';
+import imageLoader from "image/loader";
 const Nav = () => {
     const router = useRouter();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -195,7 +196,11 @@ const Nav = () => {
                             <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 className="flex items-center gap-2 p-1.5 rounded-xl border border-purple-500/20 
                                     hover:border-purple-500/40 transition-all">
-                                <Image width={75} height={75}  src={userImage} alt="Profile" className="w-8 h-8 rounded-full" />
+                                <Image                         
+                                loader={imageLoader}
+                                            unoptimized={true}                         
+
+                                 width={75} height={75}  src={userImage} alt="Profile" className="w-8 h-8 rounded-full" />
                             </button>
                             {isDropdownOpen && (
                                 <div className="absolute right-0 mt-2 w-48 py-2 bg-black/50 backdrop-blur-sm 

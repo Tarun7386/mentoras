@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { motion, useScroll } from 'framer-motion';
 import Image from 'next/image';
+import imageLoader from 'image/loader';
 
 interface Feature {
     title: string;
@@ -85,6 +86,8 @@ export default function LandingPage() {
             }
         })
     };
+    
+
     return (
 
 <section className="py-16 sm:py-20 px-4 w-full">
@@ -105,7 +108,9 @@ export default function LandingPage() {
             <div className="w-full lg:w-1/2 relative h-[250px] sm:h-[400px] 
                     flex-shrink-0">
                     <Image
-                        unoptimized={true}
+                        loader={imageLoader}
+                    unoptimized={true}                         
+
                         src={feature.image}
                         alt={feature.title}
                         fill
