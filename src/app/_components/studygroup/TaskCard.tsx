@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Blocks from "editorjs-blocks-react-renderer";
 import TaskCompleteButton from "./TaskCompleteButton";
 import { ChevronsDown, ChevronUp } from "lucide-react";
-import Loader from "../Loader";
+import LoaderComponent from "../LoaderComponent";
 
 interface HeaderData {
   text: string;
@@ -120,7 +120,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
       cellClassName: "p-5 sm:p-4 bg-black/30 border border-purple-500/20 text-gray-300 text-sm sm:text-base transition-colors hover:bg-purple-500/10 first:font-medium"
     },
     image: {
-      className: "rounded-xl overflow-hidden mb-8 shadow-xl max-w-full h-auto border-5 border-white",
+      className: "rounded-xl overflow-hidden mb-8 shadow-xl max-w-full h-auto border-2 border-white",
       actionsClassNames: {
         stretched: "w-full h-full object-cover",
         withBackground: "p-4 bg-gray-800/50 shadow",
@@ -171,7 +171,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
             </div>
           </div>
         ) : (
-          <Loader/>
+            <LoaderComponent />
         )}
         <div className="absolute right-5">
           <TaskCompleteButton isCompleted={isCompleted} initialCompletionCount={completedCount} taskId={id} />

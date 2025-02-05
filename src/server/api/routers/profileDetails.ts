@@ -90,8 +90,6 @@ export const formRouter = createTRPCRouter({
                 ctx.db.mentor.findFirst({ where: { userId: userId } }),
             ]);
 
-            // Determine role and return data
-            console.log(aspirant, mentor)
             if (aspirant) {
                 return {
                     role: "ASPIRANT",

@@ -2,7 +2,7 @@
 
 import { api } from "~/trpc/react";
 import MentorProfilePage from "../mentor/MentorProfilePage";
-import Loader from "../Loader";
+import LoaderComponent from "../LoaderComponent";
 
 interface MentorProfileClientProps {
     id: string;
@@ -12,7 +12,7 @@ const MentorProfileClient: React.FC<MentorProfileClientProps> = ({ id }) => {
     const { data, isLoading, error } = api.mentorsData.getProfileDetailsById.useQuery({ id });
 
     if (isLoading) {
-        return <Loader/>;
+        return <LoaderComponent />;
     }
 
     if (error) {

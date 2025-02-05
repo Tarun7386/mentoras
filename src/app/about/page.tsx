@@ -6,6 +6,7 @@ import {
     ChartBarIcon,
     LightBulbIcon
 } from '@heroicons/react/24/outline';
+import GetstartedButton from '../_components/getStartedButton';
 
 const features = [
     {
@@ -126,13 +127,9 @@ const AboutPage: React.FC = () => {
                 <p className="text-lg text-gray-300 max-w-lg mx-auto mb-8">
                     Whether you&apos;re a learner, educator, or mentor, Mentoras is here to help you grow, learn, and succeed.
                 </p>
-                <button className="px-6 py-3 rounded-xl bg-gradient-to-r 
-                    from-purple-600 to-pink-600 text-white font-medium 
-                    hover:from-purple-500 hover:to-pink-500 
-                    transition-all duration-300 transform 
-                    hover:scale-[1.02] hover:shadow-purple-500/25">
-                    Get Started Today
-                </button>
+                <div >
+                    <GetstartedButton/>
+                </div>
             </section>
         </div>
     );

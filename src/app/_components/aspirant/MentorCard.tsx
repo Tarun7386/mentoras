@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import FollowButton from "../FollowButton";
 import Image from "next/image";
-import Loader from "../Loader";
+import LoaderComponent from "../LoaderComponent";
 
 interface MentorCardProps {
     id: string;
@@ -140,7 +140,7 @@ const MentorCard: React.FC<MentorCardProps> = ({
 
             {/* Loading Spinner */}
             {loading && (
-                <Loader/>
+                <LoaderComponent />
             )}
         </div>
     );

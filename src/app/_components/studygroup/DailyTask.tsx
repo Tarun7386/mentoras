@@ -5,8 +5,8 @@ import AddTaskModal from "./AddTaskModal";
 import { api } from "~/trpc/react";
 import ShareButton from "../ShareButton";
 import { toast, ToastContainer } from "react-toastify";
-import Loader from "../Loader";
-import { Loader2 } from "lucide-react";
+import LoaderComponent from "../LoaderComponent";
+import { Loader } from "lucide-react";
 
 interface DailyTaskProps {
     groupId: string;
@@ -40,7 +40,7 @@ const DailyTask: React.FC<DailyTaskProps> = ({ groupId, groupName, description }
         return "Error fetching";
     }
     if (isLoading) {
-        return <Loader/>;
+        return <LoaderComponent />;
     }
 
     // Truncate the description if not expanded
@@ -107,7 +107,7 @@ const DailyTask: React.FC<DailyTaskProps> = ({ groupId, groupName, description }
                                     justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm"
                                 disabled={joinGroup.isPending}
                             >
-                                ✅ <span>{joinGroup.isPending ? <Loader2/> : "Join Group"}</span>
+                                ✅ <span>{joinGroup.isPending ? <Loader/> : "Join Group"}</span>
                             </button>
                         )}
 

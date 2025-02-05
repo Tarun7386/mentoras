@@ -2,7 +2,7 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import Loader from "~/app/_components/Loader";
+import LoaderComponent from "~/app/_components/LoaderComponent";
 import { api } from "~/trpc/react";
 
 function AspirantProfile() {
@@ -14,7 +14,7 @@ function AspirantProfile() {
     const { data: profile, isLoading: loading, error: profileError } = api.profileData.getAspirantProfile.useQuery({  });
     
     if ( loading) {
-        return <Loader/>;
+        return <LoaderComponent />;
     }
 
     if ( profileError) {

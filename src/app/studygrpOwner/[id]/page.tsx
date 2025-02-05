@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect, useParams } from "next/navigation";
 import MentorProfileClient from "~/app/_components/aspirant/MentorProfileClient";
-import Loader from "~/app/_components/Loader";
+import LoaderComponent from "~/app/_components/LoaderComponent";
 import { api } from "~/trpc/react";
 
 function GroupOwnerProfile() {
@@ -19,7 +19,7 @@ function GroupOwnerProfile() {
     const { data: profile, isLoading: loading, error: profileError } = api.profileData.getAspirantProfile.useQuery({ id });
     const {data:mentorId} = api.mentorsData.getMentorId.useQuery({ userId:id });
     if (isLoading || loading) {
-        return <Loader/>;
+        return <LoaderComponent />;
     }
 
     if (error || profileError) {

@@ -3,13 +3,13 @@ import { api } from "~/trpc/react";
 import StudyGroupCard from "../_components/studygroup/StudyGroupCard";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import Loader from "../_components/Loader";
+import LoaderComponent from "../_components/LoaderComponent";
 
 function StudyGroups() {
     const { data: session, status } = useSession();
 
     if (status === "loading") {
-        return <Loader />; 
+        return <LoaderComponent />; 
     }
 
     if (!session) {
@@ -20,15 +20,15 @@ function StudyGroups() {
     const { data: StudyGroups, isLoading } = api.studyGroupRouter.getMemberStudyGrp.useQuery();
 
     if (isLoading) {
-        return <Loader/>;
+        return <LoaderComponent />;
     }
 
     if (!StudyGroups || StudyGroups.length === 0) {
-        return <p className="text-gray-500 text-center mt-4">You are not part of any study group yet.</p>;
+        return <p className="text-gray-500 text-center h-screen justify-center mt-4">You are not part of any study group yet.</p>;
     }
 
     return (
-        <div className="max-w-2xl w-full mx-auto space-y-4 sm:space-y-6 pb-20">
+        <div className=" flex flex-col gap-4 max-w-2xl w-full mx-auto space-y-4 sm:space-y-6 pb-20">
             {StudyGroups.map((studyGroup) => (
                 <StudyGroupCard
                     key={studyGroup.id}

@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
-import FollowButton from "../FollowButton";
 import StudyGroupsList from "../studygroup/StudyGroupsList";
 import Image from "next/image";
+import FollowButton from "../FollowButton";
+import { useSession } from "next-auth/react";
 
 interface Hashtag {
   id: string;
@@ -30,6 +31,10 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
   hashtags,
   followedByMe
 }) => {
+
+  const {data:session} = useSession()
+
+ 
   const [activeTab, setActiveTab] = useState<"studyGroups" | "Your Posts" | "reviews">(
     "studyGroups"
   );
@@ -66,26 +71,26 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
             <div className="mt-6 flex justify-between px-4">
               <div className="text-center">
                 <p className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-2xl font-bold text-transparent">
-                  1.2k
+                  NaN
                 </p>
                 <p className="text-xs text-gray-400">FOLLOWERS</p>
               </div>
               <div className="text-center">
                 <p className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-2xl font-bold text-transparent">
-                  86
+                  NaN
                 </p>
                 <p className="text-xs text-gray-400">POSTS</p>
               </div>
               <div className="text-center">
                 <p className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-2xl font-bold text-transparent">
-                  4.8
+                  NaN
                 </p>
                 <p className="text-xs text-gray-400">RATING</p>
               </div>
             </div>
-            <div className="mt-6 flex justify-center">
+            { !(id === session?.user.id) && <div className="mt-6 flex justify-center">
               <FollowButton isFollowed={followedByMe} mentorId={id}/>
-            </div>
+            </div>}
           </div>
 
           {/* Right Column */}
@@ -136,7 +141,7 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
         <div className="mt-6 px-4">
           <div className="rounded-lg bg-black/20 p-6">
             {activeTab === "studyGroups" && <StudyGroupsList ownerId={id}/>}
-            {activeTab === "Your Posts" && <p>Youpr post will appear here.</p>} */
+            {activeTab === "Your Posts" && <p>Youpr post will appear here.</p>}
             {activeTab === "reviews" && <p>Reviews appear here</p>}
           </div>
         </div>

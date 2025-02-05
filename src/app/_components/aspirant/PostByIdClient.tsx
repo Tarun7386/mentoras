@@ -1,7 +1,7 @@
 'use client'
 import { api } from "~/trpc/react";
 import PostCard from "./PostCard";
-import Loader from "../Loader";
+import LoaderComponent from "../LoaderComponent";
 
 interface PostByIdClientProps {
     id: string;
@@ -11,7 +11,7 @@ const PostByIdClient: React.FC<PostByIdClientProps> = ({ id }) => {
     const { data: fetchedPost, isLoading, isError } = api.post.getPostById.useQuery({ id });
 
     // Handle loading and error states
-    if (isLoading) return <Loader/>;
+    if (isLoading) return <LoaderComponent />;
     if (isError || !fetchedPost) return <div className="text-center text-red-500">Failed to load post.</div>;
 
     // Extract values from the post object

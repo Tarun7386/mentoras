@@ -1,5 +1,5 @@
 'use client'
-import { LoaderIcon } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { api } from "~/trpc/react";
@@ -59,7 +59,7 @@ function MyChallenges() {
                                 transform hover:scale-[1.02]"
                             disabled={givefeedback.isPending}
                                 >
-                            {givefeedback.isPending ? <LoaderIcon/> : "Send Suggestion"}
+                            {givefeedback.isPending ? <Loader/> : "Send Suggestion"}
                         </button>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import { Loader, LoaderIcon } from "lucide-react";
+import { Loader } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -111,7 +111,7 @@ const StudyGroupCard: React.FC<StudyGroupCardProps> = ({ id, title, description,
                     text-white py-2 text-sm font-semibold shadow-md transition-all hover:scale-105"
                     disabled={joinGroup.isPending}
                 >
-                    {joinGroup.isPending ? <LoaderIcon/> :" Join Group"}
+                    {joinGroup.isPending ? <Loader/> :" Join Group"}
                 </button>
             )}
             

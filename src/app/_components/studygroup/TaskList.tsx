@@ -1,4 +1,4 @@
-import Loader from "../Loader";
+import LoaderComponent from "../LoaderComponent";
 import TaskCard from "./TaskCard";
 import { api } from "~/trpc/react";
 
@@ -11,7 +11,7 @@ const TaskList: React.FC<TaskListProps> = ({ groupId, isOwner }) => {
     const { data: tasks, isLoading } = api.dailyTaskRouter.getTasks.useQuery({ groupId });
 
     if (isLoading) {
-        return <Loader/>
+        return <LoaderComponent />
     }
 
     if (!tasks || tasks.length === 0) {

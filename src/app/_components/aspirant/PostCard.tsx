@@ -8,7 +8,7 @@ import LikeButton from "../LikeButton";
 import BookmarkButton from "../BookMarkButton";
 import ShareButton from "../ShareButton";
 import { ChevronsDown, ChevronUp } from "lucide-react";
-import Loader from "../Loader";
+import LoaderComponent from "../LoaderComponent";
 
 // Define the data types for different block data
 interface HeaderData {
@@ -153,7 +153,7 @@ const PostCard: React.FC<PostCardProps> = ({
       cellClassName: "p-5 sm:p-4 bg-black/30 border border-purple-500/20 text-gray-300 text-sm sm:text-base transition-colors hover:bg-purple-500/10 first:font-medium"
     },
     image: {
-      className: "rounded-xl overflow-hidden mb-8 shadow-xl max-w-full h-auto border-5 border-white",
+      className: "rounded-xl overflow-hidden mb-8 shadow-xl max-w-full h-auto border-2 border-white",
       actionsClassNames: {
         stretched: "w-full h-full object-cover",
         withBackground: "p-4 bg-gray-800/50 shadow",
@@ -252,7 +252,7 @@ const PostCard: React.FC<PostCardProps> = ({
       </div>
 
       {/* Loading Spinner */}
-      {loading && <Loader/>}
+      {loading && <LoaderComponent />}
     </div>
   );
 };

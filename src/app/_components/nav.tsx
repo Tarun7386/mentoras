@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useRef, useMemo } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from 'next/image';
 const Nav = () => {
-    const router = useRouter();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const { data: session } = useSession();
@@ -215,7 +214,9 @@ const Nav = () => {
                             )}
                         </>
                     ) : (
-                        <button onClick={() => signIn("google", { callbackUrl: "/role" })}
+                        <button onClick={
+                            () => void signIn("google", { callbackUrl: "/role" })
+                        }
                             className="px-4 py-2 rounded-xl bg-purple-600 text-white 
                                 hover:bg-purple-700 transition-all">
                             Sign in

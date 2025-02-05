@@ -3,7 +3,7 @@ import BookRecommendationCard from "./BookRecommendationCard";
 import { api } from "~/trpc/react";
 import AddNewBookForm from "./AddNewBookForm";
 import MobileAddBook from "./MobileAddNewBook";
-import Loader from "../Loader";
+import LoaderComponent from "../LoaderComponent";
 
 
 
@@ -13,7 +13,7 @@ function BookRecommendationsPage({ }: { userId: string | undefined }) {
 
 
     if (isLoading) {
-        return <Loader />;
+        return <LoaderComponent />;
     }
 
     if (error) {

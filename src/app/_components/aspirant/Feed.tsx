@@ -1,7 +1,7 @@
 import type{ FC } from "react";
 import PostCard from "./PostCard";
 import { api } from "~/trpc/react";
-import Loader from "../Loader";
+import LoaderComponent from "../LoaderComponent";
 
 const Feed: FC = () => {
     // Fetch posts using tRPC query
@@ -9,7 +9,7 @@ const Feed: FC = () => {
 
     // Handle loading and error states
     if (isLoading) {
-        return <Loader/>;
+        return <LoaderComponent />;
     }
 
     if (isError) {
