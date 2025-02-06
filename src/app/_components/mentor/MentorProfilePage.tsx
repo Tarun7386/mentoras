@@ -4,6 +4,7 @@ import StudyGroupsList from "../studygroup/StudyGroupsList";
 import Image from "next/image";
 import FollowButton from "../FollowButton";
 import { useSession } from "next-auth/react";
+import MentorPosts from "./MentorPosts";
 
 interface Hashtag {
   id: string;
@@ -12,6 +13,7 @@ interface Hashtag {
 
 interface MentorProfilePageProps {
   id: string;
+  mentorId: string;
   profilePic: string;
   name: string;
   mainWork: string;
@@ -23,6 +25,7 @@ interface MentorProfilePageProps {
 
 const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
   id,
+  mentorId,
   profilePic,
   name,
   mainWork,
@@ -141,8 +144,8 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
         <div className="mt-6 px-4">
           <div className="rounded-lg bg-black/20 p-6">
             {activeTab === "studyGroups" && <StudyGroupsList ownerId={id}/>}
-            {activeTab === "Your Posts" && <p>Youpr post will appear here.</p>}
-            {activeTab === "reviews" && <p>Reviews appear here</p>}
+            {activeTab === "Your Posts" && <MentorPosts mentorId={mentorId}/> }
+            {activeTab === "reviews" && <p>Reviews appear here (still working on this feature)</p>}
           </div>
         </div>
       </div>

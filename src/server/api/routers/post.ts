@@ -159,7 +159,66 @@ export const postRouter = createTRPCRouter({
       throw new Error("Failed to fetch posts. Please try again later.");
     }
 
-  })
+  }),
+  getPostsByMentorId: publicProcedure
+    .input(
+      z.object({
+        mentorId: z.string()
+      })
+    )
+
+    .query(async ({ ctx, input: { mentorId } }) => {
+    try {
+      const posts = await ctx.db.insight.findMany({
+        where: { mentorId: mentorId },
+        orderBy: { createdAt: "desc" },
+        include: {
+          mentor: {
+            select: {
+              user: {
+                select: {
+                  image: true,
+                  name: true,
+                },
+              },
+            },
+          },
+          _count: {
+            select: {
+              likes: true, // Get the count of likes
+            },
+          },
+          likes: {
+            where: { userId: ctx.session?.user.id },
+            select: {
+              id: true,
+            },
+          },
+          bookmarks: {
+            where: { userId: ctx.session?.user.id },
+            select: {
+              id: true,
+            },
+          },
+        },
+      });
+
+      // Transform the results
+      const formattedPosts = posts.map((post) => ({
+        ...post,
+        likeCount: post._count.likes, // Add the like count
+        hasLiked: post.likes.length > 0,
+        hasBookmarked: post.bookmarks.length > 0,
+      }));
+
+      return formattedPosts;
+
+      ;
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      throw new Error("Failed to fetch posts. Please try again later.");
+    }
+  }),
 });
 
 

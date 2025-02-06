@@ -125,11 +125,11 @@ export default function LandingPage() {
                     <p className="text-base sm:text-lg text-gray-300 mb-6">
                         {feature.description}
                     </p>
-                    <button className="w-full sm:w-auto px-6 py-3 rounded-xl 
+                    {/* <button className="w-full sm:w-auto px-6 py-3 rounded-xl 
                         bg-gradient-to-r from-purple-600 to-pink-600 
                         text-white font-medium">
                         {feature.cta}
-                    </button>
+                    </button> */}
                 </div>
         </motion.div>
     ))}

@@ -12,7 +12,7 @@ const Mentors: React.FC = () => {
                     profilePic={mentor.user.image ?? "/images"} // Corrected to use `mentor.profilePic`
                     name={mentor.user.name} // Corrected to use `mentor.name`
                     designation={mentor.mainWork} // Corrected to use `mentor.designation`
-                    followers={2} // Corrected to use `mentor.followers`
+                    followers={mentor._count.MentorFollower} // Corrected to use `mentor.followers`
                     description={mentor.description} // Corrected to use `mentor.description`
                     hashtags={mentor.hashtags.map((hashtag) => hashtag.name)} // Corrected to use `mentor.hashtags`
                     followedByMe={mentor.followedByMe}                />

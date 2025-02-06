@@ -69,7 +69,8 @@ function AddTaskEditor({ onClose, groupId }: { onClose: () => void , groupId: st
                     quote: Quote,
                     embed: Embed,
                 },
-                placeholder: "Paste an image, video, or link here, or press / for more commands.",
+                minHeight: 100,
+                placeholder: "Paste an image, video link here, or press / for more commands.",
             });
 
             editorRef.current = editor;

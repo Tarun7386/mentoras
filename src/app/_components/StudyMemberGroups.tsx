@@ -11,7 +11,7 @@ const StudyMemberGroups = () => {
     }
 
     return (
-        <div className="grid grid-rows-1 sm:grid-rows-2 lg:grid-rows-3 gap-4 sm:gap-6">
+        <div className="flex flex-col gap-4">
             {StudyGroups?.map((group) => (
                 <StudyGroupCard
                     key={group.id}

@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from 'next/image';
+import { toast, ToastContainer } from "react-toastify";
 const Nav = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -19,6 +20,16 @@ const Nav = () => {
     
 
     const navigationItemsForAspirant = useMemo(() => [
+        {
+            href: "/role",
+            label: "Home",
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                </svg>
+
+            )
+        },
         {
             href: "/study-groups",
             label: "Study Groups",
@@ -64,7 +75,7 @@ const Nav = () => {
             label: "Casual Chat",
             icon: (
                 
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"  className="h-5 w-5 lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor"  className="h-5 w-5 lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /></svg>
                 
             )
         },
@@ -72,10 +83,10 @@ const Nav = () => {
             href: "/feedback",
             label: "Try It",
             icon: (
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
                 </svg>
+
             )
         },
         {
@@ -123,6 +134,7 @@ const Nav = () => {
 
     return (
     <header className=" top-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-900 via-[#300171] to-slate-900 border-b border-purple-500/20">
+        <ToastContainer/>
     <div className="px-4 py-2">
         <nav className="flex items-center h-16 ">
             {/* Left Section - Menu & Logo */}
@@ -158,7 +170,8 @@ const Nav = () => {
             <div className="flex items-center gap-4 ml-auto">
                 <div className="relative" ref={searchRef}>
                     {!isSearchOpen ? (
-                        <button onClick={() => setIsSearchOpen(true)}
+                        // <button onClick={() => setIsSearchOpen(true)}
+                        <button onClick={() => toast.info("Still working on this feature")}
                             className="p-2 rounded-md text-gray-400 hover:text-white transition-all">
                             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -205,11 +218,11 @@ const Nav = () => {
                                             hover:bg-purple-500/20">
                                         Profile
                                     </button> */}
-                                    <button onClick={() => signOut()}
+                                    {/* <button onClick={() => signOut()}
                                         className="w-full px-4 py-2 text-left text-sm text-gray-300 
                                             hover:bg-purple-500/20">
                                         Sign out
-                                    </button>
+                                    </button> */}
                                 </div>
                             )}
                         </>

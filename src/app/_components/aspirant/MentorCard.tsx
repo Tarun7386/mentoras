@@ -30,6 +30,8 @@ const MentorCard: React.FC<MentorCardProps> = ({
 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [loading, setLoading] = useState(false); // Loading state for redirect
+    const [followed, setFollowed] = useState(followedByMe); // Track if the user is following the mentor
+    const [followerCount, setFollowerCount] = useState(followers); // Track the follower count
     const router = useRouter();
 
     const handleRedirect = () => {
@@ -38,6 +40,25 @@ const MentorCard: React.FC<MentorCardProps> = ({
             router.push(`/mentorProfile/${id}`);
             setLoading(false); // Set loading to false after redirection
         }, 500); // Simulate a small delay before redirect (you can adjust this)
+    };
+
+    // Function to handle follow/unfollow logic
+    const handleFollowToggle = async () => {
+        setLoading(true);
+        try {
+            // Assuming FollowButton manages the API call
+            // Toggle the follow status
+            setFollowed(!followed);
+            // Update follower count based on whether we're following or unfollowing
+            setFollowerCount(followed ? followerCount - 1 : followerCount + 1);
+
+            // Here you would typically call an API to follow/unfollow the mentor
+            // Example: await api.followMentor(id, !followed);
+        } catch (error) {
+            toast.error("Something went wrong, please try again.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -60,20 +81,20 @@ const MentorCard: React.FC<MentorCardProps> = ({
                         className="w-12 h-12 md:w-14 md:h-14 rounded-full
           border-2 border-purple-500/30 hover:border-purple-500/50
           transition-colors duration-300"
-                    height={150}
-                    width={150}
+                        height={150}
+                        width={150}
                     />
                     <div className="ml-4">
                         <h3 className="font-bold text-lg text-white hover:text-purple-200 
                         transition-colors duration-300 ">{name}</h3>
                         <p className="text-gray-400 text-xs sm:text-sm font-medium"> {designation} </p>
-                        <p className="text-purple-400 text-sm ">{followers} followers</p>
+                        <p className="text-purple-400 text-sm ">{followerCount} followers</p>
                     </div>
                 </div>
 
                 {/* Follow Button */}
-                <div className="flex-2 ">
-                    <FollowButton isFollowed={followedByMe} mentorId={id} />
+                <div className="flex-2 " onClick={handleFollowToggle}>
+                    <FollowButton isFollowed={followed} mentorId={id} />
                 </div>
             </div>
 

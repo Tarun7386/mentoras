@@ -18,7 +18,7 @@ const { data: session } = useSession()
           }
         }}
 
-        className="flex items-center justify-center gap-2 rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
+        className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
       >
         Get started
         <svg

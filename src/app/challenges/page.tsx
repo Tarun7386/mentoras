@@ -30,8 +30,8 @@ function MyChallenges() {
     };
 
     return (
-        <div className="min-h-screen w-full bg-gradient-to-b from-gray-900 via-[#300171]/30 to-slate-900 
-            flex items-start sm:items-center justify-center p-4 sm:p-6">
+        <div className="min-h-screen w-full 
+            flex items-start sm:items-center justify-center p-4 sm:p-6 mt-3">
             <div className="max-w-md w-full space-y-6 bg-black/30 backdrop-blur-sm 
                 rounded-xl p-6 border border-purple-500/20 mt-18 sm:mt-0">
                 <p className="text-gray-300 text-justify text-sm sm:text-base leading-relaxed">

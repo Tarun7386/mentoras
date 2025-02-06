@@ -3,11 +3,19 @@ import { useState, useEffect } from "react";
 import { api } from "~/trpc/react";
 import LoaderComponent from "../_components/LoaderComponent";
 import { Loader } from "lucide-react";
+import { toast } from "react-toastify";
 
 export default function FeedbackPage() {
     // Fetch feedbacks from the backend using TRPC query
+    const utils = api.useUtils();
+
     const { data: getfeedback, isLoading, error } = api.feedbackRouter.getFeedback.useQuery();
-    const addFeedback = api.feedbackRouter.addFeedback.useMutation()
+    const addFeedback = api.feedbackRouter.addFeedback.useMutation({
+        onSuccess: async () => {
+            toast.success("Feedback sent successfully!");
+            await utils.feedbackRouter.getFeedback.invalidate();
+        }
+    });
     // Local state to store the feedbacks
     const [feedbacks, setFeedbacks] = useState<{ id: string; content: string; response: string | null }[]>([]);
     const [newFeedback, setNewFeedback] = useState("");
@@ -21,19 +29,31 @@ export default function FeedbackPage() {
 
     // Handle sending new feedback
     const handleSendFeedback = async () => {
-        if (newFeedback.trim() !== "") {
-            try {
-                await addFeedback.mutateAsync({ content: newFeedback });
+        if (newFeedback.trim() === "") {
+            // Show a toast notification if the feedback is empty
+            toast.error("Feedback cannot be empty. Please enter some feedback.", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            return; // Prevent further execution
+        }
 
-                // Update local state to reflect the new feedback (optimistic update)
-                setFeedbacks([
-                    { id: Date.now().toString(), content: newFeedback, response: null },
-                    ...feedbacks
-                ]);
-                setNewFeedback(""); // Clear input after sending feedback
-            } catch (error) {
-                console.error("Error sending feedback:", error);
-            }
+        try {
+            await addFeedback.mutateAsync({ content: newFeedback });
+
+            // Update local state to reflect the new feedback (optimistic update)
+            setFeedbacks([
+                { id: Date.now().toString(), content: newFeedback, response: null },
+                ...feedbacks
+            ]);
+            setNewFeedback(""); // Clear input after sending feedback
+        } catch (error) {
+            console.error("Error sending feedback:", error);
         }
     };
 
@@ -48,15 +68,16 @@ export default function FeedbackPage() {
     }
 
     return (
-        <div className="min-h-screen w-full bg-gradient-to-b from-gray-900 via-[#300171]/30 to-slate-900 p-4 sm:p-6">
-            <div className="max-w-3xl mx-auto space-y-8">
+        <div className="min-h-screen w-full bg-gradient-to-b from-gray-900 via-[#300171]/30 to-slate-900 p-4 sm:p-6 flex flex-col">
+            <div className="max-w-3xl mx-auto space-y-8 flex-1 overflow-hidden">
                 <h1 className="text-2xl sm:text-3xl font-bold text-center 
                     bg-gradient-to-r from-purple-400 to-pink-400 
                     bg-clip-text text-transparent">
                     Feedback
                 </h1>
 
-                <div className="space-y-4">
+                {/* Feedback list container, scrollable */}
+                <div className="space-y-4 max-h-[60vh] overflow-y-auto mb-4">
                     {feedbacks.map((fb) => (
                         <div key={fb.id}
                             className="bg-black/30 backdrop-blur-sm rounded-xl p-4 sm:p-6 
@@ -84,8 +105,9 @@ export default function FeedbackPage() {
                     ))}
                 </div>
 
+                {/* Fixed input box */}
                 <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 sm:p-6 
-                    border border-purple-500/20 space-y-4">
+                    border border-purple-500/20 space-y-4 mt-auto">
                     <input
                         value={newFeedback}
                         onChange={(e) => setNewFeedback(e.target.value)}
@@ -103,8 +125,8 @@ export default function FeedbackPage() {
                                 hover:shadow-lg hover:shadow-purple-500/25 
                                 transition-all duration-300 transform hover:scale-[1.02]"
                             disabled={addFeedback.isPending}
-                                >
-                            {addFeedback.isPending ? <Loader/> : "Send Feedback"}
+                        >
+                            {addFeedback.isPending ? <Loader /> : "Send Feedback"}
                         </button>
                     </div>
                 </div>

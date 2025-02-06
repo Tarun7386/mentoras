@@ -38,8 +38,8 @@ const MentorProfileClient: React.FC<MentorProfileClientProps> = ({ id }) => {
             createdAt={new Date(createdAt).toLocaleDateString()}
             description={description}
             hashtags={hashtags}
-            followedByMe={followedByMe}
-        />
+            followedByMe={followedByMe} 
+            mentorId={id}        />
     );
 };
 

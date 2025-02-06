@@ -16,7 +16,7 @@ function MyBookmarks() {
     }
 
     if (!bookmarks || bookmarks.length === 0) {
-        return <p className="text-gray-500 text-center mt-4">{"You haven't bookmarked any posts yet."}</p>;
+        return <p className="text-gray-500 h-screen text-center mt-4">{"You haven't bookmarked any posts yet."}</p>;
     }
     
     return (

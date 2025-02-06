@@ -28,7 +28,7 @@ function StudyGroups() {
     }
 
     return (
-        <div className=" flex flex-col gap-4 max-w-2xl w-full mx-auto space-y-4 sm:space-y-6 pb-20">
+        <div className="flex flex-col gap-4">
             {StudyGroups.map((studyGroup) => (
                 <StudyGroupCard
                     key={studyGroup.id}

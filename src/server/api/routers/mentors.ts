@@ -24,13 +24,19 @@ export const mentorsRouter = createTRPCRouter({
                         where: { userId: ctx.session?.user?.id ?? "" },
                         select: { id: true }
                     },
+                    _count: {  // Adding the count for followers
+                        select: {
+                            MentorFollower: true,
+                        },
+                    },
                 },
             });
 
-            // Add `followedByMe` field to each mentor
+            // Add `followedByMe` field and `followersCount` field to each mentor
             const updatedMentors = mentors.map((mentor) => ({
                 ...mentor,
-                followedByMe: mentor.MentorFollower.length > 0, 
+                followedByMe: mentor.MentorFollower.length > 0, // Whether the user follows this mentor
+                followersCount: mentor._count.MentorFollower, // Number of followers for the mentor
             }));
 
             return updatedMentors;

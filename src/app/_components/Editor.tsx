@@ -64,7 +64,8 @@ function Editor() {
                     embed: Embed,
                     
                 },
-                placeholder: "Paste an image, video, or link here, or press / for more commands.",
+                minHeight: 100,
+                placeholder: "Paste an image, video link here, or press / for more commands.",
             });
 
             editorRef.current = editor;
@@ -102,7 +103,7 @@ function Editor() {
             rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-2xl 
             transform hover:-translate-y-1 transition-all duration-300 
             border border-purple-500/20 hover:border-purple-500/30 
-            max-w-6xl"
+            max-w-6xl mt-3"
         >
             {/* EditorJS Container */}
             <div className="flex w-full gap-6 mb-4 min-h-1">
