@@ -247,7 +247,7 @@ const PostCard: React.FC<PostCardProps> = ({
       {/* Action Buttons */}
       <div className="grid grid-cols-3 gap-2 mb-3 sm:gap-4">
         <LikeButton isLiked={likedByme} postId={id} likeCount={likeCount} />
-        <ShareButton url={`mentoras.in/post/${id}`} />
+        <ShareButton url={`/post/${id}`} />
         <BookmarkButton isBookmarked={bookMarkedByme} postId={id} />
       </div>
 

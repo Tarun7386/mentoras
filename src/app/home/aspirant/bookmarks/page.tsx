@@ -24,9 +24,9 @@ function MyBookmarks() {
             {bookmarks.map((bookmark) => (
                 <PostCard
                     key={bookmark.id}
-                    id={bookmark.id}
-                    profilePic={bookmark.user.image ?? ""}
-                    authorName={bookmark.user.name}
+                    id={bookmark.insightId}
+                    profilePic={""}
+                    authorName={"fetching..."}
                     createdAt={bookmark.createdAt.toLocaleDateString()}
                     content={bookmark.insight.content}
                     hashtags={["hashtags"]}

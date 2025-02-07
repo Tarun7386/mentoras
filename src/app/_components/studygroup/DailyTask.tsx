@@ -17,14 +17,20 @@ interface DailyTaskProps {
 const DailyTask: React.FC<DailyTaskProps> = ({ groupId, groupName, description }) => {
     const [isAddingTask, setIsAddingTask] = useState(false);
     const [groupLink, setgroupLink] = useState("");
-    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false); // Track expanded state
+
 
     // Always call hooks in the same order
     const { data: isOwner, isLoading, error } = api.dailyTaskRouter.isGroupOwner.useQuery({ groupId: groupId });
     const { data: countApi } = api.studyGroupRouter.countOfmembers.useQuery({ groupId: groupId });
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false); const [membersCount, setMembersCount] = useState(countApi?.membersCount ?? 0);
+    const [isMember, setIsMember] = useState(countApi?.isMember ?? false);
+
     const joinGroup = api.studyGroupRouter.joinStudyGroup.useMutation({
         onSuccess: () => {
             toast.success("Joined study group");
+            setIsMember(true);  // Update frontend membership status
+            setMembersCount((prev) => prev + 1); // Increase count by 1
+
         }
     });
 
@@ -73,7 +79,7 @@ const DailyTask: React.FC<DailyTaskProps> = ({ groupId, groupName, description }
                 {/* Show Number of Members */}
                 {countApi && (
                     <span className="text-sm text-gray-400">
-                        Members: {countApi.membersCount}
+                        Members: {membersCount}
                     </span>
                 )}
 
@@ -95,7 +101,7 @@ const DailyTask: React.FC<DailyTaskProps> = ({ groupId, groupName, description }
                         
 
                         {/* Join Group Button (Only show if user is not an owner) */}
-                        {!isOwner && !countApi?.isMember && (
+                        {!isOwner && isMember && (
                             <button
                                 onClick={() => {
                                     joinGroup.mutate({ studyGroupId: groupId });

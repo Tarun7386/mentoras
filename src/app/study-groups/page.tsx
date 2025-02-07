@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { api } from "~/trpc/react";
 import StudyGroupCard from "../_components/studygroup/StudyGroupCard";
 import { useSession } from "next-auth/react";
@@ -7,20 +7,17 @@ import LoaderComponent from "../_components/LoaderComponent";
 
 function StudyGroups() {
     const { data: session, status } = useSession();
+    const { data: StudyGroups, isLoading } = api.studyGroupRouter.getMemberStudyGrp.useQuery(undefined, {
+        enabled: !!session,  // Prevents query from running before session is available
+    });
 
-    if (status === "loading") {
-        return <LoaderComponent />; 
+    if (status === "loading" || isLoading) {
+        return <LoaderComponent />;
     }
 
     if (!session) {
         redirect("/api/auth/signin");
-        return null; 
-    }
-        
-    const { data: StudyGroups, isLoading } = api.studyGroupRouter.getMemberStudyGrp.useQuery();
-
-    if (isLoading) {
-        return <LoaderComponent />;
+        return null;
     }
 
     if (!StudyGroups || StudyGroups.length === 0) {
@@ -28,7 +25,7 @@ function StudyGroups() {
     }
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="max-w-2xl w-full mx-auto space-y-4 sm:space-y-6 pb-20">
             {StudyGroups.map((studyGroup) => (
                 <StudyGroupCard
                     key={studyGroup.id}

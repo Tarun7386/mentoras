@@ -21,7 +21,7 @@ const PostByIdClient: React.FC<PostByIdClientProps> = ({ id }) => {
     const hashtags = ["#hashtag"]; // Implement hashtag extraction if needed
 
     return (
-        <div className="w-full max-w-lg mx-auto p-4 rounded-lg shadow-md">
+        <div className="max-w-2xl w-full mx-auto space-y-4 sm:space-y-6 pb-20">
             <PostCard
                 id={id}
                 profilePic={profilePic}
