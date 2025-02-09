@@ -210,9 +210,9 @@ const Nav = () => {
                                 <Image                         
                                  width={75} height={75}  src={userImage} alt="Profile" className="w-8 h-8 rounded-full" />
                             </button>
-                            {isDropdownOpen && (
+                            {/* {isDropdownOpen && (
                                 <div className="absolute right-0 mt-2 w-48 py-2 bg-black/50 backdrop-blur-sm 
-                                    rounded-xl border border-purple-500/20 shadow-xl">
+                                    rounded-xl border border-purple-500/20 shadow-xl"> */}
                                     {/* <button onClick={() => router.push("/home/aspirant/profile")}
                                         className="w-full px-4 py-2 text-left text-sm text-gray-300 
                                             hover:bg-purple-500/20">
@@ -223,8 +223,8 @@ const Nav = () => {
                                             hover:bg-purple-500/20">
                                         Sign out
                                     </button> */}
-                                </div>
-                            )}
+                                {/* </div>
+                            )} */}
                         </>
                     ) : (
                         <button onClick={

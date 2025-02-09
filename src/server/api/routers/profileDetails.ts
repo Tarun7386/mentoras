@@ -52,13 +52,13 @@ export const formRouter = createTRPCRouter({
                         description,
                         introVideo,
                         hashtags: {
-                            create: hashtags.map((hashtag) => ({
-                                name: hashtag,
+                            connectOrCreate: hashtags.map((hashtag) => ({
+                                where: { name: hashtag }, // Check if a hashtag with this name exists
+                                create: { name: hashtag }, // If it doesn't, create it
                             })),
                         },
                     },
                 });
-
                 console.log("Mentor form submitted successfully:", {
                     mainWork,
                     description,

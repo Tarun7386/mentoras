@@ -1,17 +1,23 @@
-import { auth } from "~/server/auth";
+'use client'
 import { redirect } from 'next/navigation'
-import { api } from "~/trpc/server";
+import { api } from "~/trpc/react";
 import MultiStepForm from "../_components/multiform";
+import { useSession } from "next-auth/react";
+import LoaderComponent from '../_components/LoaderComponent';
 
-async function Role() {
-    const session = await auth();
+ function Role() {
+    const {data:session,status} = useSession();
+    const { data, isLoading } = api.profileData.getRole.useQuery({ ownerId: undefined });
 
+     const role = data?.role;
+
+    if (isLoading || status === "loading") {
+        return <LoaderComponent/>
+    }
 
     if (!session?.user) {
         redirect("/api/auth/signin");
     }
-
-    const { role } = await api.profileData.getRole({});
 
     if (role) {
         
@@ -26,7 +32,7 @@ async function Role() {
     }
 
    
-    return <MultiStepForm />;
+    return role === undefined ? <MultiStepForm /> : null;
 }
 
 export default Role;

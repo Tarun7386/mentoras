@@ -208,7 +208,7 @@ model StudyGroupMember {
     joinedAt     DateTime @default(now())
 
     user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-    studyGroup StudyGroup @relation(fields: [studyGroupId], references: [id])
+    studyGroup StudyGroup @relation(fields: [studyGroupId], references: [id],onDelete: Cascade)
 }
 
 enum TaskStatus {
@@ -234,7 +234,7 @@ model DailyTaskCompletion {
     id          String    @id @default(cuid())
     aspirant    Aspirant  @relation(fields: [aspirantId], references: [id])
     aspirantId  String
-    task        DailyTask @relation(fields: [taskId], references: [id])
+    task        DailyTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
     taskId      String
     completedAt DateTime  @default(now()) // Timestamp for task completion
 

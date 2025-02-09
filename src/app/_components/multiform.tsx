@@ -194,7 +194,7 @@ const MultiStepForm = () => {
                                 <p className="text-sm text-gray-400 text-right mt-1">{formData.description.length} / 150 characters</p>
                             </label>
                             <label className="block mb-4">
-                                <span className="text-gray-200">Related hashtags</span>
+                                <span className="text-gray-200">Related hashtags(seperate by comma ,)</span>
                                 <input
                                     type="text"
                                     name="hashtags"

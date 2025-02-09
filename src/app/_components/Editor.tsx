@@ -65,7 +65,7 @@ function Editor() {
                     
                 },
                 minHeight: 100,
-                placeholder: "Paste an image, video link here, or press / for more commands.",
+                placeholder: "Paste an online image, YouTube, Twitter, etc. link here, or press / for more commands.",
             });
 
             editorRef.current = editor;
