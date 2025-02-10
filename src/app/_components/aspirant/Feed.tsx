@@ -1,4 +1,4 @@
-import type{ FC } from "react";
+import type { FC } from "react";
 import PostCard from "./PostCard";
 import { api } from "~/trpc/react";
 import LoaderComponent from "../LoaderComponent";
@@ -21,9 +21,18 @@ const Feed: FC = () => {
         return <div className="text-center text-gray-400">No posts available.</div>;
     }
 
+    // The ID of the post that should be shown first
+    const postToShowFirstId = 'cm6yoda4d00001085ah7roo60'; // Replace this with the actual post ID
+
+    // Reorder posts to make the desired post appear first
+    const orderedPosts = [
+        ...posts.filter(post => post.id === postToShowFirstId),
+        ...posts.filter(post => post.id !== postToShowFirstId),
+    ];
+
     return (
         <div className="space-y-4">
-            {posts.map((post) => (
+            {orderedPosts.map((post) => (
                 <PostCard
                     key={post.id}
                     id={post.id}

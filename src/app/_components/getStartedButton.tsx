@@ -1,10 +1,15 @@
 'use client'
 import { signIn, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import LoaderComponent from "./LoaderComponent";
 
 function GetstartedButton() {
 
-const { data: session } = useSession()
+const { data: session,status } = useSession()
+
+if (status === "loading") {
+    return <LoaderComponent/>
+  }
         
   return (
     <div className="container flex flex-col items-center justify-center px-4 ">
