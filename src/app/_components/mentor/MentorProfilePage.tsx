@@ -84,6 +84,7 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
                 </p>
                 <p className="text-xs text-gray-400">POSTS</p>
               </div>
+              
               <div className="text-center">
                 <p className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-2xl font-bold text-transparent">
                   NaN
@@ -123,7 +124,7 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
       <div className="mt-8">
         <div className="scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-black/20 overflow-x-auto">
           <div className="flex min-w-max space-x-4 p-4 md:justify-center">
-            {(["studyGroups", "Your Posts", "reviews"] as const).map((tab) => (
+            {(["studyGroups", "Your Posts", "reviews","AMA"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => handleTabClick(tab)} // No need to cast to any
