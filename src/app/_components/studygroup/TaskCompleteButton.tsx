@@ -9,8 +9,18 @@ const TaskCompleteButton: React.FC<{ taskId:string,isCompleted: boolean, initial
             
     const [completed, setCompleted] = useState(isCompleted);
     const [completionCount, setCompletionCount] = useState(initialCompletionCount); // Add state for the completion count
-
-    const taskCompleted = api.dailyTaskRouter.completeTask.useMutation()
+    const utils = api.useUtils();
+    const incrementStreak = api.streakRouter.updateTaskStreak.useMutation({
+        onSuccess: async () => {
+            await utils.streakRouter.getStreak.invalidate()
+        }
+    })
+    const taskCompleted = api.dailyTaskRouter.completeTask.useMutation({
+        onSuccess: () => {
+            setCompleted(true)
+            incrementStreak.mutate()
+        }
+    })
 
     const handleClick = () => {
         if (!session) {

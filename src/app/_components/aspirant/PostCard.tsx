@@ -89,6 +89,7 @@ const PostCard: React.FC<PostCardProps> = ({
   createdAt,
   content,
   hashtags,
+  authorId,
   likedByme,
   bookMarkedByme,
   likeCount
@@ -126,6 +127,15 @@ const PostCard: React.FC<PostCardProps> = ({
     if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
     return `${Math.floor(diff / 86400)} days ago`;
   };
+
+  const MentorRedirect = () => {
+    setLoading(true); // Set loading to true when clicking the post
+    setTimeout(() => {
+      router.push(`/mentorProfile/${authorId}`);
+      setLoading(false); // Set loading to false after redirection
+    }, 500); // Simulate a small delay before redirect (you can adjust this)
+  };
+
 
   const handleRedirect = () => {
     setLoading(true); // Set loading to true when clicking the post
@@ -191,7 +201,7 @@ const PostCard: React.FC<PostCardProps> = ({
   return (
     <div className="bg-gradient-to-b from-gray-900 via-[#300171] to-slate-900 rounded-xl p-4 mb-6 shadow-lg hover:shadow-2xl">
       {/* Author Info */}
-      <div className="mb-4 flex items-center cursor-pointer" onClick={handleRedirect}>
+      <div className="mb-4 flex items-center cursor-pointer" onClick={MentorRedirect}>
         <Image                         
          src={profilePic} alt={authorName} width={40} height={40} className="h-10 w-10 rounded-full border border-purple-500/30" />
         <span className="ml-3">

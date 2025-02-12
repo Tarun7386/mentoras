@@ -1,12 +1,13 @@
+import { Loader } from "lucide-react";
 import { api } from "~/trpc/react";
 
 function StreakDisplay() {
 
-    const {data} = api.streakRouter.getStreak.useQuery();
+    const {data,isLoading} = api.streakRouter.getStreak.useQuery();
     return ( 
-        <>
-            <h2>Current Streak: {data?.streak ?? 0}</h2>
-        </>
+        <span className="text-sm font-medium sm:text-base">
+            {isLoading ? <Loader/> : `Streak: ${data?.streak}`}
+        </span>
      );
 }
 

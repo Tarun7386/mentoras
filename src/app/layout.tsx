@@ -20,8 +20,11 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable}`}>
       <body className="bg-gradient-to-b text-white from-gray-900 via-[#300171] to-slate-900" >
         <Providers>
-        <Nav />
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        
+        <TRPCReactProvider>
+            <Nav />
+          {children}
+          </TRPCReactProvider>
         </Providers>
         <Analytics />
       </body>

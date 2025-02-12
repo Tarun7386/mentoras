@@ -1,5 +1,4 @@
 import { z } from "zod";
-import Aspirant from "~/app/home/aspirant/[[...button]]/page";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const formRouter = createTRPCRouter({
@@ -117,9 +116,6 @@ export const formRouter = createTRPCRouter({
                 };
             }
 
-            return {
-                role: "",
-            };
         }),
         getAspirantProfile: protectedProcedure
         .input(z.object({

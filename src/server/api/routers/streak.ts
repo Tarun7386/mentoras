@@ -1,4 +1,8 @@
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { addDays, isYesterday, isToday } from 'date-fns';
 
 export const streakRouter = createTRPCRouter({
@@ -62,7 +66,7 @@ export const streakRouter = createTRPCRouter({
                 });
             }
         } catch (error) {
-            throw new Error( 'An error occurred while updating streak');
+            throw new Error(`An error occurred while updating streak: ${String(error) }`);
         }
     }),
 
@@ -83,7 +87,7 @@ export const streakRouter = createTRPCRouter({
                 maxStreak: aspirant.maxStreak,
             };
         } catch (error) {
-            throw new Error('An error occurred while fetching streak');
+            throw new Error(`An error occurred while fetching streak: ${String(error)}`);
         }
     }),
 
@@ -106,7 +110,7 @@ export const streakRouter = createTRPCRouter({
 
             return topAspirants;
         } catch (error) {
-            throw new Error( 'An error occurred while fetching top streaks');
+            throw new Error(`An error occurred while fetching top streaks: ${String(error)}`);
         }
     }),
 

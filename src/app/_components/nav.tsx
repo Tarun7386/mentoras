@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { toast, ToastContainer } from "react-toastify";
+import StreakDisplay from "./aspirant/StreakDisplay";
 const Nav = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -274,11 +275,10 @@ return (
                     d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
                   />
                 </svg>
-                <span className="text-sm font-medium sm:text-base">
-                  Streak:5
-                </span>
+                {/* streakbutton */}
+                <StreakDisplay/>
               </button>
-              <Link href="/" className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-center text-xl font-bold text-transparent sm:text-2xl">
+              <Link href="/role" className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-center text-xl font-bold text-transparent sm:text-2xl">
               Mentoras
             </Link>
              
@@ -328,7 +328,7 @@ return (
                               1
                             </span>
                             <p className="text-gray-300">
-                              Complete at least one lesson every day
+                          Earn 2 streak points daily by completing tasks in the study group.
                             </p>
                           </div>
 
@@ -337,7 +337,7 @@ return (
                               2
                             </span>
                             <p className="text-gray-300">
-                              Practice consistently to maintain your streak
+                          Earn an extra streak point for completing more than one task in a day.
                             </p>
                           </div>
 
@@ -346,7 +346,7 @@ return (
                               3
                             </span>
                             <p className="text-gray-300">
-                              Don't miss a day to keep your streak alive
+                          Your streak will be reset to 0 if you miss a day.
                             </p>
                           </div>
                         </div>

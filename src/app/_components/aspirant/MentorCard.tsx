@@ -55,7 +55,7 @@ const MentorCard: React.FC<MentorCardProps> = ({
             // Here you would typically call an API to follow/unfollow the mentor
             // Example: await api.followMentor(id, !followed);
         } catch (error) {
-            toast.error("Something went wrong, please try again.");
+            toast.error(String(error) || "Something went wrong, please try again.");
         } finally {
             setLoading(false);
         }

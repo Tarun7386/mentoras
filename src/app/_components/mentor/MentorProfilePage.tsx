@@ -38,11 +38,11 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
   const {data:session} = useSession()
 
  
-  const [activeTab, setActiveTab] = useState<"studyGroups" | "Your Posts" | "reviews">(
+  const [activeTab, setActiveTab] = useState<"studyGroups" | "Your Posts" | "reviews" | "AMA">(
     "studyGroups"
   );
 
-  const handleTabClick = (tab: "studyGroups" | "Your Posts" | "reviews") => {
+  const handleTabClick = (tab: "studyGroups" | "Your Posts" | "reviews" |"AMA") => {
     setActiveTab(tab);
   };
 
@@ -145,6 +145,7 @@ const MentorProfilePage: React.FC<MentorProfilePageProps> = ({
           <div className="rounded-lg bg-black/20 p-6">
             {activeTab === "studyGroups" && <StudyGroupsList ownerId={id}/>}
             {activeTab === "Your Posts" && <MentorPosts mentorId={mentorId}/> }
+            {activeTab === "AMA" && <p> working.... on Ask Me Anything Feature</p>}
             {activeTab === "reviews" && <p>Reviews appear here (still working on this feature)</p>}
           </div>
         </div>
