@@ -18,7 +18,7 @@ const StudyGroupsList = ({ ownerId }: { ownerId: string | undefined }) => {
     }
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="max-w-2xl w-full mx-auto space-y-4 sm:space-y-6 pb-20">
             {groups.map((group) => (
                 <StudyGroupCard
                     key={group.id}

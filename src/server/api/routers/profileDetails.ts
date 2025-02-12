@@ -1,4 +1,5 @@
 import { z } from "zod";
+import Aspirant from "~/app/home/aspirant/[[...button]]/page";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const formRouter = createTRPCRouter({
@@ -12,6 +13,13 @@ export const formRouter = createTRPCRouter({
         .mutation(async ({ ctx, input }) => {
             try {
                 const { preparation } = input;
+
+                await ctx.db.user.update({
+                    where: { id: ctx.session.user.id },
+                    data: {
+                        role: "ASPIRANT",
+                    },
+                });
 
                 await ctx.db.aspirant.create({
                     data: {
@@ -45,6 +53,12 @@ export const formRouter = createTRPCRouter({
             const { mainWork = "", description = "", introVideo = "", hashtags } = input;
 
             try {
+                await ctx.db.user.update({
+                    where: { id: ctx.session.user.id },
+                    data: {
+                        role: "MENTOR",
+                    },
+                });
                 const mentorData = await ctx.db.mentor.create({
                     data: {
                         user: { connect: { id: ctx.session.user.id } },

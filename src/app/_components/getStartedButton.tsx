@@ -1,15 +1,12 @@
 'use client'
 import { signIn, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import LoaderComponent from "./LoaderComponent";
+import { Loader } from "lucide-react";
 
 function GetstartedButton() {
 
 const { data: session,status } = useSession()
 
-if (status === "loading") {
-    return <LoaderComponent/>
-  }
         
   return (
     <div className="container flex flex-col items-center justify-center px-4 ">
@@ -25,7 +22,7 @@ if (status === "loading") {
 
         className="flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
       >
-        Get started
+        {status === "loading"? <Loader/> : "Get started"}
         <svg
           className="w-6 h-6 text-white"
           aria-hidden="true"

@@ -1,11 +1,10 @@
-"use client";
-import { api } from "~/trpc/react";
-import StudyGroupCard from "../_components/studygroup/StudyGroupCard";
 import { useSession } from "next-auth/react";
+import { api } from "~/trpc/react";
+import LoaderComponent from "../LoaderComponent";
 import { redirect } from "next/navigation";
-import LoaderComponent from "../_components/LoaderComponent";
+import StudyGroupCard from "../studygroup/StudyGroupCard";
 
-function StudyGroups() {
+function MemberGroupList() {
     const { data: session, status } = useSession();
     const { data: StudyGroups, isLoading } = api.studyGroupRouter.getMemberStudyGrp.useQuery(undefined, {
         enabled: !!session,  // Prevents query from running before session is available
@@ -42,4 +41,4 @@ function StudyGroups() {
     );
 }
 
-export default StudyGroups;
+export default MemberGroupList;

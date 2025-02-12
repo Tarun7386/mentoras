@@ -65,6 +65,10 @@ model Aspirant {
     preparation         String[]
     completedChallenges ChallengeParticipation[]
     completedDailytasks DailyTaskCompletion[]
+    streak         Int       @default(0)
+    maxStreak      Int       @default(0)
+    lastStreakDate DateTime?
+
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -201,14 +205,14 @@ model StudyGroup {
 }
 
 model StudyGroupMember {
-    id           String   @id @default(cuid())
-    userId       String
-    studyGroupId String
-    role         String // e.g., "admin", "member", etc.
-    joinedAt     DateTime @default(now())
+    id             String    @id @default(cuid())
+    userId         String
+    studyGroupId   String
+    role           String // e.g., "admin", "member", etc.
+    joinedAt       DateTime  @default(now())
 
     user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-    studyGroup StudyGroup @relation(fields: [studyGroupId], references: [id],onDelete: Cascade)
+    studyGroup StudyGroup @relation(fields: [studyGroupId], references: [id], onDelete: Cascade)
 }
 
 enum TaskStatus {
@@ -293,8 +297,8 @@ model VerificationToken {
 }
 
 model Feedback {
-    id      String @id @default(cuid())
-    content String
-    userId String?
+    id       String  @id @default(cuid())
+    content  String
+    userId   String?
     response String?
 }
