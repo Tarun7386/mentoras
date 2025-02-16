@@ -146,12 +146,32 @@ const DailyTask: React.FC<DailyTaskProps> = ({
 
             {/* Add Task Button (Only for owner) */}
             {isOwner && (
-              <button
-                onClick={() => setIsAddingTask(true)}
-                className="flex transform items-center justify-center gap-1.5 whitespace-nowrap rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-3 py-1.5 text-xs font-medium text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:from-purple-500 hover:to-pink-500 hover:shadow-purple-500/25 sm:gap-2 sm:px-4 sm:py-2 sm:text-sm"
-              >
-                ➕ <span>Add Task</span>
-              </button>
+            <button
+    onClick={() => setIsAddingTask(true)}
+    className="flex items-center justify-center gap-1.5 
+      rounded-xl text-xs sm:text-sm font-medium text-white
+      bg-gradient-to-r from-purple-600 to-pink-600
+      px-3 py-1.5 sm:px-4 sm:py-2
+      transition-all duration-300 
+      hover:shadow-lg hover:shadow-purple-500/20 
+      hover:scale-[1.02] active:scale-[0.98]
+      whitespace-nowrap"
+  >
+    <svg 
+      className="w-3.5 h-3.5 sm:w-4 sm:h-4" 
+      fill="none" 
+      viewBox="0 0 24 24" 
+      stroke="currentColor"
+    >
+      <path 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+        strokeWidth={2} 
+        d="M12 4v16m8-8H4"
+      />
+    </svg>
+    <span className="xs:hidden">Add Task</span>
+  </button>
             )}
           </div>
         </div>
