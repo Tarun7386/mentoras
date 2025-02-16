@@ -457,13 +457,13 @@ return (
                 </>
               ) : (
                 <button
-                  onClick={() =>
-                    void signIn("google", { callbackUrl: "/role" })
-                  }
-                  className="rounded-xl bg-purple-600 px-4 py-2 text-white transition-all hover:bg-purple-700"
-                >
-                  Sign in
-                </button>
+                onClick={() => void signIn("google", { callbackUrl: "/role" })}
+                className="rounded-xl bg-gradient-to-r from-blue-700 to-blue-700
+                  px-2.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm text-white 
+                  transition-all hover:from-blue-700 hover:to-blue-800"
+              >
+                Sign in
+              </button>
               )}
             </div>
 
