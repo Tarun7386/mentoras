@@ -39,7 +39,50 @@ export const formRouter = createTRPCRouter({
             }
         }),
 
-    mentorForm: protectedProcedure
+        alumniForm: protectedProcedure
+        .input(
+            z.object({
+                role: z.literal("ALUMNI"),
+                whatsappNumber: z.string().min(10).max(10),
+                
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            const { whatsappNumber } = input;
+
+            try {
+                // Update user role
+                await ctx.db.user.update({
+                    where: { id: ctx.session.user.id },
+                    data: {
+                        role: "ALUMNI" ,
+                    },
+                });
+
+                // Create alumni profile
+                const alumniData = await ctx.db.alumni.create({
+                    data: {
+                        user: { connect: { id: ctx.session.user.id } },
+                        whatsappNumber,
+                        
+                    },
+                });
+
+                console.log("Alumni form submitted successfully:", {
+                    whatsappNumber,
+                    
+                });
+
+                return {
+                    message: "Alumni form submitted successfully!",
+                    data: alumniData,
+                };
+            } catch (error) {
+                console.error("Error submitting alumni form:", error);
+                throw new Error("Failed to submit alumni form. Please try again.");
+            }
+        }),
+        mentorForm: protectedProcedure
         .input(
             z.object({
                 mainWork: z.string(),
@@ -98,9 +141,10 @@ export const formRouter = createTRPCRouter({
             const { id } = ctx.session.user;
             const userId = ownerId ?? id
             // Use a single query to find if the user exists in either table
-            const [aspirant, mentor] = await Promise.all([
+            const [aspirant, mentor,alumni] = await Promise.all([
                 ctx.db.aspirant.findFirst({ where: { userId: userId } }),
                 ctx.db.mentor.findFirst({ where: { userId: userId } }),
+                ctx.db.alumni.findFirst({ where: { userId: userId } }),
             ]);
 
             if (aspirant) {
@@ -115,8 +159,13 @@ export const formRouter = createTRPCRouter({
 
                 };
             }
+            if (alumni) {
+                return {
+                    role: "ALUMNI",
+            }
 
-        }),
+        }
+}),
         getAspirantProfile: protectedProcedure
         .input(z.object({
             id: z.string().optional()

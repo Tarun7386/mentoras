@@ -26,7 +26,9 @@ import LoaderComponent from '../_components/LoaderComponent';
                 ? "/home/aspirant"
                 : role === "MENTOR"
                     ? "/home/mentor"
-                    : "/role"; // Default fallback role page
+                    : role === "ALUMNI"
+                    ? "/home/alumni"
+                    : "/role";
 
         redirect(redirectURL);
     }

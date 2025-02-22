@@ -6,15 +6,15 @@ import AspirantPage from "~/app/_components/aspirant/AspirantPage";
 const AspirantHomePage = ({
     tabSelected,
 }: {
-    tabSelected: "feed" | "mentors";
+    tabSelected: "feed" | "mentors" |"alumni";
 }) => {
-    const [activeComponent, setActiveComponent] = useState<"feed" | "mentors" >(tabSelected);
+    const [activeComponent, setActiveComponent] = useState<"feed" | "mentors" | "alumni" >(tabSelected);
     console.log("Tab Selected: ", tabSelected);
 
     const router = useRouter();
 
     const handleTabChange = (
-        button: "feed" | "mentors",
+        button: "feed" | "mentors" | "alumni",
     ) => {
         console.log("Button Clicked: ", button);
 
@@ -94,6 +94,33 @@ const AspirantHomePage = ({
                         </svg>
                         <span className="font-medium">Mentors</span>
                     </button>
+                    <button
+    onClick={() => handleTabChange("alumni")}
+    className={`flex items-center justify-center gap-3 rounded-xl 
+        border border-purple-500/20 
+        ${activeComponent === "alumni"
+            ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white"
+            : "bg-black/50 hover:bg-gradient-to-r hover:from-purple-600/80 hover:to-pink-600/80 hover:text-white"
+        }
+        px-6 py-3 transition-all duration-300 hover:scale-[1.02] 
+        sm:flex-1`}
+>
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+    >
+        <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2M12 3v1m0 16v1m0-8a3 3 0 110 6 3 3 0 010-6z"
+        />
+    </svg>
+    <span className="font-medium">Alumni</span>
+</button>
                 </div>
                 <AspirantPage initialTab={activeComponent} />
             </div>
