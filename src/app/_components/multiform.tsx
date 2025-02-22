@@ -16,6 +16,9 @@ const MultiStepForm = () => {
         preparation: "",
         hashtags: "",
         whatsappNumber: "",
+        collegeName: "",
+        degree: "",
+        sessionCost: 0,
     });
     const [isLoading, setIsLoading] = useState(false); // New state for loading indicator
 
@@ -79,6 +82,8 @@ const MultiStepForm = () => {
                 toast.error("Please enter a valid 10-digit WhatsApp number.");
                 return;
             }
+        }
+
         try {
             if (role === "ASPIRANT") {
                 await aspirantMutation.mutateAsync({
@@ -93,30 +98,31 @@ const MultiStepForm = () => {
                         ? formData.hashtags.split(",").map(tag => tag.trim()).filter(tag => tag !== "")
                         : [],
                 });
-            }
-            else if (role === "ALUMNI") {
-                
+            } else if (role === "ALUMNI") {
                 await alumniMutation.mutateAsync({
-                    role: "ALUMNI",
-                    whatsappNumber: formData.whatsappNumber,
+                    whatsappNumber: Number(formData.whatsappNumber),
+                    description: formData.description,
+                    collegeName: formData.collegeName,
+                    degree: formData.degree,
+                    sessionCost: formData.sessionCost,
                 });
             }
         } catch (error) {
             console.error("Error submitting form:", error);
-            alert("Something went wrong. Please try again.");
+            toast.error("Something went wrong. Please try again.");
         }
     };
 
     const handleSkip = () => {
-        setIsLoading(true); // Set loading to true when skip is clicked
+        setIsLoading(true);
         setTimeout(() => {
             const route = role === "ASPIRANT" 
-            ? "/home/aspirant" 
-            : role === "ALUMNI"
-                ? "/home/aspirant/alumni"
-                : "/home/mentor";
-        router.push(route);
-    }, 1500);
+                ? "/home/aspirant" 
+                : role === "ALUMNI"
+                    ? "/home/aspirant/alumni"
+                    : "/home/mentor";
+            router.push(route);
+        }, 1500);
     };
 
     return (
@@ -130,40 +136,6 @@ const MultiStepForm = () => {
   transition-all duration-300
   hover:shadow-[0_0_20px_rgba(139,92,246,0.2)]
   mx-4 sm:mx-0">
-                {/* {step === 1 && (
-                    <div>
-                        <h2 className="text-xl font-bold mb-4">Choose your role</h2>
-                        <div className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full">
-                            <button
-                                className="hover:shadow duration-500 rounded-full bg-purple-100 hover:bg-purple-200 text-slate-800 px-4 py-2 font-semibold"
-                                onClick={() => {
-                                    setRole("MENTOR");
-                                    handleNext();
-                                }}
-                            >
-                                Mentor
-                            </button>
-                            <button
-                                className="hover:shadow duration-500 rounded-full bg-purple-100 hover:bg-purple-200 text-slate-800 px-4 py-2 font-semibold"
-                                onClick={() => {
-                                    setRole("ASPIRANT");
-                                    handleNext();
-                                }}
-                            >
-                                Aspirant
-                            </button>
-                            <button
-                className="hover:shadow duration-500 rounded-full bg-purple-100 hover:bg-purple-200 text-slate-800 px-4 py-2 font-semibold w-40"
-                onClick={() => {
-                    setRole("ALUMNI");
-                    handleNext();
-                }}
-            >
-                Alumni
-            </button>
-                        </div>
-                    </div>
-                )} */}
                 {step === 1 && (
     <div>
         <h2 className="text-center text-xl font-bold mb-6 text-white">
@@ -380,6 +352,5 @@ const MultiStepForm = () => {
         </div>
     );
 };
-}
 
 export default MultiStepForm;
