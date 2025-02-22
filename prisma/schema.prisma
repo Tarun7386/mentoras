@@ -78,10 +78,11 @@ model Alumni {
     id          String @id @default(cuid())
     user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId      String
-    name        String
     collegeName String
+    degree      String
     description String
     sessionCost Int
+    whatsappNumber Int
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

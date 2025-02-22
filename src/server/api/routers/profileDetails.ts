@@ -42,13 +42,15 @@ export const formRouter = createTRPCRouter({
         alumniForm: protectedProcedure
         .input(
             z.object({
-                role: z.literal("ALUMNI"),
-                whatsappNumber: z.string().min(10).max(10),
-                
+                collegeName : z.string(),
+                degree: z.string(),
+                description: z.string(),
+                sessionCost : z.number(),
+                whatsappNumber: z.number(),
             })
         )
         .mutation(async ({ ctx, input }) => {
-            const { whatsappNumber } = input;
+            const { collegeName, degree, description,sessionCost,whatsappNumber } = input;
 
             try {
                 // Update user role
@@ -63,17 +65,16 @@ export const formRouter = createTRPCRouter({
                 const alumniData = await ctx.db.alumni.create({
                     data: {
                         user: { connect: { id: ctx.session.user.id } },
-                        whatsappNumber,
+                        collegeName,
+                        degree,
+                        description,
+                        sessionCost,
+                        whatsappNumber
                         
                     },
                 });
-
-                console.log("Alumni form submitted successfully:", {
-                    whatsappNumber,
-                    
-                });
-
-                return {
+                
+            return {
                     message: "Alumni form submitted successfully!",
                     data: alumniData,
                 };
