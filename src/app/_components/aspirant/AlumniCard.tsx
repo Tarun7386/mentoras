@@ -32,14 +32,16 @@ const AlumniCard: React.FC<AlumniCardProps> = ({
     const [loading, setLoading] = useState(false);
    
     const handleBookSession = () => {
-        if (whatsappNumber) {
-            window.open(
-                `https://wa.me/91${whatsappNumber}?text=Hi, I would like to book a session with you.`, 
-                '_blank'
-            );
-        } else {
-            toast.info("Booking feature coming soon!");
-        }
+        const googleFormUrl = "https://docs.google.com/forms/d/1efcbfDgq5RYmM8Y4feiaKsnBzAad2rYtt8oXdQOFnE8/edit";
+    
+    try {
+        window.open(
+            `${googleFormUrl}?usp=pp_url&entry.1=${encodeURIComponent(name)}&entry.2=${encodeURIComponent(collegeName)}&entry.3=${encodeURIComponent(degree)}`,
+            '_blank'
+        );
+    } catch (error) {
+        toast.error("Failed to open booking form. Please try again.");
+    }
     };
 
     return (
