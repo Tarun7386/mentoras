@@ -3,7 +3,9 @@ import LoaderComponent from "../LoaderComponent";
 import AlumniCard from "./AlumniCard";
 import { api } from "~/trpc/react";
 
-
+interface AlumniProfileContainerProps {
+    alumniId: string;
+}
 const Alumni: FC = () => {
     const { data: alumni, isLoading, error } = api.alumniData.getAlumni.useQuery();
     
