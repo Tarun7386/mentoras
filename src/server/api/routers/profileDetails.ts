@@ -46,7 +46,7 @@ export const formRouter = createTRPCRouter({
                 degree: z.string(),
                 description: z.string(),
                 sessionCost : z.number(),
-                whatsappNumber: z.number(),
+                whatsappNumber: z.string(),
                 
             })
         )
