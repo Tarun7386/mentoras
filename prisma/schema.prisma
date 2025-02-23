@@ -82,7 +82,7 @@ model Alumni {
     degree      String
     description String
     sessionCost Int
-    whatsappNumber Int
+    whatsappNumber String
     
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

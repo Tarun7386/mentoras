@@ -95,10 +95,10 @@ const MultiStepForm = () => {
                 toast.error("Degree is required");
                 return;
             }
-            if (!formData.description || formData.description.trim().length < 50) {
-                toast.error("Description must be at least 50 characters long");
-                return;
-            }
+            // if (!formData.description || formData.description.trim().length < 50) {
+            //     toast.error("Description must be at least 50 characters long");
+            //     return;
+            // }
             if (!formData.sessionCost || formData.sessionCost <= 0) {
                 toast.error("Please enter a valid session cost");
                 return;
@@ -124,6 +124,7 @@ const MultiStepForm = () => {
                         : [],
                 });
             } else if (role === "ALUMNI") {
+                console.log(formData)
                 await alumniMutation.mutateAsync({
                     whatsappNumber: Number(formData.whatsappNumber),
                     description: formData.description,
