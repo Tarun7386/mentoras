@@ -126,7 +126,7 @@ const MultiStepForm = () => {
             } else if (role === "ALUMNI") {
                 console.log(formData)
                 await alumniMutation.mutateAsync({
-                    whatsappNumber: Number(formData.whatsappNumber),
+                    whatsappNumber: formData.whatsappNumber,
                     description: formData.description,
                     collegeName: formData.collegeName,
                     degree: formData.degree,
@@ -347,7 +347,7 @@ const MultiStepForm = () => {
                         name="degree"
                         value={formData.degree}
                         onChange={handleChange}
-                        placeholder="Enter your degree (e.g., B.Tech, M.Tech)"
+                        placeholder="Enter your degree (e.g., B.Tech Computer Science of Technology, M.Tech Electronics)"
                         className="block w-full px-4 py-3 
                             border border-purple-500/20 rounded-lg 
                             bg-white/10 backdrop-blur-sm
