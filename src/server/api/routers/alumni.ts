@@ -4,11 +4,17 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 export const alumniRouter = createTRPCRouter({
     getAlumni: publicProcedure
     .query(async ({ctx})=>{
-        const data = await ctx.db.alumni.findMany({})
-        return {
-            message: "Alumni data fetched successfully",
-            data
-        }
+        const data = await ctx.db.alumni.findMany({
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        image: true,
+                    },
+                },
+            },
+        });
+        return data
     }),
     getAlumniById: publicProcedure
     .input(
@@ -23,6 +29,7 @@ export const alumniRouter = createTRPCRouter({
         return {
             message: "Alumni byt id",
             data
+            
         }
     }),
     

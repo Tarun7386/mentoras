@@ -47,10 +47,11 @@ export const formRouter = createTRPCRouter({
                 description: z.string(),
                 sessionCost : z.number(),
                 whatsappNumber: z.number(),
+                
             })
         )
         .mutation(async ({ ctx, input }) => {
-            const { collegeName, degree, description,sessionCost,whatsappNumber } = input;
+            const { collegeName, degree, description,sessionCost,whatsappNumber} = input;
 
             try {
                 // Update user role
@@ -69,10 +70,12 @@ export const formRouter = createTRPCRouter({
                         degree,
                         description,
                         sessionCost,
-                        whatsappNumber
-                        
+                        whatsappNumber,
+                             
                     },
                 });
+                
+                  
                 
             return {
                     message: "Alumni form submitted successfully!",
@@ -184,3 +187,20 @@ export const formRouter = createTRPCRouter({
             return profile
         })
 });
+
+      getAlumniProfile: protectedProcedure
+        .input(z.object({
+            id: z.string().optional()
+        }))
+        .query(async ({ctx,input:{id}})=>{
+            const profile = await ctx.db.user.findFirst({
+                where:{
+                    id:id ?? ctx.session.user.id,
+                },
+                select:{
+                    name:true,
+                    image:true
+                }
+            })
+            return profile
+        })

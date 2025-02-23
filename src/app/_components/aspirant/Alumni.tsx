@@ -1,52 +1,65 @@
 import type { FC } from "react";
 import LoaderComponent from "../LoaderComponent";
 import AlumniCard from "./AlumniCard";
-// import { api } from "~/trpc/react";
+import { api } from "~/trpc/react";
 
-// Mock data for testing
+interface AlumnusType {
+    id: string;
+    user: {
+        name: string | null;
+        image: string | null;
+    };
+    collegeName: string;
+    degree: string;
+    description: string;
+    sessionCost: number;
+    whatsappNumber: number;
+}
 const mockAlumni = [
     {
         id: "1",
         user: {
             name: "John Doe",
-            image: ""
+            image: "/avatars/john.jpg"
         },
-        achievement: "Cleared UPSC CSE 2023",
-        description: "I prepared for 3 years and finally cleared UPSC CSE 2023 with AIR 123. I can guide aspirants about the right strategy and approach to crack this examination. Feel free to reach out for guidance!",
-        hashtags: "UPSC,CSE,IAS,CivilServices",
-        whatsappNumber: "9876543210",
-       
+        collegeName: "IIT Delhi",
+        degree: "B.Tech Computer Science",
+        description: "I'm a passionate computer science graduate with expertise in algorithms and data structures. I've helped many students prepare for technical interviews and coding challenges. My teaching approach focuses on building strong fundamentals.",
+        sessionCost: 1500,
+        whatsappNumber: 9876543210
     },
     {
         id: "2",
         user: {
             name: "Jane Smith",
-            image: ""
+            image: "/avatars/jane.jpg"
         },
-        achievement: "Software Engineer at Google",
-        description: "Graduated from IIT Delhi and currently working at Google. I can help you prepare for coding interviews and guide you through DSA concepts. I've helped many students crack FAANG interviews.",
-        hashtags: "Programming,DSA,FAANG,Tech",
-        whatsappNumber: "9876543211",
-       
+        collegeName: "IIM Ahmedabad",
+        degree: "MBA Finance",
+        description: "With 3 years of experience in investment banking and a strong academic background, I can help you understand complex financial concepts and prepare for MBA entrance exams. I believe in practical learning through case studies.",
+        sessionCost: 2000,
+        whatsappNumber: 9876543211
     },
     {
         id: "3",
         user: {
             name: "Priya Patel",
-            image: ""
+            image: "/avatars/priya.jpg"
         },
-        achievement: "AIR 45 in GATE 2023",
-        description: "Secured AIR 45 in GATE 2023 (CSE). Currently pursuing M.Tech at IISc Bangalore. I can help you with GATE preparation strategies and important topics to focus on.",
-        hashtags: "GATE,CSE,Engineering,MTech",
-        whatsappNumber: "9876543212",
-       
+        collegeName: "IISc Bangalore",
+        degree: "M.Tech in AI/ML",
+        description: "Currently pursuing research in machine learning at IISc. I can help you with advanced topics in AI/ML, python programming, and math fundamentals. My sessions include hands-on projects and real-world applications.",
+        sessionCost: 1800,
+        whatsappNumber: 9876543212
     }
 ];
 
 const Alumni: FC = () => {
+    const { data: alumni, isLoading, error } = api.alumniData.getAlumni.useQuery();
+    
     // Simulating loading state with useState if needed
     // const [isLoading, setIsLoading] = useState(false);
-    const isLoading = false;
+   
     const isError = false;
 
     // Handle loading state
@@ -55,27 +68,41 @@ const Alumni: FC = () => {
     }
 
     // Handle error state
-    if (isError) {
+    if (error) {
         return (
-            <div className="text-center text-red-500">
-                Failed to load alumni profiles.
+            <div className="text-center py-8">
+                <p className="text-red-500 font-medium">Failed to load alumni profiles.</p>
+                <button 
+                    onClick={() => window.location.reload()}
+                    className="mt-4 text-purple-500 hover:text-purple-600 text-sm"
+                >
+                    Try again
+                </button>
+            </div>
+        );
+    }
+
+    if (!alumni?.length) {
+        return (
+            <div className="text-center py-8 text-gray-500">
+                No alumni profiles available at the moment.
             </div>
         );
     }
 
     return (
-        <div className="space-y-4 p-4">
-            {mockAlumni.map((alumnus) => (
+        <div className="space-y-4 p-1">
+            {alumni.map((alumnus: AlumnusType) => (
                 <AlumniCard
                     key={alumnus.id}
                     id={alumnus.id}
+                    name={alumnus.user.name ?? "Anonymous"}
                     profilePic={alumnus.user.image ?? "/default-avatar.png"}
-                    name={alumnus.user.name ?? "Anonymous Alumni"}
-                    achievement={alumnus.achievement}
+                    collegeName={alumnus.collegeName}
+                    degree={alumnus.degree}
                     description={alumnus.description}
-                    hashtags={alumnus.hashtags?.split(',') ?? []}
+                    sessionCost={alumnus.sessionCost}
                     whatsappNumber={alumnus.whatsappNumber}
-                    
                 />
             ))}
         </div>

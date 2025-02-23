@@ -19,6 +19,7 @@ const MultiStepForm = () => {
         collegeName: "",
         degree: "",
         sessionCost: 0,
+        
     });
     const [isLoading, setIsLoading] = useState(false); // New state for loading indicator
 
@@ -43,7 +44,15 @@ const MultiStepForm = () => {
         onSuccess: () => {
             toast.success("submitted successfully!");
             router.push("/home/alumni");
-            setFormData({ ...formData, whatsappNumber: "" });
+            setFormData({
+                ...formData,
+                collegeName: "",
+                degree: "",
+                description: "",
+                sessionCost: 0,
+                whatsappNumber: "",
+                
+            });
             setRole("");
         },
     });
@@ -78,8 +87,24 @@ const MultiStepForm = () => {
             }
         }
         else if (role === "ALUMNI") {
-            if (!formData.whatsappNumber || formData.whatsappNumber.length !== 10) {
-                toast.error("Please enter a valid 10-digit WhatsApp number.");
+            if (!formData.collegeName.trim()) {
+                toast.error("College name is required");
+                return;
+            }
+            if (!formData.degree.trim()) {
+                toast.error("Degree is required");
+                return;
+            }
+            if (!formData.description || formData.description.trim().length < 50) {
+                toast.error("Description must be at least 50 characters long");
+                return;
+            }
+            if (!formData.sessionCost || formData.sessionCost <= 0) {
+                toast.error("Please enter a valid session cost");
+                return;
+            }
+            if (!formData.whatsappNumber || !/^\d{10}$/.test(formData.whatsappNumber)) {
+                toast.error("Please enter a valid 10-digit WhatsApp number");
                 return;
             }
         }
@@ -104,7 +129,8 @@ const MultiStepForm = () => {
                     description: formData.description,
                     collegeName: formData.collegeName,
                     degree: formData.degree,
-                    sessionCost: formData.sessionCost,
+                    sessionCost: Number(formData.sessionCost),
+                   
                 });
             }
         } catch (error) {
@@ -119,14 +145,14 @@ const MultiStepForm = () => {
             const route = role === "ASPIRANT" 
                 ? "/home/aspirant" 
                 : role === "ALUMNI"
-                    ? "/home/aspirant/alumni"
+                    ? "/home/alumni"
                     : "/home/mentor";
             router.push(route);
         }, 1500);
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen">
+        <div className="flex justify-center items-center min-h-screen ">
             <ToastContainer />
             <div className="w-full max-w-md p-6 rounded-xl 
   bg-gradient-to-b from-gray-900/50 via-purple-900/30 to-gray-900/50
@@ -141,7 +167,7 @@ const MultiStepForm = () => {
         <h2 className="text-center text-xl font-bold mb-6 text-white">
             Choose your role
         </h2>
-        <div className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full mx-auto">
+        <div className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full mx-auto ">
             <button
                 className="w-full sm:w-1/3 hover:shadow duration-500 
                     rounded-full bg-purple-100 hover:bg-purple-200 
@@ -182,7 +208,7 @@ const MultiStepForm = () => {
     </div>
 )}
                 {step === 2 && role === "ASPIRANT" && (
-                    <div>
+                    <div >
                         <h2 className="text-xl font-bold mb-4">Preparation Details</h2>
                         <form onSubmit={handleSubmit}>
                             <label className="block mb-4">
@@ -281,18 +307,109 @@ const MultiStepForm = () => {
                         </form>
                     </div>
                 )}
-                {step === 2 && role === "ALUMNI" && (
-    <div className="animate-in fade-in duration-500">
+             
+            {step === 2 && role === "ALUMNI" && (
+    <div  className="">
         <h2 className="text-xl font-bold mb-6 text-center text-white">
             Alumni Contact Details
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 ">
+            {/* College Name Field */}
+            <div className="relative mt-4">
+                <label className="block mb-4">
+                    <span className="text-gray-200 text-sm font-medium">College Name</span>
+                    <input
+                        type="text"
+                        name="collegeName"
+                        value={formData.collegeName}
+                        onChange={handleChange}
+                        placeholder="Enter your college name"
+                        className="block w-full px-4 py-3 
+                            border border-purple-500/20 rounded-lg 
+                            bg-white/10 backdrop-blur-sm
+                            text-white placeholder-gray-400
+                            focus:ring-2 focus:ring-purple-500/40 
+                            focus:border-transparent
+                            transition-all duration-200"
+                        required
+                    />
+                </label>
+            </div>
+            
+
+            {/* Degree Field */}
             <div className="relative">
                 <label className="block mb-2">
-                    <span className="text-gray-200 text-sm font-medium">
-                        WhatsApp Number
-                    </span>
-                    <div className="mt-1 relative rounded-lg shadow-sm">
+                    <span className="text-gray-200 text-sm font-medium">Degree</span>
+                    <input
+                        type="text"
+                        name="degree"
+                        value={formData.degree}
+                        onChange={handleChange}
+                        placeholder="Enter your degree (e.g., B.Tech, M.Tech)"
+                        className="block w-full px-4 py-3 
+                            border border-purple-500/20 rounded-lg 
+                            bg-white/10 backdrop-blur-sm
+                            text-white placeholder-gray-400
+                            focus:ring-2 focus:ring-purple-500/40 
+                            focus:border-transparent
+                            transition-all duration-200"
+                        required
+                    />
+                </label>
+            </div>
+
+            {/* Description Field */}
+            <div className="relative">
+                <label className="block mb-2">
+                    <span className="text-gray-200 text-sm font-medium">Description</span>
+                    <textarea
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        placeholder="Tell us about your experience and how you can help..."
+                        className="block w-full px-4 py-3 
+                            border border-purple-500/20 rounded-lg 
+                            bg-white/10 backdrop-blur-sm
+                            text-white placeholder-gray-400
+                            focus:ring-2 focus:ring-purple-500/40 
+                            focus:border-transparent
+                            transition-all duration-200
+                            resize-none"
+                        rows={4}
+                        required
+                    />
+                </label>
+            </div>
+
+            {/* Session Cost Field */}
+            <div className="relative">
+                <label className="block mb-2">
+                    <span className="text-gray-200 text-sm font-medium">Session Cost (₹)</span>
+                    <input
+                        type="number"
+                        name="sessionCost"
+                        value={formData.sessionCost}
+                        onChange={handleChange}
+                        placeholder="Enter session cost in rupees"
+                        className="block w-full px-4 py-3 
+                            border border-purple-500/20 rounded-lg 
+                            bg-white/10 backdrop-blur-sm
+                            text-white placeholder-gray-400
+                            focus:ring-2 focus:ring-purple-500/40 
+                            focus:border-transparent
+                            transition-all duration-200"
+                       
+                        required
+                    />
+                </label>
+            </div>
+
+            {/* WhatsApp Number Field (existing) */}
+            <div className="relative ">
+                <label className="block mb-2 4">
+                    <span className="text-gray-200 text-sm font-medium">WhatsApp Number</span>
+                    <div className="mt-1 relative rounded-lg shadow-sm ">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <span className="text-gray-500 sm:text-sm">+91</span>
                         </div>
@@ -320,6 +437,7 @@ const MultiStepForm = () => {
                 </label>
             </div>
 
+            {/* Action Buttons */}
             <div className="flex items-center justify-between gap-4 pt-2">
                 <button
                     type="button"
@@ -340,9 +458,9 @@ const MultiStepForm = () => {
                         transition-all duration-200
                         flex-1
                         disabled:opacity-50"
-                    disabled={isLoading}
+                    disabled={alumniMutation.isPending}
                 >
-                    {isLoading ? <Loader className="w-5 h-5 mx-auto"/> : "Submit"}
+                    {alumniMutation.isPending ? <Loader className="w-5 h-5 mx-auto"/> : "Submit"}
                 </button>
             </div>
         </form>

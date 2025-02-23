@@ -8,6 +8,7 @@ import { studyGroupRouter } from "./routers/studyGroup";
 import { dailyTaskRouter } from "./routers/dailyTask";
 import { feedbackRouter } from "./routers/feedback";
 import { streakRouter } from "./routers/streak";
+import { alumniRouter } from "./routers/alumni";
 
 /**
  * This is the primary router for your server.
@@ -24,6 +25,7 @@ export const appRouter = createTRPCRouter({
   dailyTaskRouter: dailyTaskRouter,
   feedbackRouter: feedbackRouter,
   streakRouter: streakRouter,
+  alumniData: alumniRouter,
 });
 
 // export type definition of API
