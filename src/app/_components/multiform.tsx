@@ -131,6 +131,7 @@ const MultiStepForm = () => {
                     collegeName: formData.collegeName,
                     degree: formData.degree,
                     sessionCost: Number(formData.sessionCost),
+                    
                    
                 });
             }
