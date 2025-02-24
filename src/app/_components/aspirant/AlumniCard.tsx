@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import Image from "next/image";
-import LoaderComponent from "../LoaderComponent";
+// import LoaderComponent from "../LoaderComponent";
 import { Book, GraduationCap, Building2} from "lucide-react";
 
 interface AlumniCardProps {
@@ -24,7 +24,7 @@ const AlumniCard: React.FC<AlumniCardProps> = ({
     degree,
     description,
     sessionCost,
-    whatsappNumber,
+    
  
     
 }) => {

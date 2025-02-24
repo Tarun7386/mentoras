@@ -3,16 +3,13 @@ import LoaderComponent from "../LoaderComponent";
 import AlumniCard from "./AlumniCard";
 import { api } from "~/trpc/react";
 
-interface AlumniProfileContainerProps {
-    alumniId: string;
-}
 const Alumni: FC = () => {
     const { data: alumni, isLoading, error } = api.alumniData.getAlumni.useQuery();
     
     // Simulating loading state with useState if needed
     // const [isLoading, setIsLoading] = useState(false);
    
-    const isError = false;
+    // const isError = false;
 
     // Handle loading state
     if (isLoading) {
