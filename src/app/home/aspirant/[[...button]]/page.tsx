@@ -9,10 +9,10 @@ async function Aspirant({
     const { button } = await params;
 
     // Extract the slug, if not found, set it to 'postInsight' by default
-    const slug = button?.[0] ? (button[0] as "feed" | "mentors") : "feed";
+    const slug = button?.[0] ? (button[0] as "feed" | "mentors" | "alumni") : "alumni";
     // Valid slugs array
-    const validSlugs: ("feed" | "mentors")[] = [
-        "feed", "mentors"
+    const validSlugs: ("feed" | "mentors"|"alumni")[] = [
+        "feed", "mentors","alumni",
     ];
 
     // If slug is not in validSlugs, trigger 404

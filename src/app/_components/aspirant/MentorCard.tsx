@@ -98,23 +98,47 @@ const MentorCard: React.FC<MentorCardProps> = ({
                 </div>
             </div>
 
+            
             {/* Description */}
-            <div className="mb-1">
-                <p
-                    className={`mt-1 text-gray-300 text-sm leading-relaxed ${!isExpanded && "line-clamp-2"
-                        }`}
+<div className="w-full mt-3 mb-4">
+    <div className="relative">
+        <p className={`text-gray-300 text-sm leading-relaxed break-words
+            ${!isExpanded ? "line-clamp-2" : ""}`}
+        >
+            {description} 
+            {/* try this testing data  */}
+            {/* description description description description description description description description description description description description description description
+            description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description
+            description description description description description description description description description description description description description description description description */}
+        </p>
+        {description.length > 100 && (
+            <button
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="inline-flex items-center gap-1 mt-1
+                    text-purple-400 hover:text-purple-300 
+                    text-xs font-medium transition-all duration-200"
+            >
+                <span>{isExpanded ? "Show less" : "Read more"}</span>
+                <svg 
+                    className={`w-3.5 h-3.5 transform transition-transform duration-200 
+                        ${isExpanded ? "rotate-180" : ""}`}
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
                 >
-                    {description}
-                </p>
-                {description.length > 100 && (
-                    <button
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        className=" text-purple-400 hover:text-purple-300 text-xs font-medium transition-colors"
-                    >
-                        {isExpanded ? "Show less" : "See more"}
-                    </button>
-                )}
-            </div>
+                    <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth={2} 
+                        d="M19 9l-7 7-7-7" 
+                    />
+                </svg>
+            </button>
+        )}
+    </div>
+</div>
+
+            
 
             {/* Hashtags */}
             <div className="flex flex-wrap gap-2 mb-2">

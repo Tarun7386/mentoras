@@ -34,6 +34,7 @@ model User {
     createdAt      DateTime         @default(now())
     updatedAt      DateTime         @updatedAt
     MentorFollower MentorFollower[]
+    Alumni         Alumni[]
 
     @@index([email])
 }
@@ -65,13 +66,28 @@ model Aspirant {
     preparation         String[]
     completedChallenges ChallengeParticipation[]
     completedDailytasks DailyTaskCompletion[]
-    streak         Int       @default(0)
-    maxStreak      Int       @default(0)
-    lastStreakDate DateTime?
-
+    streak              Int                      @default(0)
+    maxStreak           Int                      @default(0)
+    lastStreakDate      DateTime?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model Alumni {
+    id          String @id @default(cuid())
+    user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId      String
+    collegeName String
+    degree      String
+    description String
+    sessionCost Int
+    whatsappNumber String
+    
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
 }
 
 model MentorFollower {
@@ -205,11 +221,11 @@ model StudyGroup {
 }
 
 model StudyGroupMember {
-    id             String    @id @default(cuid())
-    userId         String
-    studyGroupId   String
-    role           String // e.g., "admin", "member", etc.
-    joinedAt       DateTime  @default(now())
+    id           String   @id @default(cuid())
+    userId       String
+    studyGroupId String
+    role         String // e.g., "admin", "member", etc.
+    joinedAt     DateTime @default(now())
 
     user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
     studyGroup StudyGroup @relation(fields: [studyGroupId], references: [id], onDelete: Cascade)
@@ -259,6 +275,7 @@ model Story {
 enum Role {
     MENTOR
     ASPIRANT
+    ALUMNI
 }
 
 model Account {
