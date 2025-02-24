@@ -123,16 +123,16 @@ const Nav = () => {
         label: "Casual Chat",
         icon: (
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="white"
-            stroke="currentColor"
-            className="lucide lucide-message-circle h-5 w-5"
-          >
-            <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-          </svg>
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  className="lucide lucide-message-circle h-5 w-5"
+>
+  <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+</svg>
         ),
       },
       {
@@ -457,13 +457,13 @@ return (
                 </>
               ) : (
                 <button
-                  onClick={() =>
-                    void signIn("google", { callbackUrl: "/role" })
-                  }
-                  className="rounded-xl bg-purple-600 px-4 py-2 text-white transition-all hover:bg-purple-700"
-                >
-                  Sign in
-                </button>
+                onClick={() => void signIn("google", { callbackUrl: "/role" })}
+                className="rounded-xl bg-gradient-to-r from-blue-700 to-blue-700
+                  px-2.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm text-white 
+                  transition-all hover:from-blue-700 hover:to-blue-800"
+              >
+                Sign in
+              </button>
               )}
             </div>
 
