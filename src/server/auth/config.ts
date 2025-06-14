@@ -48,6 +48,7 @@ export const authConfig = {
      */
   ],
   adapter: PrismaAdapter(db),
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     session: ({ session, user }) => ({
       ...session,
